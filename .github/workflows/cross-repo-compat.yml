@@ -1,0 +1,98 @@
+name: Cross-repo compatibility
+
+# Ecosystem compatibility validation across the three repositories, ALL
+# resolved at pinned tags (never latest):
+#
+#   L1  SNIPER Strategy Spec      -> OUR-EA verify()
+#   L2  EA Build Contract         -> OUR-EA compatibility gate
+#   L3/L4 Gateway client/server   -> contract version equality (3 repos)
+#   L5  EA deployment manifest    -> pins match pinned spec state
+#   L6  Hash consistency          -> evidence model + replay sidecars
+#   L7  Runtime safety            -> OUR-EA full suite (LIVE lock, fail-closed,
+#                                     forbidden analyzer imports)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"  # nightly
+
+env:
+  SPEC_TAG: spec/1.0.0
+  EA_TAG: ea/v1.0.0
+  OS_TAG: os/v1.0.0
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pinned Trading OS
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.OS_TAG }}
+          path: trading-os
+      - name: Checkout pinned SNIPER
+        uses: actions/checkout@v4
+        with:
+          repository: projectcreatorai1-th/sniper-web
+          ref: ${{ env.SPEC_TAG }}
+          path: sniper
+      - name: Checkout pinned OUR-EA
+        uses: actions/checkout@v4
+        with:
+          repository: projectcreatorai1-th/our-ea
+          ref: ${{ env.EA_TAG }}
+          path: our-ea
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: L1/L2 — spec + build contract -> OUR-EA (three-way verify)
+        env:
+          SNIPER_ANALYZER_ROOT: ${{ github.workspace }}/sniper
+        run: |
+          cd our-ea
+          python -c "from our_ea.spec.repository import load_repository; \
+r = load_repository().verify(); print('L1/L2 verified:', r)"
+
+      - name: L3/L4 — gateway contract version equality across repos
+        run: |
+          python - <<'PY'
+          import re, pathlib
+          def const(path, pattern):
+              m = re.search(pattern, pathlib.Path(path).read_text(encoding="utf-8"), re.M)
+              assert m, f"constant not found in {path}"
+              return m.group(1)
+          v_sniper = const("sniper/core/gateway/contracts.py", r'^GATEWAY_CONTRACT_VERSION\s*=\s*"([^"]+)"')
+          v_ea     = const("our-ea/our_ea/gateway/contracts.py", r'^GATEWAY_CONTRACT_VERSION\s*=\s*"([^"]+)"')
+          v_os     = const("trading-os/platform/gateway/contracts.py", r'^CONTRACT_VERSION\s*=\s*"([^"]+)"')
+          assert v_sniper == v_ea == v_os == "1.0.0", (v_sniper, v_ea, v_os)
+          print("L3/L4 gateway contract 1.0.0 on all three sides OK")
+          PY
+
+      - name: L5/L6 — manifest pins + hash consistency vs pinned spec
+        run: |
+          python - <<'PY'
+          import json, hashlib
+          def fsha(p):
+              h = hashlib.sha256()
+              with open(p, "rb") as fh: h.update(fh.read())
+              return h.hexdigest().upper()
+          sv = json.load(open("sniper/STRATEGY_SPEC/spec_version.json"))
+          man = json.load(open("our-ea/runs/demo_1.0.0/deployment_manifest.json"))
+          assert man["strategy_spec_hash"].upper() == sv["strategy_spec_hash"].upper(), "L5 spec pin"
+          assert man["evidence_model_hash"].upper() == sv["evidence_model_hash"].upper(), "L5 model pin"
+          assert man["build_contract_version"] == "1.0.0"
+          assert man["gateway_contract"] == "1.0.0"
+          em = fsha("sniper/data/evidence_model/V1.68-EVIDENCE-MODEL-v1.0.json")
+          assert em == sv["evidence_model_hash"].upper() == "124F08984284E880F268C37E6A4583A8653B5EB1B80EB5C45BBB64F58AC3D4AE"
+          assert em == open("sniper/data/evidence_model/V1.68-EVIDENCE-MODEL-v1.0.sha256.txt").read().strip().upper()
+          rd = fsha("sniper/data/our_ea/replay_dataset_v1.json")
+          assert rd == open("sniper/data/our_ea/replay_dataset_v1.json.sha256.txt").read().strip().upper()
+          print("L5/L6 manifest + hash consistency OK (deployment_hash", man["deployment_hash"][:12] + "…)")
+          PY
+
+      - name: L7 — runtime safety (OUR-EA full suite: LIVE lock, fail-closed, boundaries)
+        env:
+          SNIPER_ANALYZER_ROOT: ${{ github.workspace }}/sniper
+        run: |
+          cd our-ea
+          python run_tests.py

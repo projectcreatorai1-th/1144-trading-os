@@ -1,0 +1,34 @@
+name: CI
+
+# 1144 Trading OS — architecture validator + full pytest suite.
+# Only third-party dependency: PyYAML (see pyproject.toml).
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install "PyYAML>=6.0"
+      - name: Architecture validator (SSOT: architecture/architecture.yaml)
+        run: python -m architecture.validator
+      - name: Gateway contract sanity (server line 1.0.0)
+        run: |
+          python - <<'PY'
+          import re
+          src = open("platform/gateway/contracts.py", encoding="utf-8").read()
+          m = re.search(r'^CONTRACT_VERSION\s*=\s*"([^"]+)"', src, re.M)
+          assert m and m.group(1) == "1.0.0", f"gateway CONTRACT_VERSION={m and m.group(1)!r}"
+          print("gateway server contract: 1.0.0 OK")
+          PY
+      - name: Full test suite
+        run: python -m pytest

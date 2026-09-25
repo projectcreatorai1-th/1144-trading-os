@@ -1,0 +1,63 @@
+{
+  "probe_at": "2026-09-26T01:35+00:00",
+  "purpose": "INTEGRATION-PHASE-1 \u00a73 MT5 DEMO prerequisites A-N",
+  "results": {
+    "A_package": {
+      "value": "MetaTrader5 5.0.6180",
+      "ok": true
+    },
+    "B_terminal_installation": {
+      "value": "initialize() -> True",
+      "ok": true
+    },
+    "C_terminal_accessible": {
+      "value": true,
+      "ok": true
+    },
+    "D_demo_account_availability": {
+      "value": "login 411173797 trade_mode=2 (REAL)",
+      "ok": false
+    },
+    "E_demo_login_session": {
+      "value": "session is REAL, not DEMO",
+      "ok": false
+    },
+    "F_broker_server": {
+      "value": "XMGlobal-MT5 16",
+      "ok": true
+    },
+    "G_account_mode": {
+      "value": "ACCOUNT_TRADE_MODE_REAL=2 (needs 0=DEMO)",
+      "ok": false
+    },
+    "H_symbol_availability": {
+      "value": "EURUSD present",
+      "ok": true
+    },
+    "I_market_data": {
+      "value": "EURUSD streaming (bid/ask/time live)",
+      "ok": true
+    },
+    "J_server_time": {
+      "value": "tick epoch +10800s vs UTC (=3h EET; canonical offset fix in place with regression tests)",
+      "ok": true
+    },
+    "K_connection_state": {
+      "value": "connected=True",
+      "ok": true
+    },
+    "L_margin_mode": {
+      "value": "2=RETAIL_HEDGING (mapping verified live 2026-09-25)",
+      "ok": true
+    },
+    "M_terminal_permissions": {
+      "value": "trade_allowed=False (AutoTrading disabled)",
+      "ok": false
+    },
+    "N_trading_permissions": {
+      "value": "blocked while on REAL account (fail-closed by design)",
+      "ok": false
+    }
+  },
+  "verdict": "PREREQUISITES D/E FAIL -> STATUS = RUNTIME GATE BLOCKED (\u00a71.14). No synthetic/fake evidence produced."
+}

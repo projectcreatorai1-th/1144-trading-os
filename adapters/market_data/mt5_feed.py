@@ -204,11 +204,25 @@ class MT5TickSource(TickSource):
         self._last_tick_key[symbol] = key
         now = utc_now()
         offset = self._measure_offset(int(info.time), int(now.timestamp()))
+        event_time = datetime.fromtimestamp(
+            int(info.time) - offset, tz=now.tzinfo)
+        # pre-market finding (2026-09-26, MetaQuotes-Demo, market CLOSED):
+        # a STALE tick (last trade before close) makes the offset
+        # measurement meaningless and can push event_time into the future.
+        # The tick contract's bound is enforced HERE, at the source: never
+        # emit a future-dated event (UNKNOWN != SAFE).
+        if event_time - now > CLOCK_SKEW_TOLERANCE:
+            raise ContractError(
+                "measured offset produces a future-dated event (stale tick "
+                "or invalid server clock) - refusing to emit (fail closed)",
+                location="mt5_tick_source.offset", rule_id="FDX-TIME",
+                details={"raw_skew_seconds": int(info.time)
+                         - int(now.timestamp()),
+                         "snapped_offset": offset})
         self.server_offset_seconds = offset
         yield Tick(
             symbol=symbol,
-            event_time=datetime.fromtimestamp(
-                int(info.time) - offset, tz=now.tzinfo),
+            event_time=event_time,
             ingestion_time=now,
             bid=str(info.bid), ask=str(info.ask),
             last=str(info.last), volume=str(info.volume),

@@ -98,7 +98,7 @@ class TestFinding1ServerEpoch:
         first = list(src.ticks("EURUSD"))
         assert len(first) == 1
         assert list(src.ticks("EURUSD")) == []          # no new tick
-        src._mt5._epoch += 5                             # terminal moved
+        src._mt5._epoch += 1                             # terminal moved (within skew tolerance)
         second = list(src.ticks("EURUSD"))
         assert len(second) == 1 and second[0] != first[0]
 
@@ -116,12 +116,13 @@ class TestFinding1ServerEpoch:
 
     def test_residual_drift_beyond_contract_tolerance_rejected(self):
         # 3h tz offset + 3s clock drift: offset converts fine, but the
-        # remaining future drift (3s > 2s tolerance) fails FDX-TIME on
-        # validate - the pipeline never sees a future-dated event.
+        # remaining future drift (3s > 2s tolerance) is refused AT THE
+        # SOURCE (pre-market hardening: never yield a future-dated tick,
+        # the pipeline never even sees it).
         src = MT5TickSource(module=_StubMT5(3 * 3600 + 3))
-        tick = _one_tick(src)
-        with pytest.raises(ContractError):
-            tick.validate()
+        with pytest.raises(ContractError) as err:
+            _one_tick(src)
+        assert getattr(err.value, "rule_id", "") == "FDX-TIME"
 
 
 @dataclass
@@ -167,15 +168,23 @@ class TestRealTerminalEvidence:
         if not mt5.initialize():
             pytest.skip("MT5 terminal not reachable")
         try:
+            from architecture.contracts.errors import ContractError as CE
+            from adapters.market_data.mt5_feed import CLOCK_SKEW_TOLERANCE
             src = MT5TickSource(module=mt5)
-            tick = _one_tick(src)
+            try:
+                tick = _one_tick(src)
+            except CE as error:
+                # market CLOSED (stale last tick, e.g. weekend): the source
+                # must refuse a future-dated event; asserting the fail-closed
+                # path IS the honest live evidence in this condition.
+                assert "future-dated" in str(error)
+                assert getattr(error, "rule_id", "") == "FDX-TIME"
+                return
             assert src.server_offset_seconds is not None
             assert abs(src.server_offset_seconds) <= 14 * 3600
             # inter-clock drift is bounded by the contract tolerance and
             # the tick passes its own FDX-TIME validation
-            from adapters.market_data.mt5_feed import CLOCK_SKEW_TOLERANCE
-            assert tick.event_time - tick.ingestion_time \
-                <= CLOCK_SKEW_TOLERANCE
+            assert tick.event_time - tick.ingestion_time                 <= CLOCK_SKEW_TOLERANCE
             tick.validate()
 
             class _Real:

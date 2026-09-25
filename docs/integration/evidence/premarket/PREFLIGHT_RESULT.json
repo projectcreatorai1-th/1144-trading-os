@@ -1,0 +1,85 @@
+{
+  "generated_at": "2026-09-25T21:31:41.245988+00:00",
+  "verdict": "READY_FOR_DEMO",
+  "duration_seconds": 34.1,
+  "checks": [
+    {
+      "check": "architecture_validator",
+      "status": "PASS",
+      "detail": "============================================================"
+    },
+    {
+      "check": "build_verify",
+      "status": "PASS",
+      "detail": "BUILD                            PASS"
+    },
+    {
+      "check": "strategy_specification",
+      "status": "PASS",
+      "detail": "SNIPER STRATEGY_SPEC present (tag spec/1.0.0)"
+    },
+    {
+      "check": "strategy_spec_hash_available",
+      "status": "PASS",
+      "detail": "sha256 B9265551F6010EDF\u2026"
+    },
+    {
+      "check": "targeted_suites",
+      "status": "PASS",
+      "detail": "........                                                                 [100%]"
+    },
+    {
+      "check": "account_guard_demo",
+      "status": "PASS",
+      "detail": "login 113126589 server MetaQuotes-Demo trade_mode=0 (DEMO)"
+    },
+    {
+      "check": "expected_demo_account_pinned",
+      "status": "PASS",
+      "detail": "login 113126589 matches the operator-pinned DEMO"
+    },
+    {
+      "check": "live_safety_lock",
+      "status": "PASS",
+      "detail": "...s..                                                                   [100%]"
+    },
+    {
+      "check": "recovery_backup_restore",
+      "status": "PASS",
+      "detail": "...........                                                              [100%]"
+    },
+    {
+      "check": "reconciliation_engine",
+      "status": "PASS",
+      "detail": "...........................                                              [100%]"
+    },
+    {
+      "check": "risk_engine",
+      "status": "PASS",
+      "detail": ".........................                                                [100%]"
+    },
+    {
+      "check": "oms_lifecycle",
+      "status": "PASS",
+      "detail": "............................                                             [100%]"
+    },
+    {
+      "check": "kill_switch",
+      "status": "PASS",
+      "detail": "......                                                                   [100%]"
+    },
+    {
+      "check": "evidence_store",
+      "status": "PASS",
+      "detail": "C:\\Users\\BANK\\.zcode\\workspace\\default\\1144-Trading-OS\\docs\\integration\\evidence\\premarket"
+    }
+  ],
+  "summary": {
+    "total": 14,
+    "pass": 14,
+    "fail": 0,
+    "blockers": 0,
+    "warnings": 0
+  },
+  "live_trading": "HARD_LOCKED"
+}

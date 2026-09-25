@@ -1,0 +1,15 @@
+{
+  "PM-2 contract flow (signal->decision->risk->intent->OMS)": "phase3+phase5 suites green (30+28 tests); enums/ids/timestamps contract-validated in schema registry; risk rejection paths covered",
+  "PM-3 risk stress": "phase3_risk_engine 25 tests: exposure/drawdown/margin/volatility/news/unknown-block/precedence/hard-limit; LOT GEOMETRY (max/min/step) enforced as INV-001 in EA invariants + OMS validators",
+  "PM-4 OMS lifecycle": "phase5 boundary OMS 28 tests incl. illegal transitions + audit per step",
+  "PM-5 idempotency": "pipeline dedup + gateway idempotency tests (retry = ONE op) + OMS duplicate protection",
+  "PM-6 reconciliation scenarios": "phase2_reconciliation suite + MT5 reconciliation tests (MATCH/MISMATCH/UNKNOWN, no auto-fix)",
+  "PM-7 disconnect/recovery": "connection monitor suites + gateway scenarios I/J + chaos + GUI lifecycle (restart, no stale session)",
+  "PM-8 replay determinism": "phase3_state_replay_recovery (13) + phase1 replay/timeline suites + REPLAY environment isolation",
+  "PM-9 failure injection": "chaos framework 12/12 + phase10 refusal paths",
+  "PM-10 kill switch": "gateway KILL tests (order-flow blocked, audited, no accidental resume via state machine) + risk EMERGENCY suites + runbook",
+  "PM-11 environment/account guard": "PARTIAL \u2014 LIVE refusal multi-layer YES; wrong-ACCOUNT/wrong-SERVER hard block: NOT found in tree => GAP to implement (premarket scenario K/L)",
+  "PM-12 symbol contract": "AdapterCapability (digits/min/max/step) from real account_info/symbol_info; consistency check = capability validate + EA build contract symbol_scope",
+  "PM-13 time/session": "time governance PASS (epoch+ClockQuality); SESSION/market-hours: NO contract found => GAP (mock-clock session guard) \u2014 strategy spec also lists session rules UNKNOWN",
+  "PM-14 gateway mock E2E": "LOOPBACK E2E exists (gateway A-J, 40/40) \u2014 must be labeled LOOPBACK, not EXTERNAL"
+}

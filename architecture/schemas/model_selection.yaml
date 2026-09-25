@@ -1,0 +1,44 @@
+schema_id: model_selection
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Explicit, human-actor model selection record (Phase 7)
+python_binding: core.intelligence.outputs:ModelSelection
+fields:
+  model_selection_id:
+    type: string
+    required: true
+  selection_policy:
+    type: string
+    required: true
+  candidate_models:
+    type: array
+    required: true
+  selected_model_hash:
+    type: string
+    required: true
+  decision_actor:
+    type: string
+    required: true
+  decided_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  evidence:
+    type: object
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Selection policy is explicit and versioned; the decision actor is recorded.
+- AI never silently selects the production model.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial model_selection contract (Phase 7)
+  changes: []

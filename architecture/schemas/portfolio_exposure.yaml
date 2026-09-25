@@ -1,0 +1,60 @@
+schema_id: portfolio_exposure
+version: 1.0.0
+status: ACTIVE
+owner: core.portfolio
+description: portfolio_exposure contract (Phase 4)
+python_binding: core.portfolio.exposure:PortfolioExposure
+fields:
+  portfolio_id:
+    type: identifier
+    required: true
+  gross_exposure:
+    type: string
+    required: true
+    description: canonical decimal string
+  net_exposure:
+    type: string
+    required: true
+    description: canonical decimal string
+  long_exposure:
+    type: string
+    required: true
+    description: canonical decimal string
+  short_exposure:
+    type: string
+    required: true
+    description: canonical decimal string
+  by_symbol:
+    type: object
+    required: true
+  by_strategy:
+    type: object
+    required: true
+  by_direction:
+    type: object
+    required: true
+  by_market:
+    type: object
+    required: true
+  correlation_groups:
+    type: object
+    required: true
+  computed_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums: {}
+constraints:
+- Aggregation is centralized here; per-strategy risk isolation is forbidden.
+- Correlated groups are UNKNOWN without correlation data.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial portfolio_exposure contract (Phase 4)
+  changes: []

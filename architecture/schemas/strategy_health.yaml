@@ -1,0 +1,77 @@
+schema_id: strategy_health
+version: 1.0.0
+status: ACTIVE
+owner: core.strategy
+description: strategy_health contract (Phase 4)
+python_binding: core.strategy.contracts:StrategyHealth
+fields:
+  strategy_id:
+    type: identifier
+    required: true
+  operational_state:
+    type: string
+    required: true
+  data_state:
+    type: string
+    required: true
+  risk_state:
+    type: string
+    required: true
+  lifecycle_state:
+    type: string
+    required: true
+    enum: strategy_lifecycle
+  health_status:
+    type: string
+    required: true
+    enum: health_status
+  last_evaluation:
+    type: timestamp
+    required: false
+  failure_count:
+    type: integer
+    required: false
+  anomaly_count:
+    type: integer
+    required: false
+  stale_since:
+    type: timestamp
+    required: false
+  capacity_status:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  health_status:
+  - HEALTHY
+  - DEGRADED
+  - UNHEALTHY
+  - UNKNOWN
+  strategy_lifecycle:
+  - IDEA
+  - RESEARCH
+  - BACKTEST
+  - ROBUSTNESS
+  - OUT_OF_SAMPLE
+  - REPLAY
+  - PAPER
+  - DEMO
+  - FORWARD
+  - APPROVED
+  - LIVE
+  - SUSPENDED
+  - RETIRED
+constraints:
+- 'Health is operational, NOT performance: a single performance metric never decides
+  health.'
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial strategy_health contract (Phase 4)
+  changes: []

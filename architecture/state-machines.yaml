@@ -1,0 +1,914 @@
+version: 1.6.0
+machines:
+  system_state:
+    description: Lifecycle state of the whole operating system
+    initial: STARTING
+    terminal:
+    - STOPPED
+    states:
+    - STARTING
+    - READY
+    - RUNNING
+    - DEGRADED
+    - SAFE_MODE
+    - STOPPED
+    transitions:
+    - from: STARTING
+      to: READY
+    - from: STARTING
+      to: STOPPED
+    - from: READY
+      to: RUNNING
+    - from: READY
+      to: STOPPED
+    - from: RUNNING
+      to: DEGRADED
+    - from: RUNNING
+      to: SAFE_MODE
+    - from: RUNNING
+      to: STOPPED
+    - from: DEGRADED
+      to: RUNNING
+    - from: DEGRADED
+      to: SAFE_MODE
+    - from: DEGRADED
+      to: STOPPED
+    - from: SAFE_MODE
+      to: RUNNING
+    - from: SAFE_MODE
+      to: STOPPED
+  market_state:
+    description: Observed market regime. UNKNOWN is a first-class state (RULE 010).
+    initial: UNKNOWN
+    terminal: []
+    states:
+    - CALM
+    - NORMAL
+    - VOLATILE
+    - EXTREME
+    - UNKNOWN
+    transitions:
+    - from: CALM
+      to: NORMAL
+    - from: NORMAL
+      to: CALM
+    - from: NORMAL
+      to: VOLATILE
+    - from: VOLATILE
+      to: NORMAL
+    - from: VOLATILE
+      to: EXTREME
+    - from: EXTREME
+      to: VOLATILE
+    - from: CALM
+      to: UNKNOWN
+    - from: NORMAL
+      to: UNKNOWN
+    - from: VOLATILE
+      to: UNKNOWN
+    - from: EXTREME
+      to: UNKNOWN
+    - from: UNKNOWN
+      to: CALM
+    - from: UNKNOWN
+      to: NORMAL
+    - from: UNKNOWN
+      to: VOLATILE
+    - from: UNKNOWN
+      to: EXTREME
+    - from: UNKNOWN
+      to: UNKNOWN
+  risk_state:
+    description: Risk state ladder (severity NORMAL < CAUTION < LIMITED < PAUSE <
+      EMERGENCY). Escalation may jump; de-escalation must be stepwise.
+    initial: NORMAL
+    terminal: []
+    states:
+    - NORMAL
+    - CAUTION
+    - LIMITED
+    - PAUSE
+    - EMERGENCY
+    transitions:
+    - from: NORMAL
+      to: CAUTION
+    - from: NORMAL
+      to: LIMITED
+    - from: NORMAL
+      to: PAUSE
+    - from: NORMAL
+      to: EMERGENCY
+    - from: CAUTION
+      to: LIMITED
+    - from: CAUTION
+      to: PAUSE
+    - from: CAUTION
+      to: EMERGENCY
+    - from: LIMITED
+      to: PAUSE
+    - from: LIMITED
+      to: EMERGENCY
+    - from: PAUSE
+      to: EMERGENCY
+    - from: EMERGENCY
+      to: PAUSE
+    - from: PAUSE
+      to: LIMITED
+    - from: LIMITED
+      to: CAUTION
+    - from: CAUTION
+      to: NORMAL
+  execution_state:
+    description: Execution subsystem state
+    initial: READY
+    terminal: []
+    states:
+    - READY
+    - DEGRADED
+    - BLOCKED
+    - CLOSE_ONLY
+    - DISCONNECTED
+    transitions:
+    - from: READY
+      to: DEGRADED
+    - from: DEGRADED
+      to: READY
+    - from: READY
+      to: BLOCKED
+    - from: BLOCKED
+      to: READY
+    - from: READY
+      to: CLOSE_ONLY
+    - from: CLOSE_ONLY
+      to: READY
+    - from: DEGRADED
+      to: BLOCKED
+    - from: DEGRADED
+      to: CLOSE_ONLY
+    - from: BLOCKED
+      to: CLOSE_ONLY
+    - from: READY
+      to: DISCONNECTED
+    - from: DEGRADED
+      to: DISCONNECTED
+    - from: BLOCKED
+      to: DISCONNECTED
+    - from: CLOSE_ONLY
+      to: DISCONNECTED
+    - from: DISCONNECTED
+      to: READY
+  order_state:
+    description: Order lifecycle (Phase 0 intent-side chain SIGNAL..CLOSED plus the
+      Phase 5 execution chain CREATED->VALIDATING->ACCEPTED->ROUTING->SENT->ACKNOWLEDGED->PARTIALLY_FILLED->FILLED
+      with failure/cancel/replace/unknown paths). RISK_CHECK -> SUBMITTED requires
+      VALID_RISK_DECISION (RULE 009).
+    initial: SIGNAL
+    terminal:
+    - CLOSED
+    states:
+    - SIGNAL
+    - DECISION
+    - ORDER_CREATED
+    - RISK_CHECK
+    - SUBMITTED
+    - ACCEPTED
+    - PARTIAL_FILL
+    - FILLED
+    - CANCELLED
+    - REJECTED
+    - CLOSED
+    - CREATED
+    - VALIDATING
+    - ROUTING
+    - SENT
+    - ACKNOWLEDGED
+    - PARTIALLY_FILLED
+    - CANCEL_REQUESTED
+    - EXPIRED
+    - REPLACEMENT_REQUESTED
+    - REPLACED
+    - FAILED
+    - UNKNOWN
+    transitions:
+    - from: SIGNAL
+      to: DECISION
+    - from: SIGNAL
+      to: CANCELLED
+    - from: DECISION
+      to: ORDER_CREATED
+    - from: DECISION
+      to: CANCELLED
+    - from: ORDER_CREATED
+      to: RISK_CHECK
+    - from: ORDER_CREATED
+      to: CANCELLED
+    - from: RISK_CHECK
+      to: SUBMITTED
+      requirement: VALID_RISK_DECISION
+    - from: RISK_CHECK
+      to: REJECTED
+    - from: RISK_CHECK
+      to: CANCELLED
+    - from: SUBMITTED
+      to: ACCEPTED
+    - from: SUBMITTED
+      to: REJECTED
+    - from: SUBMITTED
+      to: CANCELLED
+    - from: ACCEPTED
+      to: PARTIAL_FILL
+    - from: ACCEPTED
+      to: FILLED
+    - from: PARTIAL_FILL
+      to: PARTIAL_FILL
+    - from: PARTIAL_FILL
+      to: FILLED
+    - from: PARTIAL_FILL
+      to: CANCELLED
+    - from: FILLED
+      to: CLOSED
+    - from: REJECTED
+      to: CLOSED
+    - from: CANCELLED
+      to: CLOSED
+    - from: CREATED
+      to: VALIDATING
+    - from: CREATED
+      to: EXPIRED
+    - from: VALIDATING
+      to: ACCEPTED
+    - from: VALIDATING
+      to: REJECTED
+    - from: VALIDATING
+      to: EXPIRED
+    - from: ACCEPTED
+      to: ROUTING
+    - from: ACCEPTED
+      to: CANCEL_REQUESTED
+    - from: ACCEPTED
+      to: EXPIRED
+    - from: ROUTING
+      to: SENT
+    - from: ROUTING
+      to: FAILED
+    - from: ROUTING
+      to: CANCEL_REQUESTED
+    - from: SENT
+      to: ACKNOWLEDGED
+    - from: SENT
+      to: REJECTED
+    - from: SENT
+      to: UNKNOWN
+    - from: SENT
+      to: EXPIRED
+    - from: ACKNOWLEDGED
+      to: PARTIALLY_FILLED
+    - from: ACKNOWLEDGED
+      to: FILLED
+    - from: ACKNOWLEDGED
+      to: REJECTED
+    - from: ACKNOWLEDGED
+      to: CANCEL_REQUESTED
+    - from: ACKNOWLEDGED
+      to: UNKNOWN
+    - from: PARTIALLY_FILLED
+      to: PARTIALLY_FILLED
+    - from: PARTIALLY_FILLED
+      to: FILLED
+    - from: PARTIALLY_FILLED
+      to: CANCEL_REQUESTED
+    - from: PARTIALLY_FILLED
+      to: UNKNOWN
+    - from: ACCEPTED
+      to: REPLACEMENT_REQUESTED
+    - from: REPLACEMENT_REQUESTED
+      to: REPLACED
+    - from: REPLACEMENT_REQUESTED
+      to: CANCELLED
+    - from: ACKNOWLEDGED
+      to: REPLACEMENT_REQUESTED
+    - from: PARTIALLY_FILLED
+      to: REPLACEMENT_REQUESTED
+    - from: SENT
+      to: CANCEL_REQUESTED
+    - from: CANCEL_REQUESTED
+      to: CANCELLED
+    - from: CANCEL_REQUESTED
+      to: UNKNOWN
+    - from: ACKNOWLEDGED
+      to: FAILED
+    - from: PARTIALLY_FILLED
+      to: FAILED
+    - from: UNKNOWN
+      to: ACKNOWLEDGED
+    - from: UNKNOWN
+      to: PARTIALLY_FILLED
+    - from: UNKNOWN
+      to: FILLED
+    - from: UNKNOWN
+      to: REJECTED
+    - from: UNKNOWN
+      to: CANCELLED
+    - from: FILLED
+      to: CLOSED
+    - from: ORDER_CREATED
+      to: CREATED
+    - from: RISK_CHECK
+      to: VALIDATING
+    - from: SIGNAL
+      to: CREATED
+    - from: ACCEPTED
+      to: PARTIALLY_FILLED
+    - from: ACCEPTED
+      to: REJECTED
+    - from: ACCEPTED
+      to: UNKNOWN
+    - from: VALIDATING
+      to: UNKNOWN
+    - from: ROUTING
+      to: UNKNOWN
+    - from: ROUTING
+      to: REJECTED
+    - from: SENT
+      to: FAILED
+    - from: SENT
+      to: PARTIALLY_FILLED
+    - from: SENT
+      to: FILLED
+    - from: CANCEL_REQUESTED
+      to: REJECTED
+    - from: CANCEL_REQUESTED
+      to: EXPIRED
+    - from: REPLACEMENT_REQUESTED
+      to: UNKNOWN
+  position_status:
+    description: 'Position lifecycle Phase 5: quantity-changing self-transitions (top-up/resize)
+      and reopen.'
+    initial: OPEN
+    terminal:
+    - CLOSED
+    states:
+    - OPEN
+    - PARTIALLY_CLOSED
+    - CLOSED
+    transitions:
+    - from: OPEN
+      to: PARTIALLY_CLOSED
+    - from: OPEN
+      to: CLOSED
+    - from: PARTIALLY_CLOSED
+      to: PARTIALLY_CLOSED
+    - from: PARTIALLY_CLOSED
+      to: CLOSED
+    - from: OPEN
+      to: OPEN
+    - from: CLOSED
+      to: OPEN
+  environment:
+    description: Environment promotion/demotion (SECTION 18). Only adjacent steps
+      are valid; any other environment change is invalid and fails closed.
+    initial: RESEARCH
+    terminal: []
+    states:
+    - RESEARCH
+    - SIMULATION
+    - REPLAY
+    - PAPER
+    - DEMO
+    - LIVE
+    - BACKTEST
+    transitions:
+    - from: RESEARCH
+      to: SIMULATION
+    - from: SIMULATION
+      to: RESEARCH
+    - from: SIMULATION
+      to: REPLAY
+    - from: REPLAY
+      to: SIMULATION
+    - from: REPLAY
+      to: PAPER
+    - from: PAPER
+      to: REPLAY
+    - from: PAPER
+      to: DEMO
+    - from: DEMO
+      to: PAPER
+    - from: DEMO
+      to: LIVE
+    - from: LIVE
+      to: DEMO
+    - from: RESEARCH
+      to: BACKTEST
+    - from: BACKTEST
+      to: RESEARCH
+    - from: SIMULATION
+      to: BACKTEST
+    - from: BACKTEST
+      to: SIMULATION
+    - from: BACKTEST
+      to: REPLAY
+    - from: REPLAY
+      to: BACKTEST
+  policy_status:
+    description: 'Policy lifecycle (Phase 3: REVIEW and APPROVED added; the policy
+      REGISTRY additionally requires APPROVED before activation - the legacy DRAFT->ACTIVE
+      machine edge is retained for contract compatibility and emergency operator use)'
+    initial: DRAFT
+    terminal:
+    - RETIRED
+    states:
+    - DRAFT
+    - REVIEW
+    - APPROVED
+    - ACTIVE
+    - SUSPENDED
+    - RETIRED
+    transitions:
+    - from: DRAFT
+      to: ACTIVE
+      requirement: POLICY_APPROVED
+    - from: DRAFT
+      to: REVIEW
+    - from: DRAFT
+      to: RETIRED
+    - from: REVIEW
+      to: APPROVED
+      requirement: POLICY_APPROVED
+    - from: REVIEW
+      to: RETIRED
+    - from: APPROVED
+      to: ACTIVE
+    - from: APPROVED
+      to: RETIRED
+    - from: ACTIVE
+      to: SUSPENDED
+    - from: SUSPENDED
+      to: ACTIVE
+      requirement: POLICY_APPROVED
+    - from: ACTIVE
+      to: RETIRED
+    - from: SUSPENDED
+      to: RETIRED
+  decision_status:
+    description: Decision lifecycle
+    initial: PROPOSED
+    terminal:
+    - EXECUTED
+    - REJECTED
+    - EXPIRED
+    states:
+    - PROPOSED
+    - VALIDATED
+    - EXECUTED
+    - REJECTED
+    - EXPIRED
+    transitions:
+    - from: PROPOSED
+      to: VALIDATED
+    - from: PROPOSED
+      to: REJECTED
+    - from: VALIDATED
+      to: EXECUTED
+    - from: VALIDATED
+      to: REJECTED
+    - from: PROPOSED
+      to: EXPIRED
+    - from: VALIDATED
+      to: EXPIRED
+  strategy_lifecycle:
+    description: 'Strategy promotion lifecycle (Phase 4: contract only; research/backtest
+      implementations arrive in Phase 6)'
+    initial: IDEA
+    terminal:
+    - RETIRED
+    states:
+    - IDEA
+    - RESEARCH
+    - BACKTEST
+    - ROBUSTNESS
+    - OUT_OF_SAMPLE
+    - REPLAY
+    - PAPER
+    - DEMO
+    - FORWARD
+    - APPROVED
+    - LIVE
+    - SUSPENDED
+    - RETIRED
+    transitions:
+    - from: IDEA
+      to: RESEARCH
+    - from: RESEARCH
+      to: BACKTEST
+    - from: BACKTEST
+      to: ROBUSTNESS
+    - from: ROBUSTNESS
+      to: OUT_OF_SAMPLE
+    - from: OUT_OF_SAMPLE
+      to: REPLAY
+    - from: REPLAY
+      to: PAPER
+    - from: PAPER
+      to: DEMO
+    - from: DEMO
+      to: FORWARD
+    - from: FORWARD
+      to: APPROVED
+    - from: APPROVED
+      to: LIVE
+    - from: LIVE
+      to: SUSPENDED
+    - from: SUSPENDED
+      to: RETIRED
+    - from: SUSPENDED
+      to: LIVE
+      requirement: POLICY_APPROVED
+    - from: SUSPENDED
+      to: RETIRED
+    - from: LIVE
+      to: SUSPENDED
+    - from: LIVE
+      to: RETIRED
+  portfolio_status:
+    description: Portfolio lifecycle (Phase 4)
+    initial: DRAFT
+    terminal:
+    - RETIRED
+    states:
+    - DRAFT
+    - REVIEW
+    - APPROVED
+    - ACTIVE
+    - PAUSED
+    - SUSPENDED
+    - RETIRED
+    transitions:
+    - from: DRAFT
+      to: REVIEW
+    - from: REVIEW
+      to: APPROVED
+      requirement: POLICY_APPROVED
+    - from: REVIEW
+      to: RETIRED
+    - from: DRAFT
+      to: RETIRED
+    - from: APPROVED
+      to: ACTIVE
+    - from: APPROVED
+      to: RETIRED
+    - from: ACTIVE
+      to: PAUSED
+    - from: PAUSED
+      to: ACTIVE
+      requirement: POLICY_APPROVED
+    - from: ACTIVE
+      to: SUSPENDED
+    - from: SUSPENDED
+      to: ACTIVE
+      requirement: POLICY_APPROVED
+    - from: PAUSED
+      to: RETIRED
+    - from: SUSPENDED
+      to: RETIRED
+    - from: ACTIVE
+      to: RETIRED
+
+  model_lifecycle:
+    description: 'AI model promotion lifecycle (Phase 7): AI is advisory only;
+      every promotion step into SHADOW/PAPER/DEMO/PRODUCTION_ELIGIBLE requires
+      human approval. AI can never self-promote or self-deploy.'
+    initial: DRAFT
+    terminal:
+    - RETIRED
+    states:
+    - DRAFT
+    - TRAINED
+    - VALIDATED
+    - OOS_VALIDATED
+    - RESEARCH_APPROVED
+    - SHADOW
+    - PAPER
+    - DEMO
+    - PRODUCTION_ELIGIBLE
+    - SUSPENDED
+    - RETIRED
+    - FAILED
+    - INVALID
+    - REJECTED
+    transitions:
+    - from: DRAFT
+      to: TRAINED
+    - from: DRAFT
+      to: FAILED
+    - from: TRAINED
+      to: VALIDATED
+    - from: TRAINED
+      to: INVALID
+    - from: VALIDATED
+      to: OOS_VALIDATED
+    - from: VALIDATED
+      to: INVALID
+    - from: OOS_VALIDATED
+      to: RESEARCH_APPROVED
+      requirement: HUMAN_APPROVAL
+    - from: OOS_VALIDATED
+      to: REJECTED
+    - from: RESEARCH_APPROVED
+      to: SHADOW
+      requirement: HUMAN_APPROVAL
+    - from: RESEARCH_APPROVED
+      to: REJECTED
+    - from: SHADOW
+      to: PAPER
+      requirement: HUMAN_APPROVAL
+    - from: SHADOW
+      to: SUSPENDED
+    - from: PAPER
+      to: DEMO
+      requirement: HUMAN_APPROVAL
+    - from: PAPER
+      to: SUSPENDED
+    - from: DEMO
+      to: PRODUCTION_ELIGIBLE
+      requirement: HUMAN_APPROVAL
+    - from: DEMO
+      to: SUSPENDED
+    - from: PRODUCTION_ELIGIBLE
+      to: SUSPENDED
+    - from: SUSPENDED
+      to: SHADOW
+      requirement: HUMAN_APPROVAL
+    - from: SUSPENDED
+      to: RETIRED
+    - from: PRODUCTION_ELIGIBLE
+      to: RETIRED
+    - from: FAILED
+      to: RETIRED
+    - from: INVALID
+      to: RETIRED
+    - from: REJECTED
+      to: RETIRED
+  credential_lifecycle:
+    description: 'Security credential lifecycle (Phase 8): revoked and
+      expired credentials can never authenticate again; rotation preserves
+      history by creating a new version (old credentials never regain
+      authority).'
+    initial: ISSUED
+    terminal:
+    - REVOKED
+    - EXPIRED
+    states:
+    - ISSUED
+    - ACTIVE
+    - ROTATION_REQUIRED
+    - ROTATED
+    - REVOKED
+    - EXPIRED
+    transitions:
+    - from: ISSUED
+      to: ACTIVE
+    - from: ACTIVE
+      to: ROTATION_REQUIRED
+    - from: ACTIVE
+      to: REVOKED
+    - from: ACTIVE
+      to: EXPIRED
+    - from: ROTATION_REQUIRED
+      to: ROTATED
+    - from: ROTATION_REQUIRED
+      to: REVOKED
+    - from: ROTATED
+      to: EXPIRED
+    - from: ROTATED
+      to: REVOKED
+  session_state:
+    description: Security session lifecycle (Phase 8); expired/revoked
+      sessions always BLOCK.
+    initial: ACTIVE
+    terminal:
+    - EXPIRED
+    - REVOKED
+    states:
+    - ACTIVE
+    - EXPIRED
+    - REVOKED
+    transitions:
+    - from: ACTIVE
+      to: EXPIRED
+    - from: ACTIVE
+      to: REVOKED
+  approval_flow:
+    description: 'Maker-checker approval flow (Phase 8): the maker
+      submits, a DIFFERENT human checker approves; self-approval is
+      architecturally blocked outside the machine as well.'
+    initial: DRAFT
+    terminal:
+    - REJECTED
+    - ACTIVE
+    states:
+    - DRAFT
+    - SUBMITTED
+    - REVIEW
+    - APPROVED
+    - REJECTED
+    - ACTIVE
+    transitions:
+    - from: DRAFT
+      to: SUBMITTED
+    - from: SUBMITTED
+      to: REVIEW
+    - from: REVIEW
+      to: APPROVED
+      requirement: HUMAN_APPROVAL
+    - from: REVIEW
+      to: REJECTED
+    - from: APPROVED
+      to: ACTIVE
+  operational_incident_lifecycle:
+    description: Operational incident lifecycle (Phase 12) per the master
+      command flow DETECT->CLASSIFY->TRIAGE->CONTAIN->RECOVER->VERIFY->
+      ROOT CAUSE->PIR->PREVENT; every transition is audited.
+    initial: DETECTED
+    terminal:
+    - PREVENTED
+    states:
+    - DETECTED
+    - CLASSIFIED
+    - TRIAGED
+    - CONTAINED
+    - RECOVERED
+    - VERIFIED
+    - ROOT_CAUSED
+    - REVIEWED
+    - PREVENTED
+    transitions:
+    - from: DETECTED
+      to: CLASSIFIED
+    - from: CLASSIFIED
+      to: TRIAGED
+    - from: TRIAGED
+      to: CONTAINED
+    - from: CONTAINED
+      to: RECOVERED
+    - from: RECOVERED
+      to: VERIFIED
+    - from: VERIFIED
+      to: ROOT_CAUSED
+    - from: ROOT_CAUSED
+      to: REVIEWED
+    - from: REVIEWED
+      to: PREVENTED
+      requirement: HUMAN_APPROVAL
+  gateway_session:
+    description: SNIPER Gateway client session lifecycle (Phase Gateway
+      Server). Order flow resumes only after SYNC + RECONCILE on reconnect.
+    initial: CONNECT
+    terminal:
+    - CLOSED
+    states:
+    - CONNECT
+    - AUTHENTICATE
+    - REGISTER
+    - READY
+    - ACTIVE
+    - DEGRADED
+    - DISCONNECTED
+    - RECONNECTING
+    - SYNC
+    - RECONCILE
+    - CLOSED
+    transitions:
+    - from: CONNECT
+      to: AUTHENTICATE
+    - from: AUTHENTICATE
+      to: REGISTER
+    - from: AUTHENTICATE
+      to: CLOSED
+      requirement: HUMAN_APPROVAL
+    - from: REGISTER
+      to: READY
+    - from: REGISTER
+      to: CLOSED
+    - from: READY
+      to: ACTIVE
+    - from: ACTIVE
+      to: DEGRADED
+    - from: DEGRADED
+      to: ACTIVE
+    - from: ACTIVE
+      to: DISCONNECTED
+    - from: DEGRADED
+      to: DISCONNECTED
+    - from: DISCONNECTED
+      to: RECONNECTING
+    - from: RECONNECTING
+      to: SYNC
+    - from: RECONNECTING
+      to: CLOSED
+    - from: SYNC
+      to: RECONCILE
+    - from: SYNC
+      to: CLOSED
+    - from: RECONCILE
+      to: ACTIVE
+    - from: RECONCILE
+      to: CLOSED
+      requirement: HUMAN_APPROVAL
+  incident_lifecycle:
+    description: Security incident lifecycle (Phase 8); evidence is
+      immutable through every state.
+    initial: DETECTED
+    terminal:
+    - CLOSED
+    states:
+    - DETECTED
+    - OPEN
+    - CONTAINED
+    - INVESTIGATING
+    - RECOVERING
+    - CLOSED
+    transitions:
+    - from: DETECTED
+      to: OPEN
+    - from: OPEN
+      to: CONTAINED
+    - from: CONTAINED
+      to: INVESTIGATING
+    - from: INVESTIGATING
+      to: RECOVERING
+    - from: RECOVERING
+      to: CLOSED
+      requirement: HUMAN_APPROVAL
+    - from: OPEN
+      to: CLOSED
+      requirement: HUMAN_APPROVAL
+    - from: CONTAINED
+      to: CLOSED
+      requirement: HUMAN_APPROVAL
+  connection_state:
+    description: 'Broker/feed connection lifecycle (Phase 10). UNKNOWN is
+      a first-class state: while UNKNOWN, privileged actions stay blocked.
+      DEGRADED/STALE are data-health states that do not by themselves
+      close the transport.'
+    initial: DISCONNECTED
+    terminal: []
+    states:
+    - DISCONNECTED
+    - CONNECTING
+    - CONNECTED
+    - DEGRADED
+    - STALE
+    - RECONNECTING
+    - RESYNCING
+    - RECONCILING
+    - UNKNOWN
+    transitions:
+    - from: DISCONNECTED
+      to: CONNECTING
+    - from: CONNECTING
+      to: CONNECTED
+    - from: CONNECTING
+      to: DISCONNECTED
+    - from: CONNECTING
+      to: UNKNOWN
+    - from: CONNECTED
+      to: DEGRADED
+    - from: CONNECTED
+      to: STALE
+    - from: CONNECTED
+      to: DISCONNECTED
+    - from: CONNECTED
+      to: UNKNOWN
+    - from: DEGRADED
+      to: CONNECTED
+    - from: DEGRADED
+      to: STALE
+    - from: DEGRADED
+      to: DISCONNECTED
+    - from: STALE
+      to: CONNECTED
+    - from: STALE
+      to: RECONNECTING
+    - from: STALE
+      to: DISCONNECTED
+    - from: RECONNECTING
+      to: RESYNCING
+    - from: RECONNECTING
+      to: DISCONNECTED
+    - from: RECONNECTING
+      to: UNKNOWN
+    - from: RESYNCING
+      to: RECONCILING
+    - from: RESYNCING
+      to: UNKNOWN
+    - from: RECONCILING
+      to: CONNECTED
+    - from: RECONCILING
+      to: UNKNOWN
+    - from: UNKNOWN
+      to: RECONNECTING
+    - from: UNKNOWN
+      to: DISCONNECTED
+    - from: DISCONNECTED
+      to: UNKNOWN

@@ -1,0 +1,38 @@
+schema_id: normalized_data
+version: "1.0.0"
+status: ACTIVE
+owner: core.data
+description: "Normalized representation of a raw record. Never loses source, timestamps, versions or the raw reference."
+python_binding: "core.data.contracts:NormalizedDataRecord"
+
+fields:
+  normalized_id: { type: identifier, required: true, description: "nrm_ identifier" }
+  raw_id: { type: identifier, required: true, description: "raw_ identifier of the source raw record" }
+  source: { type: string, required: true, description: "Registered source identifier" }
+  event_time: { type: timestamp, required: true, description: "Normalized event time (UTC canonical)" }
+  received_time: { type: timestamp, required: true, description: "Time the raw payload was received" }
+  processed_time: { type: timestamp, required: true, description: "Time normalization completed" }
+  schema_id: { type: string, required: true, description: "Data schema of the normalized payload" }
+  schema_version: { type: semver, required: true, description: "Data schema version" }
+  payload: { type: object, required: true, description: "Normalized payload" }
+  provenance: { type: object, required: true, description: "Provenance object preserved from raw ingestion" }
+  lineage_id: { type: identifier, required: true, description: "lin_ identifier of the lineage record for this stage" }
+  data_version: { type: semver, required: true, description: "Semantic data version; corrections bump it, never overwrite" }
+  quality_level: { type: string, required: true, enum: data_quality_level, description: "Quality classification of the underlying raw data" }
+  quality_reasons: { type: array, required: false, description: "Reasons when quality is not VALIDATED" }
+  supersedes: { type: identifier, required: false, description: "normalized_id this record supersedes (corrections create new records)" }
+
+enums:
+  data_quality_level: [VERIFIED, VALIDATED, DEGRADED, STALE, INVALID, UNKNOWN]
+
+constraints:
+  - "provenance is REQUIRED (normalization must never lose provenance)."
+  - "raw reference (raw_id) MUST be preserved."
+  - "Semantic changes require a new normalized_id + data_version bump; historical normalized data is never overwritten."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial normalized data contract (Phase 1)"
+    changes: []

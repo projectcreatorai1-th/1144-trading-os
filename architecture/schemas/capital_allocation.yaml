@@ -1,0 +1,65 @@
+schema_id: capital_allocation
+version: 1.0.0
+status: ACTIVE
+owner: core.portfolio
+description: capital_allocation contract (Phase 4)
+python_binding: core.portfolio.allocation:CapitalAllocation
+fields:
+  capital_allocation_id:
+    type: identifier
+    required: true
+  portfolio_id:
+    type: identifier
+    required: true
+  portfolio_version:
+    type: semver
+    required: true
+  total_capital:
+    type: string
+    required: true
+    description: canonical decimal string
+  reserved_capital:
+    type: string
+    required: true
+    description: canonical decimal string
+  strategy_allocations:
+    type: object
+    required: true
+  symbol_allocations:
+    type: object
+    required: true
+  risk_allocations:
+    type: object
+    required: true
+  available_capital:
+    type: string
+    required: true
+    description: canonical decimal string
+  remaining_capital:
+    type: string
+    required: true
+    description: canonical decimal string
+  allocated_capital:
+    type: string
+    required: true
+    description: canonical decimal string
+  environment:
+    type: string
+    required: true
+  computed_at:
+    type: timestamp
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums: {}
+constraints:
+- Arithmetic centralized in core.portfolio.allocation.
+- Allocation beyond available capital is rejected or constrained per policy - never
+  silently clipped.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial capital_allocation contract (Phase 4)
+  changes: []

@@ -1,0 +1,51 @@
+schema_id: strategy_config
+version: 1.0.0
+status: ACTIVE
+owner: core.strategy
+description: strategy_config contract (Phase 4)
+python_binding: core.strategy.contracts:StrategyConfig
+fields:
+  strategy_id:
+    type: identifier
+    required: true
+  strategy_version:
+    type: semver
+    required: true
+  parameters:
+    type: object
+    required: true
+  units:
+    type: object
+    required: true
+  constraints:
+    type: object
+    required: true
+  environment:
+    type: string
+    required: true
+  effective_from:
+    type: timestamp
+    required: true
+  effective_to:
+    type: timestamp
+    required: false
+  provenance:
+    type: object
+    required: true
+  config_hash:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums: {}
+constraints:
+- No magic numbers outside configuration; no mutable global configuration.
+- Semantic configuration changes require a new version.
+- config_hash commits to the canonical parameter content.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial strategy_config contract (Phase 4)
+  changes: []

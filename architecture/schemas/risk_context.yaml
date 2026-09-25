@@ -1,0 +1,65 @@
+schema_id: risk_context
+version: "1.0.0"
+status: ACTIVE
+owner: core.risk
+description: "Canonical point-in-time risk context. Missing/UNKNOWN values are explicit (None) - never guessed; critical unknowns fail closed per risk-config.yaml."
+python_binding: "core.risk.context:RiskContext"
+
+fields:
+  context_id: { type: identifier, required: true, description: "rxc_ identifier" }
+  context_hash: { type: string, required: true, description: "SHA-256 of the canonical context content" }
+  as_of: { type: timestamp, required: true, description: "Point-in-time the context represents (no future data)" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  account_balance: { type: string, required: false, description: "Canonical decimal string" }
+  account_equity: { type: string, required: false, description: "Canonical decimal string" }
+  account_free_margin: { type: string, required: false, description: "Canonical decimal string" }
+  account_used_margin: { type: string, required: false, description: "Canonical decimal string" }
+  account_margin_level: { type: string, required: false, description: "Canonical decimal string (percent)" }
+  account_available_capital: { type: string, required: false, description: "Canonical decimal string" }
+  position_count: { type: integer, required: false, description: "Open position count" }
+  long_exposure: { type: string, required: false, description: "Canonical decimal string" }
+  short_exposure: { type: string, required: false, description: "Canonical decimal string" }
+  net_exposure: { type: string, required: false, description: "Canonical decimal string" }
+  gross_exposure: { type: string, required: false, description: "Canonical decimal string" }
+  symbol_exposure: { type: object, required: false, description: "Per-symbol exposure (decimal strings)" }
+  strategy_exposure: { type: object, required: false, description: "Per-strategy exposure (decimal strings)" }
+  current_risk_pct: { type: string, required: false, description: "Canonical decimal string" }
+  projected_risk_pct: { type: string, required: false, description: "Canonical decimal string" }
+  daily_loss: { type: string, required: false, description: "Canonical decimal string" }
+  daily_loss_pct: { type: string, required: false, description: "Canonical decimal string" }
+  drawdown: { type: string, required: false, description: "Canonical decimal string" }
+  drawdown_pct: { type: string, required: false, description: "Canonical decimal string" }
+  peak_equity: { type: string, required: false, description: "Canonical decimal string" }
+  recovery_state: { type: string, required: false, description: "Recovery ladder state when tracked" }
+  market_state: { type: string, required: false, enum: market_state, description: "CALM/NORMAL/VOLATILE/EXTREME/UNKNOWN" }
+  volatility_state: { type: string, required: false, description: "Volatility classification" }
+  spread_state: { type: string, required: false, description: "Spread classification" }
+  liquidity_state: { type: string, required: false, description: "Liquidity classification" }
+  data_quality: { type: string, required: false, enum: data_quality_level, description: "Data quality level" }
+  data_stale: { type: boolean, required: false, description: "Critical data staleness flag" }
+  data_missing: { type: boolean, required: false, description: "Missing data flag" }
+  data_invalid: { type: boolean, required: false, description: "Invalid data flag" }
+  data_unknown: { type: boolean, required: false, description: "Unknown data flag" }
+  system_state: { type: string, required: false, description: "System state at context time" }
+  execution_state: { type: string, required: false, description: "Execution state at context time" }
+  active_events: { type: array, required: false, description: "Active external events (e.g. calendar window)" }
+  event_risk: { type: string, required: false, enum: event_risk, description: "Event risk classification" }
+  event_window: { type: string, required: false, description: "Event window description" }
+  event_severity: { type: string, required: false, description: "Event severity classification" }
+
+enums:
+  market_state: [CALM, NORMAL, VOLATILE, EXTREME, UNKNOWN]
+  data_quality_level: [VERIFIED, VALIDATED, DEGRADED, STALE, INVALID, UNKNOWN]
+  event_risk: [NORMAL, ELEVATED, HIGH, EXTREME, UNKNOWN]
+
+constraints:
+  - "All monetary/quantity values are canonical decimal strings (never binary floats)."
+  - "None means UNKNOWN - never interpreted as safe (risk-config critical_unknown_fields force BLOCK)."
+  - "Point-in-time: no field may carry data observed after as_of."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial risk context contract (Phase 3)"
+    changes: []

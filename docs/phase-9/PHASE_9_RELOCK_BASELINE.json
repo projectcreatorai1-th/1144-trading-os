@@ -1,0 +1,1754 @@
+{
+  "record_type": "PHASE 9 BASELINE RE-LOCK",
+  "generated_utc": "2026-09-24T20:53:13.967655+00:00",
+  "lineage": {
+    "original_baseline": "docs/phase-9/PHASE_9_FILE_HASHES.json (preserved, untouched)",
+    "intermediate": "docs/phase-9/evidence/gui-repair-live/BASELINE_REPAIR_RECORD.json (GUI repair + external-change audit)",
+    "this_generation": "post GUI-repair re-lock"
+  },
+  "gui_repair_status": "RC-3 PASS, RC-F 9/9 PASS, RC-2 4/4 PASS, Ctrl+K PASS (live 17/17); G2 audit tool externally deleted -> documented BLOCKED, partial SEC coverage via validator",
+  "regression_at_relock": {
+    "full_pytest": "2034 passed / 1 skipped (documented P10 conditional) / 0 failed / 0 errors",
+    "architecture_validator": "PASS (0 violations)",
+    "windows_build": "PASS 9/9 (run_windows.py --verify-build)",
+    "live_safety": "PASS (validator LIVE rules + P10 LIVE-refusal tests)"
+  },
+  "file_count": 289,
+  "files": [
+    {
+      "relative_path": "architecture/__init__.py",
+      "sha256": "efd51ac5e793a645dc49e4f2092367019565e4ad289ce2a57517f5d54ec297cc",
+      "size": 75,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/__init__.py",
+      "sha256": "723b7c6483ce9966c232318f5a4db0f6b08fd22bbf6858bd14f9c2987cd295dc",
+      "size": 199,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/causality.py",
+      "sha256": "f7004722504ba88fcee9d04a9d0e88f096108902794e53705e56744ecbd09dc0",
+      "size": 5884,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/config.py",
+      "sha256": "bdc59d4696a73daa08f7815b840bdda386bfc0fde8116560bc5ec93d7517805f",
+      "size": 3325,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/environment.py",
+      "sha256": "fc00bbfc4d084339cf85ae4f0e565e944342e278c0c36a543bcea7aaf5533ea6",
+      "size": 5282,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/errors.py",
+      "sha256": "124ada99318b435535ef0e0e226b2c4cd0c245c79787c0f826bfebeb10c469bc",
+      "size": 4030,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/identifiers.py",
+      "sha256": "2753068c3d6c8986ed36eda955dabfbb3c52fc48a7d23c3589f7430fdce01550",
+      "size": 3570,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/observability.py",
+      "sha256": "26ec4a280b037ffe46add15890b967d17dfe8de2954ef8eb61c805892db7369d",
+      "size": 4160,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/provenance.py",
+      "sha256": "0f3cc534e74eed40cbdf998b49bbe6305481173563eb49dd66eaafd01a3a62bb",
+      "size": 1830,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/registry.py",
+      "sha256": "e5727bdd273d0c3936bdec91a0fc76644121e055073631f633800c2558924431",
+      "size": 1878,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/schema.py",
+      "sha256": "dd859dbfaa4059732ab8243665a9bddda4ee61c1e70b6d12bb7bc667743bbb3c",
+      "size": 11456,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/state_machine.py",
+      "sha256": "09fc57ce102bf18c8fde467280f8dc40c0000ad16f3c2a0075b6717574d6c74d",
+      "size": 7882,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/time.py",
+      "sha256": "47c0c2acb22d84656e8bc9ef9fde6d58ddfc82c155f02e901a7fb11d0429bc2d",
+      "size": 3423,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/contracts/versioning.py",
+      "sha256": "0e80bb09206a3ecd1ee032ba52d548f970e217a12e5fc688d83781d1c25776b4",
+      "size": 9816,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/validator/__init__.py",
+      "sha256": "a1a0fed3efb428e13e6595c5d834a94c65a55732cba383063e48953c85fdde92",
+      "size": 588,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/validator/__main__.py",
+      "sha256": "aeaa9658232c4444f30593030d8e9a7663fbdb065f1e26ad56e4a88e1747aba1",
+      "size": 70,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/validator/cli.py",
+      "sha256": "180d3d56ada5d050478370c8e2b7d6299e7b03a0cd7d2702e5f8bb61df04162e",
+      "size": 580,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/validator/result.py",
+      "sha256": "185696913714fda915f8384576ebbbafcf7186176b8296dfcc1ac0c1eb97827f",
+      "size": 2669,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/validator/rules.py",
+      "sha256": "4a72bd2dc2ca254b022fe11bda89a25a63a601fc33d39a5ea0529c5e15fbbb71",
+      "size": 118913,
+      "vs_original_phase9": "CHANGED"
+    },
+    {
+      "relative_path": "core/__init__.py",
+      "sha256": "9619ab4d2ce2ff8559e4a312503c9809b256b7c9179f30f3813028c0f6ba956e",
+      "size": 31,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/backtest/__init__.py",
+      "sha256": "9619ab4d2ce2ff8559e4a312503c9809b256b7c9179f30f3813028c0f6ba956e",
+      "size": 31,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/backtest/engine.py",
+      "sha256": "754b0fe4d4bbac92fc120db9a1c0ddf860e51deafa9951a58fe0388f0dadbb3b",
+      "size": 10827,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/data/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/data/contracts.py",
+      "sha256": "09b7474a1878323fda8cb7badad121982d37b106e36951688881ed6831ca0d39",
+      "size": 19859,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/data/dedup.py",
+      "sha256": "effbcd16b35f183e2e30fc8c39a0704599e76c627d184797f893e4c5be8f8a64",
+      "size": 1714,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/data/normalizer.py",
+      "sha256": "517d2bf89dc398663148a2ad911ad9a13a5deb23c235fa2d1a92c4af1ce37022",
+      "size": 2750,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/data/pipeline.py",
+      "sha256": "63f580226e5cb7428421cee9752064c152b92c8bdf9b068ed6e3b62627303c83",
+      "size": 19552,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/data/sequencing.py",
+      "sha256": "92107ab81e9f3282145cad105d44c4a9868479d2d7e6aa2b5aeacc52a9af4983",
+      "size": 2324,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/data/source_registry.py",
+      "sha256": "326892ad3c10c7fc3d8475faeb45f77a62ce66be75e8027e517eb0f82b20b30b",
+      "size": 3040,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/data/stores.py",
+      "sha256": "339da700005165037a4c784209ae4a3b724100e0ee8900698baf0427743eed61",
+      "size": 2240,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/decision/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/decision/contracts.py",
+      "sha256": "a7b4efd3588b772cbeff52951b81619c7a972fee6086655ceb93c406d5ea51d6",
+      "size": 5523,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ems/__init__.py",
+      "sha256": "9619ab4d2ce2ff8559e4a312503c9809b256b7c9179f30f3813028c0f6ba956e",
+      "size": 31,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ems/adapter.py",
+      "sha256": "b239f944716b2ae1b4b3095bff1fc0d8339f451362697973e41c67cada330727",
+      "size": 6211,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ems/engine.py",
+      "sha256": "f0cc23be70d36e4055d97e24ee888ae8aa786da9809686b6c4eee10169244f08",
+      "size": 10244,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ems/outbox.py",
+      "sha256": "a2bb4ea953034839f9774e199e329d7e3264769e26d380a80485173c7a97f8d2",
+      "size": 3407,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/events/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/events/bus.py",
+      "sha256": "e8e5b9d4c963df2aa7a639762b3797a10d1af055e16ffc1e42ecdb233a8d5742",
+      "size": 976,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/events/contracts.py",
+      "sha256": "997863257f06e8e20b80efab48f3697fd71470889ebc2e1fe19d4b70c3ec6cf3",
+      "size": 9028,
+      "vs_original_phase9": "CHANGED"
+    },
+    {
+      "relative_path": "core/events/replay.py",
+      "sha256": "1ba362f5c702994c6c5a285bd3c903514ed0dc3dbcb4e6cb0ea1f7ad7e81f4d2",
+      "size": 5312,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/events/repository.py",
+      "sha256": "d5821fbb0d3add150cd4c3a28abe0e96030ec721869080578b4a0a39af969336",
+      "size": 805,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/events/store.py",
+      "sha256": "998c6870d83ba97aa0df4195b46c4741f28c5e076917e325bdc4020b90f407da",
+      "size": 1671,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/events/timeline.py",
+      "sha256": "1eb1e2d795468d85d333f952bfec19fd08decae7aad0c15283e604e1f68b3db9",
+      "size": 3897,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/execution/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/execution/boundary.py",
+      "sha256": "a99bfe6e9dbe64ccfbf05d15ecc9821f66792b5bf220505072dd9b39feea7acc",
+      "size": 8185,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/execution/contracts.py",
+      "sha256": "59cb6020746c36fb92f5f06fc09d327206da7fd3e7c640f8215e4e9649d0020f",
+      "size": 13833,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/execution/ports.py",
+      "sha256": "084f2c945f20efa92ffc1efec3d11fe95a347ec3009960613b04e576c48340c5",
+      "size": 609,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/execution/repository.py",
+      "sha256": "0aa62a281dfe7a17a66dc2a65890f53e1733d8cc9c03d4530af6cab0bb13b1e2",
+      "size": 648,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/execution/store.py",
+      "sha256": "100c226212b956a4544a38cc8fe001f7042855c7a8a4aeaad91d742593ba37f0",
+      "size": 1460,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/governance/__init__.py",
+      "sha256": "f920ef319973fffcbcaf695b8522abf5d670e7d45541298e5fae0f3ed0dee7a4",
+      "size": 192,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/governance/gate.py",
+      "sha256": "0b8b96793e6b7d64cfe152f27e756c3a87d5b18cd8115b86e2a940b7fcc63df6",
+      "size": 10315,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/__init__.py",
+      "sha256": "edd8813b192422cb63298daab31baa9ac7bc9902f61eb7ae807622c224127895",
+      "size": 343,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/adapter.py",
+      "sha256": "3359872229d4d84374276eb6c7e239a4ff988b44f4072a4246af049c54c84e74",
+      "size": 22492,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/contracts.py",
+      "sha256": "85c0e35adab9d4a9ac4e30e979a26c1af5c353ca3e1253b62f2fd9de9e743353",
+      "size": 46081,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/dataset.py",
+      "sha256": "0de5f706b7a090b3ef24650641b3a9799b59c0f41c7242f6624cd5a48d7c815b",
+      "size": 8387,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/drift.py",
+      "sha256": "4aa7f163b6e6f21640d2fff3c33e77ab898fdecbf23de0bc0436b297ae486fc2",
+      "size": 9792,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/evaluation.py",
+      "sha256": "9228ad93c62b615a1e09b3fc7b8134200cb38ce306565109cd481cfc9667e22c",
+      "size": 11270,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/events.py",
+      "sha256": "baef6d19c85272b419be68ea6bb2c9cb7ab3bd3b63dd5b88002aa5f97f57eb30",
+      "size": 2118,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/explain.py",
+      "sha256": "ade98d55e086ccd6e4967af7354a42054f6bb2a061597f4481e662e297c3144c",
+      "size": 7441,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/feature.py",
+      "sha256": "d80c3314f70e674d41ccfe09361f2ed978ecdc8a5f311b1a44d8e2583928e48b",
+      "size": 10449,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/inference.py",
+      "sha256": "eb210f75bb2cc71fd50fde23f2ffd164563d421a47aa7ebf81b5c41bcbdaf1cd",
+      "size": 12037,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/lifecycle.py",
+      "sha256": "da1d9c1b382343c0e8ab536f53e87b4bfadb2810b6f5915383f2f6ff0779a0b7",
+      "size": 6137,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/outputs.py",
+      "sha256": "1204b4fbaf5a88695d7584c76eff5594193141ab24e6ec9a17320f3d9c357b08",
+      "size": 36166,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/proposal.py",
+      "sha256": "701c0580c8092352d561e45287e1fd9f7d7e796f884cdd126f2c0a1aa80a8125",
+      "size": 9747,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/registry.py",
+      "sha256": "c0ec325186b2cefd87a220f07a99a5f50006d6dee708c5682f01c5c961c9cf96",
+      "size": 4353,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/replay.py",
+      "sha256": "dacd1937bf2cecac7c6ff7b6101a93873c5961e0bbfd680b5d6038a12797e077",
+      "size": 6731,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/training.py",
+      "sha256": "f7e4a180dead721f5bbd209d914a7786c4bd5622c9b8e1adbb4eac181290fa71",
+      "size": 8445,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/intelligence/validation.py",
+      "sha256": "0676e0d851d542f3a834a8c874204ca3854ed3873ab331bc6c92cb6269f10bc4",
+      "size": 2437,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ledger/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ledger/balance.py",
+      "sha256": "2e4b7b3c8ec6ef49b6db9f6836352ee9b9e225c74d2fa1921b458cc6fc59d80e",
+      "size": 2638,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ledger/contracts.py",
+      "sha256": "67677b2179a59141cfb844f107c9c595fbbe084f57dae978da581368b563e705",
+      "size": 13607,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ledger/money.py",
+      "sha256": "5e89852c63ef1062e55ef6e081151f846351ecd0c7fdc5154024f33fd1ca2375",
+      "size": 5290,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ledger/posting.py",
+      "sha256": "b652ec13751c94bd2ae850d842474ceb2ed5b7c3d812f98846f2755d4f20872e",
+      "size": 9286,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ledger/repository.py",
+      "sha256": "934e5aa688cfce1dfbc87bd27e147b65f11505f46e899848a50fb34dcd3f21fc",
+      "size": 732,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/ledger/store.py",
+      "sha256": "80b7e4b941cce70c1c208eb404360055cd212cf035f16d178c62f1626c6d0028",
+      "size": 1309,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/oms/__init__.py",
+      "sha256": "9619ab4d2ce2ff8559e4a312503c9809b256b7c9179f30f3813028c0f6ba956e",
+      "size": 31,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/oms/contracts.py",
+      "sha256": "def86cf08642976dec9cbc37e8d4dccb49ab9b4cc2ca92e8aae156e496e220d6",
+      "size": 10536,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/oms/engine.py",
+      "sha256": "587b5e9d8f0ed5b5c0991d4a84fb85dfa8de8bca145d6bec7cc72bcdfc638ed1",
+      "size": 16239,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/oms/projection.py",
+      "sha256": "0289537707c3451f108322e950472c15a175650e0a240acc7f60c51fa3086e34",
+      "size": 10068,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/oms/reports_source.py",
+      "sha256": "39c0464a60d593da16945a8ea8c7e874e7ff9ea8708bc3159a4a3e482718e9d3",
+      "size": 498,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/oms/stores.py",
+      "sha256": "5cedb2f62364b666f18a773d0b64b1beafec96e2db51da4c376fbaa8803f0603",
+      "size": 967,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/policy/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/policy/contracts.py",
+      "sha256": "feba0b77296ae6a19285f55eeca34c9a108fb18070af88ef1eccd0a8ea2eda54",
+      "size": 10522,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/policy/evaluation.py",
+      "sha256": "be5c9d67ff0d1bfa77e2654132e77973f95969555d6a7fe566ee8cfa14b97f2c",
+      "size": 12604,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/policy/registry.py",
+      "sha256": "7831c9ddf07005e07014f9cffd1c969181b49e1f61b77b64bdcf0864b459930f",
+      "size": 11082,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/policy/store.py",
+      "sha256": "4034cb5c9974c6bd543d2a483b5a64b1855ec1b53d426775939eb02bdaa95679",
+      "size": 1662,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/portfolio/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/portfolio/allocation.py",
+      "sha256": "738a821edf0c2f4727cf5d9f907a80a61580b16d7dfa300ecdb692e176dd98bd",
+      "size": 8024,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/portfolio/capacity.py",
+      "sha256": "2980247ffa89fbacb0aa9a01ae93786840b08d544c69ac5cdfe9d0c2bab39f17",
+      "size": 5329,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/portfolio/contracts.py",
+      "sha256": "0ba9a789d90bcb9282c4db48a84db4df5de7556d50d5321a2c1b1cf69e1b0bef",
+      "size": 5736,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/portfolio/decision.py",
+      "sha256": "e638808b9967423f70282c674e058e82a1e27d085df0402d7b340a8654934268",
+      "size": 10919,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/portfolio/exposure.py",
+      "sha256": "9a8008f495ed7abccbbe60f3890440ab2cdbe86b9a644f623d240896aa7930b3",
+      "size": 6399,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/portfolio/portfolio_contract.py",
+      "sha256": "e402ea43d108648a3fcc114cf16a7c7573b921ef86a420a4ac4c1f3b5630d42d",
+      "size": 7495,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/portfolio/repository.py",
+      "sha256": "9bcae95bedcedecd61df70b385fe95acbd09df7dbdc984cfded721841b77b575",
+      "size": 605,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/portfolio/stores.py",
+      "sha256": "0baba38b7d1af4de362ba640faa0915dfe0801a83b695891065eb005e98cac6e",
+      "size": 1608,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/reconciliation/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/reconciliation/contracts.py",
+      "sha256": "f9342c4cc30eef5ab1cfc805f238bcce90c559af2f1f271b27f9ee451e8323fc",
+      "size": 10123,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/reconciliation/engine.py",
+      "sha256": "89580ea3437868f09ad470a218db52f3472b23f667cf19ddbc03f121f46e0920",
+      "size": 9354,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/reconciliation/stores.py",
+      "sha256": "b364c76b62f4a34c624580a17f2dbf9ab684e763ed37d667439a13dc51020aad",
+      "size": 1331,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/reconciliation/tolerance.py",
+      "sha256": "13d7251767eb9b5d4fba329b829361b7f942ba061f73da8b8aaac0619a1a0007",
+      "size": 2827,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/research/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/research/bias.py",
+      "sha256": "00d493a4c7d5021903b18c7381542d30280a4fd7f04664c63d06ce2b3e2d6dee",
+      "size": 9674,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/research/contracts.py",
+      "sha256": "f72d72fa21cfadc296ff315aecf157e12433e3028cb89205655caa2eb4784eb3",
+      "size": 24254,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/research/pipeline.py",
+      "sha256": "d23721034b644c6e57e835120bc07593181224b892902b92b8a6f0ca5e77a8ed",
+      "size": 13598,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/research/tick_history.py",
+      "sha256": "8f350bed8404c7cd177cb375b16fcd34ee9c81b8ef2e8972f072438ad08e5d13",
+      "size": 6074,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/budget.py",
+      "sha256": "76a20f12f02d62b1026fb8fd16e879be12abdcfdd61a62ae88684cc6648dc95e",
+      "size": 3454,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/builder.py",
+      "sha256": "0fcb251c11e9a2f0515af09d55d12e053baf4f96b8db62a346984f02588422ca",
+      "size": 3005,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/composition.py",
+      "sha256": "c3e160ba86a56ef3c1b25acafd68a906441c32e7ad0de15b24e427cc4c028c6f",
+      "size": 3659,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/config.py",
+      "sha256": "d70c02e7d4a3ef8708b334e4228e8ca53184a05bf2dc0238aeabf25e32e2a0cd",
+      "size": 2093,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/context.py",
+      "sha256": "d3442d3065d518f2af8ec6d8bbfcf4d32c41476bd97275ef6ba6909fb34b8c3c",
+      "size": 10658,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/contracts.py",
+      "sha256": "5e7addf22f26e0b8045dc54c86a7af415ed814b090d8ce079139692c96837ada",
+      "size": 14995,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/decision_store.py",
+      "sha256": "e02722f70d094bddbbf76d95e157839290427cf7680cb857a8f1af02b1aaa07c",
+      "size": 984,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/engine.py",
+      "sha256": "ecdd46d52750831ae1028d47e723898b24c58039b7771628fe4b2bd37a90439c",
+      "size": 12416,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/replay.py",
+      "sha256": "29fcdde414b2b64f1889e7f7f82e1474de71a474608e46d5876174835cdd77e7",
+      "size": 4813,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/state_service.py",
+      "sha256": "bf4ccab308b4f25e3b1c7ab282113701c235ffc551bab544cb202370dadc97b2",
+      "size": 4206,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/risk/validator.py",
+      "sha256": "363a04475d8e98a7b07e7a10d9c02cc255543b3879978b0598ee883e0c6848ce",
+      "size": 4520,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/security/__init__.py",
+      "sha256": "cdfd05ca13e120ab64b1dd74a6e7e3b62bd15525862a7fb173168b748cc197c0",
+      "size": 216,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/security/authentication.py",
+      "sha256": "32a4cfccf827648cb689fa0574ee3cc470cb81806cd5ff29d551ee3cb5b8a572",
+      "size": 13407,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/security/authorization.py",
+      "sha256": "15ba53147896dfc17747180fc283e7b18e4b1a7028c50522f24d3ae6635d4d9f",
+      "size": 5624,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/security/contracts.py",
+      "sha256": "a5685139e07f8d214cf53a7ad8d11b744e35ce7fcd4a1556015bf32043cd1f39",
+      "size": 29358,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/security/protection.py",
+      "sha256": "673c256d8a3a1648c9cfa0584df0bc5a2ab9d4b0d4ce118f36ac3ad1d8347140",
+      "size": 19392,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/security/secrets.py",
+      "sha256": "eafdce1d328b78a601e1b8606627bd1c1569e871ed3d5d942967e9eba2c9c2e2",
+      "size": 10194,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/security/services.py",
+      "sha256": "189282202afdb32b39f000bb5d15b5aecfd278ebf2de113945942160df043fb8",
+      "size": 6730,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/state/__init__.py",
+      "sha256": "c5c5b128df597d69efc89596efaa7f2f027d982040b13cfd0c2b6ddced032041",
+      "size": 69,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/state/consistency.py",
+      "sha256": "9dcc75988b26e65505a491388c6e2fefa12ae0525ecbf8833f9e2eb811fa24b2",
+      "size": 5064,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/state/contracts.py",
+      "sha256": "61d53141a9ec780b54015f1ea9e4aa171e655d58456fe44577d2fd541e7c3ed6",
+      "size": 14724,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/state/engine.py",
+      "sha256": "4728c92cae2b7fad5c36b1c65e0d4998447bf58b1b8e500fbbe792847a58e2d7",
+      "size": 5724,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/state/processor.py",
+      "sha256": "d085fa2e8ee441cd5ea4874b01f52c08a111759af0bc1d9b950bb2921effc7ed",
+      "size": 6146,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/state/projector.py",
+      "sha256": "0da1b9753ef010295160fe9a679591631f5fbbfeb74df940fae8e88f0e85253f",
+      "size": 6491,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/state/rebuilder.py",
+      "sha256": "d77aadc6b8b3aaba2e247e20ce838b75be74b030e5cb2a7ad0fb047460f77a8e",
+      "size": 3316,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/state/snapshot.py",
+      "sha256": "0b777cbda3cda464689f0c7fd0bfcac10405f1649da57330dcc458e494f15098",
+      "size": 2718,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/state/stores.py",
+      "sha256": "64537eb99d4fc4f9c14e910b975e77cfca666f83994ab7642caceefd2dc71b91",
+      "size": 1690,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/strategy/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/strategy/contracts.py",
+      "sha256": "ec9e66e609e93dff2ed7def9c1d6463acfa5a221bf3a10128de0f44c9ea2374e",
+      "size": 13931,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/strategy/dependency.py",
+      "sha256": "e0360d7de8ab25463517449f9f65a6ade1bbd9bb9bdc8178f1cde33cb998dd65",
+      "size": 3209,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/strategy/evaluation.py",
+      "sha256": "c03b3bbe47c25953a3f6762fc407951e810ef07124be7818e92233c71d0a33b7",
+      "size": 16612,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/strategy/gate.py",
+      "sha256": "1bc0ce7ebf5da9d245e3d1efd10eed66bcda2b8b728163ff8884f540368ec374",
+      "size": 7171,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/strategy/intent.py",
+      "sha256": "a5abbcab98942a64f750f1fc08d54f6cfd4f9f17d8cef84274056d72d9716816",
+      "size": 6883,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/strategy/registry.py",
+      "sha256": "6a71c7d656675870d080458e0d9f0bff4bdc04510506fb1d536d3534f78ccc0c",
+      "size": 8360,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/strategy/stores.py",
+      "sha256": "8621d5695e350804f321d59a065a46a900498f483197d16c4a7268027dc52a63",
+      "size": 1864,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/time/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/time/contracts.py",
+      "sha256": "6cf8f0a7d1054e61b6db167649311ca7405899fa761b115b1a8fd8797390433c",
+      "size": 3098,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/time/latency.py",
+      "sha256": "e233620e536a00afacfcf6a8b1a71b17756c9971e9871ee03408f066f2f4ceab",
+      "size": 3672,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/time/ordering.py",
+      "sha256": "25e842fb2aadda555545b61839a72af467fcc6929ca91f1da25a2e16c64e6b11",
+      "size": 3649,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/time/validation.py",
+      "sha256": "857cae145d46be04b39c946db6bef5a32d918395d8e098d5909f00f029a1656c",
+      "size": 11099,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/validation/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/validation/contracts.py",
+      "sha256": "f2bd5893aa360145f52070fc1050b90029a948b7a2614d80f8667c5bd515bd1e",
+      "size": 3570,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "core/validation/engine.py",
+      "sha256": "83858c8b716957838e6a30ec06e3d218f9c7246d23f3d1b16f0b859cf4a67ae1",
+      "size": 14583,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/__init__.py",
+      "sha256": "9619ab4d2ce2ff8559e4a312503c9809b256b7c9179f30f3813028c0f6ba956e",
+      "size": 31,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/api/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "platform/api/connectivity_plane.py",
+      "sha256": "a49c90b7f199791ef10ae3489145630b96d83c5f8ca222c7228839229b75747b",
+      "size": 10141,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/api/contracts.py",
+      "sha256": "1b5e10646a644349a2e8735454e3dff5bb161f21c8e47410a580d3c45a098fcc",
+      "size": 8068,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "platform/api/desktop_actions.py",
+      "sha256": "704dea997d90eabd4db5372f30e8b91c9f165c81b60208061cd5673f9f821509",
+      "size": 13721,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "platform/api/desktop_feed.py",
+      "sha256": "50bdf7c5cf6fb541f79f04665296e862d7e464fffa5fd6724141e4c0efac8bbd",
+      "size": 10690,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "platform/api/desktop_gateway.py",
+      "sha256": "e07f93bc018ca18bf68509208fafa66a3bfbc0a404fa9707506485dd6fb2518f",
+      "size": 37205,
+      "vs_original_phase9": "CHANGED"
+    },
+    {
+      "relative_path": "platform/audit/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/audit/contracts.py",
+      "sha256": "90da565c01ec3ab0ef8752e1f77620c7910814fba6096b05507b4a1c3157b7fe",
+      "size": 4576,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "platform/audit/repository.py",
+      "sha256": "de68066ce61660f6e3c53b9f417f2b855d157c4765c24e9bfc399047719bde2a",
+      "size": 644,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/backup/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/cache/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/database/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/database/contracts.py",
+      "sha256": "a3a383dc3c0660b4f2f26c918da3f723f41462bc8530dbe63af7a323ee2bcd93",
+      "size": 901,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/database/sqlite_phase2.py",
+      "sha256": "dfff2ca44771516e49d0de80f6ea4d74f49cd7e8bcf2fa2c4f81e984100f21bf",
+      "size": 28710,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/database/sqlite_phase3.py",
+      "sha256": "d886e8a55ba6ed7f68853bf04d4a71097fd0c9076129cf0be9c51d0e956ef5b7",
+      "size": 10886,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/database/sqlite_phase4.py",
+      "sha256": "4acfc70beb64e572aa77d8ebe1d3e16fcf05ac68cdfef88f42a5926ba48e1ee3",
+      "size": 22939,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/database/sqlite_phase5.py",
+      "sha256": "a23c0fceef12ddf4cce4a214fb85e079875ca30bdef62cee08a159359ceabd62",
+      "size": 15684,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/database/sqlite_stores.py",
+      "sha256": "a9068e5ca781e2fa532ba3a4c5ac7560a75b5b92664f17b7a00216bb24ffb450",
+      "size": 34712,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/event_bus/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/event_bus/in_process.py",
+      "sha256": "7e0543176b4a17e7dd14cbb7ccb202e6d9e173c364d11e614d0b690ea7f751d8",
+      "size": 2898,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/incident/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/monitoring/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/monitoring/structured_logger.py",
+      "sha256": "aa731009e8eb6a58b0b98cce7ae43afc52d837ec4ecd3f0931b4b6ac0a8d5895",
+      "size": 1682,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/recovery/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/scheduler/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/security/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "platform/security/contracts.py",
+      "sha256": "81e16add3bd5ba39e2ffb63bbd7a85f949415d5a51681b80ef0b8d35bfb3f10b",
+      "size": 7230,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "adapters/__init__.py",
+      "sha256": "9619ab4d2ce2ff8559e4a312503c9809b256b7c9179f30f3813028c0f6ba956e",
+      "size": 31,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/ai/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/ai/contracts.py",
+      "sha256": "c7579fc9096c82ed0ff30ca4353ef2fde400f2797647b57fdd7e88b511759d07",
+      "size": 4299,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/alternative_data/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/broker/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/broker/contracts.py",
+      "sha256": "0fac0c138bceccb14c6f9499534f96c414e6d0daee13985342f49fca18ce572c",
+      "size": 885,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/calendar/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/market_data/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/market_data/contracts.py",
+      "sha256": "ac03edb651e74e3899ce9b5ae83d764bdf3b051afbfcf7ee253c41064a071527",
+      "size": 424,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/market_data/mt5_feed.py",
+      "sha256": "93652edbce4c40837a42568227c11e43b60366705139740101fe13543a70477a",
+      "size": 12709,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/mt5/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/mt5/connection.py",
+      "sha256": "0eb5b8b29360ddaae24613d633a11d7620b290dbe7696f989ce13aaed07afe63",
+      "size": 16847,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/mt5/contracts.py",
+      "sha256": "499f7d395a9fb4da5f5b601950ae535d96d45491bc4d955583456c7aa2b36d4f",
+      "size": 649,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/mt5/execution.py",
+      "sha256": "a2661854a44ee636934cefa3bcf43184927fe9a0b019685d8ce1e9a7289d7b9d",
+      "size": 6484,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/mt5/reconciliation.py",
+      "sha256": "17424c33a0b8ac0c63aeaee06edcc536c3703b4a07584934abf2220355be77d4",
+      "size": 7220,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/mt5/transport.py",
+      "sha256": "84b59d96930ca74607cd0d0349783ed6959345447d89f40540d59f9da976b74e",
+      "size": 5215,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/news/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/simulation/__init__.py",
+      "sha256": "9619ab4d2ce2ff8559e4a312503c9809b256b7c9179f30f3813028c0f6ba956e",
+      "size": 31,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/simulation/execution.py",
+      "sha256": "3034dcb1eafbba5f6c27b85dafcdbbdd6b6f393f11db04f146c149a49a9284f9",
+      "size": 4331,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "adapters/simulation/sequencer.py",
+      "sha256": "ec009dbb4f379377f037c8a961aed42d6a5179890934c64fa459b5e50aeb2a47",
+      "size": 993,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "ui/__init__.py",
+      "sha256": "9619ab4d2ce2ff8559e4a312503c9809b256b7c9179f30f3813028c0f6ba956e",
+      "size": 31,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "ui/desktop/__init__.py",
+      "sha256": "6776177e108d1f9dceca68f9dd1ed286db80a57c8f8e3b19d3ba215e55a34495",
+      "size": 168,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "ui/desktop/app.py",
+      "sha256": "cfc27da76276e65aabbf00f2053717277cf7bd73c17b79f203f85c5aef1ea731",
+      "size": 1040,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "ui/desktop/contracts.py",
+      "sha256": "b6f93511fa08f4d19d14702b09f3839dd0607fa91c7f85489f54e1d80a95e102",
+      "size": 8912,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "ui/desktop/run_windows.py",
+      "sha256": "0d3f0cede33915ba380fed2cef1e4f23c4dfecd493e88b00b605a9ebd30df970",
+      "size": 4543,
+      "vs_original_phase9": "CHANGED"
+    },
+    {
+      "relative_path": "ui/desktop/shell.py",
+      "sha256": "f34b750bc0c047b83c348ffaba1b9214d1dfb399d75c00371c2eef1a275fe5ab",
+      "size": 21930,
+      "vs_original_phase9": "CHANGED"
+    },
+    {
+      "relative_path": "ui/desktop/viewmodels.py",
+      "sha256": "e2866bf21a1e939ae9fdf3d87f55e868f3f4f3dea228c581860147d2f246d975",
+      "size": 19302,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "ui/web/__init__.py",
+      "sha256": "9cbed61a9287aaae8d171d58a1a24a8d2f97806d561b43c4e1a305deb013304f",
+      "size": 110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tools/p10_runtime_gate.py",
+      "sha256": "9fd2b7ab195cead7fd95f8158a843708ee3f5184615a40a2ae20cf459bc8bcb9",
+      "size": 22017,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tools/p9_gui_diagnosis.py",
+      "sha256": "cd976f32b9cc8610be3da77b5a33a295b9e207021014e97cd11ba0c64c3d10e8",
+      "size": 7010,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tools/p9_live_gui_test.py",
+      "sha256": "e01403fdb98a421cefc5818e21b7678ea1ecc0a7028c6d546be6f3a92269df32",
+      "size": 35580,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tools/p9_relock.py",
+      "sha256": "661fd4ad199d7da1cb2d6e62aa8be76f1bfc72b8ff1b8abb7e3bb0777ff919b9",
+      "size": 5026,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tools/p9r_baseline_record.py",
+      "sha256": "cd3676f399ab0cb9f70d4bfdb4a4e9c74287e948cf4baa46db109a340ec9147c",
+      "size": 7419,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tools/p9r_gates.py",
+      "sha256": "abf5be98e552e4ce7e36bb0c8a795fba27806e0260e2a8e6fe16a9ffef578bde",
+      "size": 4185,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/__init__.py",
+      "sha256": "f016d8e746805d0e59485f8aab5cdbcda4c8313d4b98659d30a465524595d002",
+      "size": 61,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/factories.py",
+      "sha256": "55c596725043ed4eab6a80463bbd198a5bf0c9d61c2013b1e7185f1895bbc8f3",
+      "size": 10513,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/phase1_factories.py",
+      "sha256": "07bfeea32f38700af9f662a5f3c91830b5c9d8d1918d0372893c0f9b3375408d",
+      "size": 3455,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/phase7_factories.py",
+      "sha256": "7c10826cd117c0e2b443c7bc43cc3425e0f74a7180bee2609d865942511b0820",
+      "size": 9529,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/phase8_factories.py",
+      "sha256": "7ea57c233e20e93cb0c841a09fff2deb431098f9076df289ace1d90b5d7ed2ae",
+      "size": 3514,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_api.py",
+      "sha256": "35195c3c022c28b36e88d7f58d47aefaefdb71db21d4cc80056882470ca42256",
+      "size": 4533,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_audit.py",
+      "sha256": "154bf03fdeb7624d517f94ca56e2df5f3819cb923404158fed67304c5a7d2bad",
+      "size": 2421,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_config.py",
+      "sha256": "d07f453be962f61133cb89b598f794073e89d158638c03e5bbcde98d61bd7b90",
+      "size": 2467,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_decision.py",
+      "sha256": "a37b411b2507d6cf712b68bb8654153e0cb8b6500cd29c0c031aaa7a17ab7ad8",
+      "size": 3055,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_environment.py",
+      "sha256": "72dbb0fc62e99cf22dbde92b020fddc49c4eafeac73ba5dae6d40f61de703376",
+      "size": 3820,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_events.py",
+      "sha256": "eee835f1f86359b0511a4e4fd31037d170aea98475cdbf74cda12137fe2db1d8",
+      "size": 5753,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_identifiers.py",
+      "sha256": "51d05b49fa491f7ad5324ddabd53d001df6343e327e0ef79903a326598b5d76f",
+      "size": 4373,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_ledger.py",
+      "sha256": "730a6bd56bfd27a42e8746ae17f3d77aec1c3d1a5d7029a4091665ab9c2ad44b",
+      "size": 4133,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_manifest_structure.py",
+      "sha256": "732de3e251622c2ec7e266c40b282a8df97624214621e4ac1028ecc850df149c",
+      "size": 6310,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_no_production_path.py",
+      "sha256": "cafd8e95be5ae85f6d4bd18fe762ad1107c07600b669d55cb25d503906780dd2",
+      "size": 2398,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_order.py",
+      "sha256": "754d40d540517dcf47907ce6bee150f02b4e20f3c8984985e48279ecf9430eb7",
+      "size": 7075,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_permission.py",
+      "sha256": "f685ce51c8f706619a767181f155a8372589f0e60d728dfeb5e1ab18c3844a70",
+      "size": 3515,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase10_core.py",
+      "sha256": "26a971f25dc8f419a9356cad8804d5d16af5755d08737bfc68cd7496afc5c22a",
+      "size": 21270,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase10_invariants_e2e.py",
+      "sha256": "00dbcb848c9300a32ae055528b172d4cd8aaf67a3bdb4e0bb981a3a8c1539bf6",
+      "size": 8026,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase10_validator.py",
+      "sha256": "cb02181c74f7bea4dc2fe3c6e6abdbfc1819fdb3d3cd52240cf2c0966c8e9c48",
+      "size": 4592,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_bus_timeline_replay.py",
+      "sha256": "e1242e694f05f03c355358e76b88f437f13b036a02fca74e834e5ba13d1f987e",
+      "size": 8591,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_e2e.py",
+      "sha256": "4b43c4738f8a8330bfec38ca255ffef43bd38970815881ca7abca26843bb4a00",
+      "size": 5234,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_invariants.py",
+      "sha256": "d2ac99c878ab643c6cb473059c4601ed6cc00a3a4754b35aee37dc79b655d848",
+      "size": 5548,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_observability_security.py",
+      "sha256": "96991acd09b23a2019c1569edabbe85a9047db976b45b4c5af74f12b10c7071f",
+      "size": 5762,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_pipeline.py",
+      "sha256": "4827d94b38a6d2f95b33fdf406d2a81d9a846db1c553741563121865e44fa36d",
+      "size": 11760,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_quality.py",
+      "sha256": "670f5cb207cd7ed11dd923b17b57a03b79483070b9424fcfc00051a4da06aac0",
+      "size": 8058,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_source_registry.py",
+      "sha256": "2d85fa9ddcd3b133ac6ae17bb8ea5acf83309d7942cf0303a59039b3b55f51fe",
+      "size": 3432,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_stores.py",
+      "sha256": "0400d1de4bee12d530c5887293de148b54ace7b8efe00102c559e650dd61a6b2",
+      "size": 8559,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_time.py",
+      "sha256": "5d7a7ce0824854a105a2a46d3749a50b4b0c2346364045fad51344e1f7cf9ca0",
+      "size": 9589,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase1_validator.py",
+      "sha256": "c7b1c641de4686aea5a7d51d61b057b4966d4509da46e55fa61677616b5fba16",
+      "size": 4356,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase2_invariants_e2e.py",
+      "sha256": "90cdd77ff180b44e3f12dc04c78e7c94e714724b97ddef0d4bafb46d4d75f37f",
+      "size": 12928,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase2_money.py",
+      "sha256": "14807aa774a1651f9c07a72374bf68490f0cdfcf3b14cea5e16764c897e43a9d",
+      "size": 3225,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase2_projector_rebuild_recovery.py",
+      "sha256": "0f29b1582b6bee8a88169051db9d7b11d1c9ccc9c814d837a4bef32ed57fa1b7",
+      "size": 11629,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase2_reconciliation.py",
+      "sha256": "1071304a2f2f73e55c025b7429b899f39e00a3dcb3f611d9c900b74f2bfb6f41",
+      "size": 13129,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase2_state_contracts.py",
+      "sha256": "144e3064ca38f4f012e1398948d0952a5a4d106d4a44154cc64c2bd81cd4d6a0",
+      "size": 11208,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase2_stores_ledger.py",
+      "sha256": "43b1fc92b51c139d8eef9de2404160a1d94b40afad1de1947f34d34910576d32",
+      "size": 15202,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase2_validator.py",
+      "sha256": "53fe99ba886bda43204b22f3c1591f3219f34d65667a4f60a2a1061978f29037",
+      "size": 5082,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase3_invariants_e2e.py",
+      "sha256": "5cdf380fa753a83bbcc520622aa5be9ef6e50a37aa9dba2e5c425646d1fafae8",
+      "size": 15615,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase3_policy.py",
+      "sha256": "d219f9ddccfa8029c55296c4f8b7aa482708b8943260d7227ece2d9960cd7d0b",
+      "size": 12867,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase3_risk_engine.py",
+      "sha256": "8a6c8619e9cba9dfbca01e1446294f99abb8ea3c59ecff91d2bc54e343e78f4e",
+      "size": 15541,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase3_state_replay_recovery.py",
+      "sha256": "1417c4550a0ce8e5d88646e10b078233c088f31d4e41292550e3e40da2da3cec",
+      "size": 11121,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase3_validator.py",
+      "sha256": "4cb6e03e70b69e905301a2a69e17ffd487e5d45cb41cbe455d4efedadb38189b",
+      "size": 5456,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase4_gate_e2e.py",
+      "sha256": "38a351e76309fa70a17fed14d471e856f10c937b9504b9120eca0a8e87c1e926",
+      "size": 24866,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase4_portfolio.py",
+      "sha256": "a4695b73853ae386a0dda4fc4c1bf9b9f6fddc3b9fb42746e85e973603e2113d",
+      "size": 14440,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase4_strategy.py",
+      "sha256": "3c40d73ac4c978d7550f05494c2e5ba5d2f6ae6cc11eebb423c1ee2805de7ce0",
+      "size": 18639,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase4_validator.py",
+      "sha256": "f1d6bdf17d4c7c6060689cccaeb2f39e05687b8527dd6fcd7d5c7447ca401907",
+      "size": 5414,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase5_boundary_oms.py",
+      "sha256": "a4436afcc13ce60653f97cec10fff325d294d9fe0f8f2b24aad70b2bbb77155f",
+      "size": 20914,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase5_ems_adapters.py",
+      "sha256": "4626f5e589c80d66fe9ebe4275330783faf76d917cc629639a0d80bae531d8e9",
+      "size": 16289,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase5_invariants_e2e.py",
+      "sha256": "2312a623c63793861e9de47716854d3826ec6817206aec8f91532133ec90de16",
+      "size": 32183,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase5_pipeline.py",
+      "sha256": "4e6e67cedaffc8398e67cd5da22c77025abb2fde2b96c5218ef95c5f63bd890a",
+      "size": 6658,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase5_validator.py",
+      "sha256": "4332d49cb2f0d55af0192996172394c9a4c5b0a69cf1a390df291c3188e4d6fa",
+      "size": 5458,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase6_core.py",
+      "sha256": "40914acfde7cdc02a8a3c278729f2b4efdfccd156bd26165fb180335dfbca311",
+      "size": 17494,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase6_invariants_e2e.py",
+      "sha256": "9421ac3c23b41be9ed56094193a5ab2abb1c28eb948ee0a89295a229faec49bd",
+      "size": 25378,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase7_core.py",
+      "sha256": "aeca2912ed2a2ec7b9014971ea32a69ad63c7209fe215139995aa0b97e204019",
+      "size": 49866,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase7_failures.py",
+      "sha256": "b19e0aad65ad0c2bdd42cbf91387f979d9241f5fbc214c5467ec5739b5cb89e3",
+      "size": 32274,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase7_invariants_e2e.py",
+      "sha256": "4cd301ac2d087c2d5020c5fbb84eb1604390f4fd4095c837f1eeed86cfc11c7c",
+      "size": 34138,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase7_validator.py",
+      "sha256": "7982dbd70f8a53ccdeee315088b6cd3f8f53df0e33806e03b1ac042b2117cc48",
+      "size": 15736,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase8_core.py",
+      "sha256": "3f452973a5cbb0434a20b172e2fda487588ebda7634d2904dc4e161f2e35166f",
+      "size": 38838,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase8_failures.py",
+      "sha256": "1a3e7a3eca979d4b5c782983af568b1dc82de32436238c9e476e3862c4cb9d3c",
+      "size": 14419,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase8_invariants_e2e.py",
+      "sha256": "0956b5beb6c9cb62c5aea155e5bf034d8526af5f2b3ef4224ec6edfb03ce6e87",
+      "size": 32122,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase8_validator.py",
+      "sha256": "da6d46d85fc8ffc0896985edf606faa40db36b8cbb3ce581d86ae231021dfbfe",
+      "size": 10050,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase9_core.py",
+      "sha256": "788f09ce35bf1aa7ab451312a2462d40f252032b3095d1c9e8ce08f4e635878b",
+      "size": 12813,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "tests/test_phase9_gui_repair.py",
+      "sha256": "e01c207c024bfc237b98da921d058f8a93ea2880edca323e9a294553f764f1a1",
+      "size": 7894,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_phase9_invariants_e2e.py",
+      "sha256": "771512933a9d3591daa3f8735e0e3852909e8d066c989ab057aea89e405e228f",
+      "size": 9724,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "tests/test_phase9_validator.py",
+      "sha256": "72a0a18794507569a72a783d8867c45d5243d7f7ca25c54ff507518922d94183",
+      "size": 7038,
+      "vs_original_phase9": "UNCHANGED"
+    },
+    {
+      "relative_path": "tests/test_policy.py",
+      "sha256": "a148daf434c93c64f537d9b8ceb27547c5c42de714081edee65c4f56403e95a8",
+      "size": 4136,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_ports_and_data_quality.py",
+      "sha256": "e17d0d6cd113e1ab3deff117fe2e348ea489ad22a50cb78c2872b7e445f09005",
+      "size": 3896,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_position.py",
+      "sha256": "c9fae66c1a9db05bed2999cac62dd464daf3f463d8ad794a2e85577e86f22551",
+      "size": 3833,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_provenance_causality.py",
+      "sha256": "6a72bc036a5957496f52174db9876e2fe19e99517607a204efc92728f73e3807",
+      "size": 4685,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_risk.py",
+      "sha256": "cd12ddb94a71b9b3f3698c942cb5e947ba97497a2ef30c531af22dc48ed03e60",
+      "size": 6433,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_schema_drift.py",
+      "sha256": "f306127d3bc7889f6f4d0914c878f34e496913890a26cbbd89e5ccce4a65a2e6",
+      "size": 2886,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_schema_registry.py",
+      "sha256": "5e23cb9d569f8eabcfeec01c3b9d5f4bf9380ddb186652a6b6394005d2e8cb3c",
+      "size": 6110,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_state_machine.py",
+      "sha256": "32ceb32c7a0a03de43b3963fc7268b9258e2e50ca5a4bff18165fd8c4c1f5d98",
+      "size": 5039,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_time.py",
+      "sha256": "f864348e6e4a331806c982336c84ad5d796c2d3d29790eae02f0f50e4d2e314c",
+      "size": 4111,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_trace_chain.py",
+      "sha256": "4e031287d2e11fc74f53f4315fbbf4f6f2da229be86b0958ee569cc9ee085bb3",
+      "size": 3673,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_validator.py",
+      "sha256": "c860383600a72df3ba08c1bf993880d357dd1301541d61f00cee5b279a5753ea",
+      "size": 9116,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "tests/test_versioning.py",
+      "sha256": "5750f7cc01987b48375f143a6c61136bff99e8d13dcc062e082bede44c052be5",
+      "size": 5808,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    },
+    {
+      "relative_path": "architecture/connectivity.yaml",
+      "sha256": "3cd1d27ca79469ef7d027055801ae083d0428860e5f2282c38b40258b6011707",
+      "size": 1252,
+      "vs_original_phase9": "NEW-SINCE-PHASE9-BASELINE"
+    }
+  ],
+  "phase10_status_at_relock": "IMPLEMENTATION COMPLETE - RUNTIME GATE BLOCKED (findings pending real-evidence fix per master command section 16.3)"
+}

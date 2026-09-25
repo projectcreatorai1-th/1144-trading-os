@@ -1,0 +1,82 @@
+{
+  "label": "SYNTHETIC / LOCAL / NON-PRODUCTION",
+  "dataset": {
+    "observations": 60,
+    "symbols": [
+      "EURUSD"
+    ],
+    "source": "SYNTHETIC deterministic fixture"
+  },
+  "model": {
+    "family": "CLASSIFIER (stdlib deterministic logistic)",
+    "feature_count": 2,
+    "training_rows": 30
+  },
+  "runtime": {
+    "cpu": true,
+    "gpu": false,
+    "single_process": true
+  },
+  "feature_generation": {
+    "p50_ms": 0.067,
+    "p95_ms": 0.089,
+    "p99_ms": 0.122,
+    "max_ms": 0.122,
+    "mean_ms": 0.07,
+    "n": 30
+  },
+  "dataset_generation_38_rows": {
+    "p50_ms": 1.545,
+    "p95_ms": 2.293,
+    "p99_ms": 2.503,
+    "max_ms": 2.503,
+    "mean_ms": 1.678,
+    "n": 30
+  },
+  "inference_cold_engine": {
+    "p50_ms": 0.108,
+    "p95_ms": 0.261,
+    "p99_ms": 0.41,
+    "max_ms": 0.41,
+    "mean_ms": 0.134,
+    "n": 30
+  },
+  "evaluation_30_rows": {
+    "p50_ms": 0.289,
+    "p95_ms": 0.578,
+    "p99_ms": 0.605,
+    "max_ms": 0.605,
+    "mean_ms": 0.328,
+    "n": 30
+  },
+  "explanation": {
+    "p50_ms": 0.019,
+    "p95_ms": 0.032,
+    "p99_ms": 0.046,
+    "max_ms": 0.046,
+    "mean_ms": 0.021,
+    "n": 30
+  },
+  "drift_check": {
+    "p50_ms": 0.017,
+    "p95_ms": 0.023,
+    "p99_ms": 0.036,
+    "max_ms": 0.036,
+    "mean_ms": 0.017,
+    "n": 30
+  },
+  "replay_10_moments": {
+    "p50_ms": 0.513,
+    "p95_ms": 1.036,
+    "p99_ms": 1.233,
+    "max_ms": 1.233,
+    "mean_ms": 0.641,
+    "n": 30
+  },
+  "iterations_per_measurement": 30,
+  "notes": [
+    "Deterministic stdlib model families; no external ML framework.",
+    "Numbers measure this machine's Python interpreter only.",
+    "Never interpret as production throughput."
+  ]
+}

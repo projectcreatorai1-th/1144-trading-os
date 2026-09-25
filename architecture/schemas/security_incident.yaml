@@ -1,0 +1,56 @@
+schema_id: security_incident
+version: 1.0.0
+status: ACTIVE
+owner: core.security
+description: Security incident with immutable evidence
+python_binding: core.security.contracts:SecurityIncident
+fields:
+  security_incident_id:
+    type: string
+    required: true
+  severity:
+    type: string
+    required: true
+  title:
+    type: string
+    required: true
+  affected_environment:
+    type: string
+    required: true
+  affected_resources:
+    type: array
+    required: true
+  detected_at:
+    type: timestamp
+    required: true
+  detected_by:
+    type: string
+    required: true
+  status:
+    type: string
+    required: true
+  evidence:
+    type: object
+    required: true
+  timeline:
+    type: array
+    required: false
+  closed_at:
+    type: timestamp
+    required: false
+  closure_approver:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Evidence is mandatory and immutable across the lifecycle.
+- Closure requires a human approver.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial security_incident contract (Phase 8)
+  changes: []

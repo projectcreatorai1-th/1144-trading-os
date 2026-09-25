@@ -1,0 +1,207 @@
+{
+  "run": "BASELINE REPAIR live GUI verification",
+  "started_utc": "2026-09-24T10:50:17.395456+00:00",
+  "steps": [
+    {
+      "step": "A. launch -> main window present",
+      "result": "PASS",
+      "detail": {
+        "pid": 248764
+      }
+    },
+    {
+      "step": "A. launch -> LoginDialog visible (FIX 1)",
+      "result": "PASS",
+      "detail": {}
+    },
+    {
+      "step": "B. invalid login -> dialog closes, no session (fail safe)",
+      "result": "PASS",
+      "detail": {
+        "dialog_closed": true
+      }
+    },
+    {
+      "step": "D. Buy logged-out -> visible REJECTED banner (FIX 3)",
+      "result": "FAIL",
+      "detail": {
+        "red_pixels_before": 0,
+        "red_pixels_after": 0
+      }
+    },
+    {
+      "step": "D. Buy logged-out -> no blotter side effect",
+      "result": "FAIL",
+      "detail": {
+        "changed_blotter_pixels": 32196
+      }
+    },
+    {
+      "step": "D. Pause logged-out -> visible REJECTED banner (FIX 3)",
+      "result": "FAIL",
+      "detail": {
+        "red_pixels_before": 0,
+        "red_pixels_after": 0
+      }
+    },
+    {
+      "step": "D. Pause logged-out -> no blotter side effect",
+      "result": "FAIL",
+      "detail": {
+        "changed_blotter_pixels": 32196
+      }
+    },
+    {
+      "step": "D. Close Only logged-out -> visible REJECTED banner (FIX 3)",
+      "result": "FAIL",
+      "detail": {
+        "red_pixels_before": 0,
+        "red_pixels_after": 0
+      }
+    },
+    {
+      "step": "D. Close Only logged-out -> no blotter side effect",
+      "result": "FAIL",
+      "detail": {
+        "changed_blotter_pixels": 32196
+      }
+    },
+    {
+      "step": "D. Emergency logged-out -> visible REJECTED banner (FIX 3)",
+      "result": "FAIL",
+      "detail": {
+        "red_pixels_before": 0,
+        "red_pixels_after": 0
+      }
+    },
+    {
+      "step": "D. Emergency logged-out -> no blotter side effect",
+      "result": "FAIL",
+      "detail": {
+        "changed_blotter_pixels": 32196
+      }
+    },
+    {
+      "step": "C. nav Overview -> visible workspace change (FIX 2)",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 94197
+      }
+    },
+    {
+      "step": "C. nav Markets -> visible workspace change (FIX 2)",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 89516
+      }
+    },
+    {
+      "step": "C. nav Intelligence -> visible workspace change (FIX 2)",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 93884
+      }
+    },
+    {
+      "step": "C. nav Portfolio -> visible workspace change (FIX 2)",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 93186
+      }
+    },
+    {
+      "step": "C. nav Execution -> visible workspace change (FIX 2)",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 91698
+      }
+    },
+    {
+      "step": "C. nav Research -> visible workspace change (FIX 2)",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 93345
+      }
+    },
+    {
+      "step": "C. nav Strategies -> visible workspace change (FIX 2)",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 93573
+      }
+    },
+    {
+      "step": "C. nav Risk -> visible workspace change (FIX 2)",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 93041
+      }
+    },
+    {
+      "step": "C. nav Operations -> visible workspace change (FIX 2)",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 92688
+      }
+    },
+    {
+      "step": "F. Ctrl+K real keyboard -> Command Palette opens (FIX 4)",
+      "result": "FAIL",
+      "detail": {}
+    },
+    {
+      "step": "B. cancel precondition -> dialog present",
+      "result": "PASS",
+      "detail": {}
+    },
+    {
+      "step": "B. cancel login -> dialog closes, app fails safe",
+      "result": "PASS",
+      "detail": {
+        "dialog_closed": true
+      }
+    },
+    {
+      "step": "B. after cancel -> Buy still REJECTED (no bypass)",
+      "result": "FAIL",
+      "detail": {
+        "red_after": 0,
+        "red_before": 18
+      }
+    },
+    {
+      "step": "B. valid precondition -> dialog present",
+      "result": "PASS",
+      "detail": {}
+    },
+    {
+      "step": "B. valid login -> dialog closes",
+      "result": "FAIL",
+      "detail": {}
+    },
+    {
+      "step": "B. valid login -> statusbar/session visibly changes",
+      "result": "PASS",
+      "detail": {
+        "changed_status_pixels": 22151
+      }
+    },
+    {
+      "step": "D. after login Buy -> visible APPLIED banner (green)",
+      "result": "FAIL",
+      "detail": {
+        "green_before": 0,
+        "green_after": 0
+      }
+    },
+    {
+      "step": "D. after login Buy -> blotter visibly updates (order applied)",
+      "result": "PASS",
+      "detail": {
+        "changed_blotter_pixels": 35170
+      }
+    }
+  ],
+  "pass": false,
+  "finished_utc": "2026-09-24T10:50:57.088977+00:00"
+}

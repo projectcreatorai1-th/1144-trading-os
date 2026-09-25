@@ -1,0 +1,1399 @@
+system:
+  name: 1144 Trading OS
+  phase: 10
+  system_version: 1.1.0
+  architecture_version: 1.10.0
+  contract_version: 1.10.0
+  schema_version: 1.10.0
+  source_of_truth: architecture/architecture.yaml
+  description: Contract-first trading operating system. Phase 0 defines architecture,
+    registries and versioned contracts only. No execution, no broker connection, no
+    AI behavior, no GUI beyond contract scope.
+layers:
+- name: contracts_kernel
+  order: 0
+  description: Shared contract kernel. Depended on by all; depends on no application
+    module.
+- name: ui
+  order: 1
+  description: User interfaces. May only talk to the API layer and the kernel.
+- name: api
+  order: 2
+  description: Application/API layer between UI and Core.
+- name: core
+  order: 3
+  description: Domain core (business logic, contracts, decisions, risk).
+- name: infrastructure
+  order: 4
+  description: Platform infrastructure and external adapters. May implement core-owned
+    ports (dependency inversion), declared via 'implements'.
+dependency_policy:
+  direction_rule: 'A module at layer L may depend only on: (a) the shared kernel (architecture.contracts),
+    (b) modules at layers with a strictly greater order, (c) modules in its own allowed_dependencies
+    list. Same-layer dependencies require an explicit allow-list entry.'
+  implementation_exception: An infrastructure module may depend on a core module ONLY
+    when it declares that core module's port in 'implements' (dependency inversion
+    for port implementations).
+  global_forbidden:
+  - rule: GF-001
+    description: No module outside the ui domain may depend on ui.*
+    pattern: ui.*
+    applies_to_all_except:
+    - ui.desktop
+    - ui.web
+  - rule: GF-002
+    description: GUI must never depend on database, event bus or adapters directly
+      (RULE 005)
+    modules:
+    - ui.desktop
+    - ui.web
+    forbidden:
+    - platform.database
+    - platform.event_bus
+    - platform.cache
+    - platform.scheduler
+    - adapters.mt5
+    - adapters.broker
+    - adapters.market_data
+    - adapters.news
+    - adapters.calendar
+    - adapters.ai
+    - adapters.alternative_data
+  - rule: GF-003
+    description: AI must never depend on broker or MT5 directly (RULE 006)
+    modules:
+    - adapters.ai
+    forbidden:
+    - adapters.mt5
+    - adapters.broker
+  - rule: GF-004
+    description: Strategy must never depend on broker/MT5 adapters directly (goes
+      through execution + policy/risk)
+    modules:
+    - core.strategy
+    forbidden:
+    - adapters.broker
+    - adapters.mt5
+    - adapters.market_data
+  - rule: GF-005
+    description: Core business logic must never depend on GUI frameworks
+    modules:
+    - core.data
+    - core.time
+    - core.events
+    - core.intelligence
+    - core.research
+    - core.strategy
+    - core.decision
+    - core.policy
+    - core.risk
+    - core.portfolio
+    - core.execution
+    - core.reconciliation
+    - core.ledger
+    - core.validation
+    forbidden:
+    - ui.desktop
+    - ui.web
+  - rule: GF-006
+    description: Execution must not consume AI adapters directly; AI output enters
+      via decision/policy/risk chain
+    modules:
+    - core.execution
+    forbidden:
+    - adapters.ai
+    - adapters.news
+    - adapters.calendar
+environments:
+  supported:
+  - RESEARCH
+  - SIMULATION
+  - REPLAY
+  - PAPER
+  - DEMO
+  - LIVE
+  - BACKTEST
+  mismatch_policy: FAIL_CLOSED
+  transition_registry: architecture/state-machines.yaml#environment
+  isolation_rules:
+  - An object created in one environment can never be executed in another without
+    an explicit validated transition.
+  - Simulation/paper/research orders must never reach a live broker.
+  - 'BACKTEST is a research-only environment: backtest orders never reach any external
+    broker.'
+modules:
+- id: architecture.contracts
+  layer: contracts_kernel
+  domain: architecture
+  status: ACTIVE
+  responsibility:
+  - define shared contract kernel (identifiers, time, environment, versioning, provenance,
+    causality, schema engine, state machine engine, config envelope)
+  - define base contract error taxonomy (fail-closed errors)
+  allowed_dependencies: []
+  forbidden_dependencies:
+  - core.*
+  - platform.*
+  - adapters.*
+  - ui.*
+  - research
+  - tests
+  contracts:
+  - environment
+  - provenance
+  - config
+- id: architecture.validator
+  layer: contracts_kernel
+  domain: architecture
+  status: ACTIVE
+  responsibility:
+  - validate project structure, registries and source dependencies against the architecture
+    registry
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - core.*
+  - platform.*
+  - adapters.*
+  - ui.*
+  - research
+  contracts: []
+- id: core.data
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own market data ingestion and normalization contract
+  - own raw data store, data source registry, lineage, deduplication and sequencing
+    for the data pipeline
+  allowed_dependencies:
+  - architecture.contracts
+  - core.time
+  - core.events
+  - core.validation
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5.direct_execution
+  contracts:
+  - raw_data
+  - normalized_data
+  - data_source
+  - lineage_record
+- id: core.time
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the time contract (timezone-aware timestamps, timestamp types, clocks, latency
+    measurement)
+  - own time validation (invalid vs late vs out-of-order), timestamp anomaly detection
+    and event ordering
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts:
+  - latency_report
+- id: core.events
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the event contract (event types, event envelope, event repository port)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.time
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts:
+  - event
+- id: core.intelligence
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - 'own the intelligence plane (Phase 7): point-in-time features, immutable
+    intelligence datasets, labels, model registry/content identity, training,
+    evaluation, validation gate, deterministic inference, AI safety gate,
+    explainability, drift/OOD, model health, advisory AI outputs, proposals,
+    model lifecycle, replay/diff and incidents'
+  - 'AI is advisory/proposal intelligence only: it never holds risk,
+    execution, policy, permission or portfolio authority (architecture rules
+    AI-001..AI-036)'
+  allowed_dependencies:
+  - architecture.contracts
+  - core.data
+  - core.events
+  - core.time
+  - core.validation
+  - core.research
+  - platform.audit
+  - platform.security
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  - adapters.simulation
+  - core.oms
+  - core.ems
+  - core.execution
+  - core.risk
+  - core.policy
+  - core.portfolio
+  - core.strategy
+  - core.decision
+  - core.backtest
+  - core.ledger
+  - core.state
+  - core.reconciliation
+  - core.intelligence
+  contracts:
+  - feature_definition
+  - feature_snapshot
+  - intelligence_dataset
+  - label_definition
+  - training_config
+  - training_run
+  - model_definition
+  - model_evaluation
+  - model_validation
+  - inference_request
+  - inference_result
+  - ai_observation
+  - ai_prediction
+  - ai_recommendation
+  - ai_proposal
+  - ai_signal
+  - model_health
+  - drift_report
+  - explanation
+  - model_replay
+  - model_selection
+  - model_card
+  - ai_incident
+- id: core.security
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - 'own the security guardrail plane (Phase 8): authentication, sessions,
+    credentials, secrets, key management, canonical authorization (DELEGATES
+    to platform.security RBAC - never a second permission source), maker-
+    checker approvals, request/replay/idempotency protection, rate limiting,
+    security events, audit tamper evidence, encryption policy, backup and
+    restore integrity, security incidents and security observability'
+  - 'security guards the authority chain; it never replaces Policy, Risk,
+    Strategy eligibility, Portfolio, OMS or EMS (never converts BLOCK to
+    ALLOW)'
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.time
+  - core.validation
+  - platform.security
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  - core.oms
+  - core.ems
+  - core.execution
+  - core.risk
+  - core.policy
+  - core.portfolio
+  - core.strategy
+  - core.intelligence
+  - core.backtest
+  - core.research
+  - core.ledger
+  - core.state
+  - core.governance
+  contracts:
+  - security_credential
+  - security_session
+  - security_key
+  - security_secret_reference
+  - security_approval
+  - security_request
+  - security_incident
+  - backup_manifest
+  - rate_limit_decision
+  - encryption_policy
+- id: core.governance
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - 'own the governance control plane (Phase 8): maker-checker governed
+    lifecycle of privileged artifacts (policy, risk config, strategy, model,
+    security configuration) through the GovernanceGate - WHO/WHAT/WHEN/WHY/
+    OLD/NEW/APPROVAL/EVIDENCE for every privileged transition'
+  - 'governance wraps existing lifecycles (Phase 3/4/7); it creates no
+    second policy/strategy/model lifecycle engine'
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.time
+  - core.validation
+  - core.security
+  - platform.security
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  - core.oms
+  - core.ems
+  - core.execution
+  - core.risk
+  - core.policy
+  - core.portfolio
+  - core.strategy
+  - core.intelligence
+  - core.backtest
+  - core.research
+  - core.ledger
+  - core.state
+  contracts:
+  - governance_transition
+  - governance_artifact
+- id: core.research
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - 'own the research plane: datasets (point-in-time), research runs, bias audit,
+    artifacts, replay, validation, stress and robustness analysis (Phase 6)'
+  allowed_dependencies:
+  - architecture.contracts
+  - core.data
+  - core.events
+  - core.time
+  - core.validation
+  - core.risk
+  - core.policy
+  - core.state
+  - core.ledger
+  - core.strategy
+  - core.portfolio
+  - core.oms
+  - core.backtest
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  contracts:
+  - research_dataset
+  - research_run
+  - research_result
+  - bias_report
+  - stress_report
+  - strategy_candidate
+  - research_config
+  - execution_model
+- id: core.strategy
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own strategy signal contract
+  - own strategy contract, registry, lifecycle, capability, config, evaluation, intent,
+    eligibility, kill criteria, health and dependency graph (Phase 4)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.data
+  - core.events
+  - core.intelligence
+  - core.time
+  - core.validation
+  - core.policy
+  - core.risk
+  - core.state
+  - platform.audit
+  - core.ledger
+  - core.portfolio
+  - platform.security
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.broker
+  - adapters.mt5
+  - adapters.market_data
+  contracts:
+  - strategy_record
+  - strategy_capability
+  - strategy_config
+  - strategy_intent
+  - strategy_evaluation
+  - strategy_eligibility
+  - kill_criteria
+  - strategy_health
+- id: core.decision
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the decision contract (pre-risk trading decisions with provenance)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.strategy
+  - core.time
+  - core.validation
+  - core.intelligence
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.broker
+  - adapters.mt5
+  contracts:
+  - decision
+- id: core.policy
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the policy contract (policy types, lifecycle, approval rules)
+  - own policy registry, deterministic resolution and the policy evaluator (Phase
+    3)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.decision
+  - core.time
+  - core.validation
+  - core.validation
+  - core.ledger
+  - platform.audit
+  - platform.security
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.broker
+  - adapters.mt5
+  contracts:
+  - policy
+  - policy_evaluation
+- id: core.risk
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the risk decision contract (explicit risk results, fail-closed risk rules)
+  - own risk state and market state enums used by the risk contract
+  - own risk context, dimension evaluators, composition, hard limits, safety controls,
+    budget and the risk decision engine (Phase 3)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.data
+  - core.portfolio
+  - core.strategy
+  - core.time
+  - core.events
+  - core.validation
+  - core.state
+  - core.ledger
+  - core.policy
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5.direct_execution
+  contracts:
+  - risk_decision
+  - risk_context
+  - risk_budget
+- id: core.portfolio
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the position contract (multi-strategy, multi-EA position records)
+  - own portfolio contract, membership, allocation, exposure aggregation, capacity,
+    liquidity, constraints and portfolio decisions (Phase 4)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.execution
+  - core.ledger
+  - core.time
+  - core.validation
+  - core.strategy
+  - core.risk
+  - core.policy
+  - core.state
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts:
+  - position
+  - portfolio_record
+  - portfolio_membership
+  - capital_allocation
+  - capacity
+  - liquidity_budget
+  - portfolio_exposure
+  - portfolio_decision
+- id: core.execution
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the order contract (order lifecycle, risk gate, environment gate)
+  - own order validation and the can_execute safety boundary (Phase 5)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.risk
+  - core.policy
+  - core.events
+  - core.portfolio
+  - core.time
+  - core.validation
+  - adapters.broker
+  - adapters.mt5
+  - core.state
+  - platform.security
+  - core.ledger
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.ai
+  - adapters.news
+  - adapters.calendar
+  contracts:
+  - order
+- id: core.reconciliation
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own reconciliation contract (external observations, difference engine, tolerance
+    policy, reconciliation results/history)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.time
+  - core.validation
+  - core.ledger
+  - core.state
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts:
+  - external_observation
+  - reconciliation_result
+  - difference
+- id: core.ledger
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the ledger contract (immutable entries, corrections via adjustment/reversal)
+  - own ledger posting (idempotent, hash-chained), canonical money policy and balance
+    reconstruction (Phase 2)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.execution
+  - core.portfolio
+  - core.time
+  - core.validation
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts:
+  - ledger_entry
+- id: core.state
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the state engine (state records, transitions, current state, history, snapshots,
+    deterministic rebuild, consistency checks)
+  - own the event-to-state projector and the event-to-state-to-ledger-to-audit processor
+    (Phase 2)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.time
+  - core.validation
+  - core.ledger
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts:
+  - state_record
+  - state_transition
+  - state_snapshot
+- id: core.validation
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - own the data quality contract (data quality levels and reports)
+  - own the data quality engine (structured DQ checks DQ-001..DQ-015)
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts:
+  - data_quality
+  - quality_check
+- id: platform.database
+  layer: infrastructure
+  domain: platform
+  status: ACTIVE
+  responsibility:
+  - own the database adapter boundary contract (repository ports for persistence technology)
+  - provide SQLite storage implementations for raw/normalized/lineage/event stores
+    (Phase 1)
+  - provide SQLite storage for state, snapshots, ledger, observations, reconciliations
+    and audit records (Phase 2)
+  - provide SQLite storage for orders, execution reports and outbox messages (Phase
+    5)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.data
+  - core.events
+  - core.execution
+  - core.ledger
+  - core.portfolio
+  - core.state
+  - core.reconciliation
+  - platform.audit
+  - core.policy
+  - core.risk
+  - core.strategy
+  - core.oms
+  - core.ems
+  implements:
+  - core.events.EventRepository
+  - core.events.EventStore
+  - core.data.RawDataStore
+  - core.data.NormalizedDataStore
+  - core.data.LineageStore
+  - core.state.StateStore
+  - core.state.SnapshotStore
+  - core.ledger.LedgerStore
+  - core.reconciliation.ObservationStore
+  - core.reconciliation.ReconciliationStore
+  - core.execution.OrderRepository
+  - core.ledger.LedgerRepository
+  - core.portfolio.PositionRepository
+  - platform.audit.AuditRepository
+  - core.policy.PolicyStore
+  - core.policy.PolicyEvaluationStore
+  - core.risk.RiskDecisionStore
+  - core.strategy.StrategyStore
+  - core.strategy.IntentStore
+  - core.portfolio.PortfolioStore
+  - core.portfolio.AllocationStore
+  - core.portfolio.PortfolioDecisionStore
+  - core.execution.OrderStore
+  - core.oms.ExecutionReportStore
+  - core.ems.OutboxStore
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts: []
+- id: platform.event_bus
+  layer: infrastructure
+  domain: platform
+  status: ACTIVE
+  responsibility:
+  - own event bus transport contract
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  implements:
+  - core.events.EventBus
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts: []
+- id: platform.api
+  layer: api
+  domain: platform
+  status: ACTIVE
+  responsibility:
+  - own the API contract (endpoint registry, request/response contracts)
+  - 'own the desktop gateway (Phase 9): the ONE facade the desktop talks
+    to - composes the real Core stack in-process, exposes read-only
+    projections and dispatches privileged actions through security ->
+    governance -> the existing authority chain. The gateway is plumbing,
+    never a second authority'
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.validation
+  - platform.security
+  - platform.audit
+  - platform.database
+  - platform.event_bus
+  - core.time
+  - core.data
+  - core.state
+  - core.ledger
+  - core.policy
+  - core.risk
+  - core.strategy
+  - core.portfolio
+  - core.execution
+  - core.oms
+  - core.ems
+  - core.research
+  - core.intelligence
+  - core.backtest
+  - core.security
+  - core.governance
+  - core.reconciliation
+  - adapters.simulation
+  - adapters.mt5
+  - adapters.market_data
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.broker
+  contracts:
+  - api_request
+  - api_response
+  - api
+- id: platform.cache
+  layer: infrastructure
+  domain: platform
+  status: SKELETON
+  responsibility:
+  - own cache contract
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts: []
+- id: platform.scheduler
+  layer: infrastructure
+  domain: platform
+  status: SKELETON
+  responsibility:
+  - own scheduler contract
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts: []
+- id: platform.security
+  layer: infrastructure
+  domain: platform
+  status: ACTIVE
+  responsibility:
+  - own the permission contract (permissions, roles, role-permission grants)
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts:
+  - permission
+- id: platform.audit
+  layer: infrastructure
+  domain: platform
+  status: ACTIVE
+  responsibility:
+  - own the audit contract (audit records, audit repository port)
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts:
+  - audit_record
+- id: platform.monitoring
+  layer: infrastructure
+  domain: platform
+  status: ACTIVE
+  responsibility:
+  - own monitoring contract (metrics, SLI/SLO, alerts, health)
+  - provide structured logging implementation (JSON records, secret redaction)
+  allowed_dependencies:
+  - architecture.contracts
+  - platform.audit
+  implements:
+  - architecture.contracts.Logger
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts: []
+- id: platform.incident
+  layer: infrastructure
+  domain: platform
+  status: SKELETON
+  responsibility:
+  - own incident management contract
+  allowed_dependencies:
+  - architecture.contracts
+  - platform.monitoring
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts: []
+- id: platform.recovery
+  layer: infrastructure
+  domain: platform
+  status: SKELETON
+  responsibility:
+  - own recovery contract
+  allowed_dependencies:
+  - architecture.contracts
+  - platform.monitoring
+  - platform.incident
+  - platform.audit
+  - platform.backup
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts: []
+- id: platform.backup
+  layer: infrastructure
+  domain: platform
+  status: SKELETON
+  responsibility:
+  - own backup contract
+  allowed_dependencies:
+  - architecture.contracts
+  - platform.database
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts: []
+- id: platform.gateway
+  layer: infrastructure
+  domain: platform
+  status: ACTIVE
+  responsibility:
+  - "own the SNIPER Gateway SERVER (external integration layer, contract
+    v1.0.0): transport, sessions, contract negotiation, event/command
+    routing, correlation, idempotency, ordering, heartbeat, backpressure,
+    kill-switch propagation, integration audit. Transport/routing ONLY -
+    never a strategy/risk/OMS/analyzer engine."
+  allowed_dependencies:
+  - architecture.contracts
+  - platform.audit
+  - platform.monitoring
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - core.risk
+  - core.strategy
+  - core.execution
+  - adapters.mt5
+  contracts: []
+- id: platform.chaos
+  layer: infrastructure
+  domain: platform
+  status: ACTIVE
+  responsibility:
+  - own the deterministic failure-injection framework (Phase 13) and its
+    evidence records; never a trading path
+  allowed_dependencies:
+  - architecture.contracts
+  - platform.monitoring
+  - platform.incident
+  - platform.recovery
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - core.risk
+  contracts: []
+- id: adapters.mt5
+  layer: infrastructure
+  domain: adapters
+  status: ACTIVE
+  responsibility:
+  - own the MT5 adapter interface contract (no live connection in Phase 0)
+  - implement the ExecutionAdapter port for MT5 (mapping/normalization; terminal transport
+    wired at deployment)
+  allowed_dependencies:
+  - architecture.contracts
+  - adapters.broker
+  - core.ems
+  - core.execution
+  - core.oms
+  - core.reconciliation
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - core.risk
+  contracts: []
+  implements:
+  - core.ems.ExecutionAdapter
+  - core.oms.ExecutionReportSource
+  - core.execution.CanonicalOrderTypes
+  - core.reconciliation.ExternalObservation
+- id: adapters.broker
+  layer: infrastructure
+  domain: adapters
+  status: ACTIVE
+  responsibility:
+  - own the generic broker adapter interface contract
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - core.risk
+  contracts: []
+- id: adapters.market_data
+  layer: infrastructure
+  domain: adapters
+  status: ACTIVE
+  responsibility:
+  - own the market data adapter interface contract
+  - 'own the MT5 feed adapter (Phase 10): ticks from the terminal source
+    flow as IngestionRequests into the EXISTING Phase 1 pipeline - the
+    adapter never writes stores or mints events itself (no second
+    pipeline); explicit validated subscriptions; freshness/dedup/ordering
+    evidence'
+  allowed_dependencies:
+  - architecture.contracts
+  - core.data
+  - adapters.mt5
+  implements:
+  - core.data.IngestionRequest
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - core.oms
+  - core.ems
+  - core.risk
+  - core.strategy
+  - core.intelligence
+  contracts:
+  - feed_provider
+- id: adapters.news
+  layer: infrastructure
+  domain: adapters
+  status: SKELETON
+  responsibility:
+  - own news adapter contract
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  contracts: []
+- id: adapters.calendar
+  layer: infrastructure
+  domain: adapters
+  status: SKELETON
+  responsibility:
+  - own economic calendar adapter contract
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  contracts: []
+- id: adapters.ai
+  layer: infrastructure
+  domain: adapters
+  status: ACTIVE
+  responsibility:
+  - own AI model/analysis interface contracts (AI never executes trades)
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  contracts: []
+- id: adapters.alternative_data
+  layer: infrastructure
+  domain: adapters
+  status: SKELETON
+  responsibility:
+  - own alternative data adapter contract
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  contracts: []
+- id: ui.desktop
+  layer: ui
+  domain: ui
+  status: ACTIVE
+  responsibility:
+  - 'own the Windows desktop workstation (Phase 9): the A-G shell,
+    context model, inspector, blotter, intelligence/risk/action panes,
+    attention center, search and command palette. Presentation and view
+    models ONLY - every value comes from platform.api projections and
+    every action dispatches through the gateway; the desktop is a
+    control plane, never an authority'
+  allowed_dependencies:
+  - platform.api
+  - architecture.contracts
+  contracts:
+  - workspace_state
+  forbidden_dependencies:
+  - platform.database
+  - platform.event_bus
+  - platform.cache
+  - platform.scheduler
+  - adapters.mt5
+  - adapters.broker
+  - adapters.market_data
+  - adapters.news
+  - adapters.calendar
+  - adapters.ai
+  - adapters.alternative_data
+  contracts: []
+- id: ui.web
+  layer: ui
+  domain: ui
+  status: SKELETON
+  responsibility:
+  - web UI (later phase; no business logic, no direct database access)
+  allowed_dependencies:
+  - platform.api
+  - architecture.contracts
+  forbidden_dependencies:
+  - platform.database
+  - platform.event_bus
+  - platform.cache
+  - platform.scheduler
+  - adapters.mt5
+  - adapters.broker
+  - adapters.market_data
+  - adapters.news
+  - adapters.calendar
+  - adapters.ai
+  - adapters.alternative_data
+  contracts: []
+- id: research
+  layer: core
+  domain: research
+  status: SKELETON
+  responsibility:
+  - research workspace area (notebooks, experiments; may read core contracts, never
+    executes)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.data
+  - core.events
+  - core.time
+  - core.validation
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  contracts: []
+- id: tests
+  layer: core
+  domain: tests
+  status: ACTIVE
+  responsibility:
+  - contract test suite and failure tests (test-scope only; may import anything)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.*
+  - platform.*
+  - adapters.*
+  - architecture.validator
+  forbidden_dependencies: []
+  contracts: []
+- id: benchmarks
+  layer: core
+  domain: benchmarks
+  status: ACTIVE
+  responsibility:
+  - performance measurement scripts (non-production scope; measured data only, no
+    scale claims)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.*
+  - platform.*
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  contracts: []
+- id: docs
+  layer: core
+  domain: docs
+  status: ACTIVE
+  responsibility:
+  - documentation area (no code)
+  allowed_dependencies: []
+  forbidden_dependencies:
+  - core.*
+  - platform.*
+  - adapters.*
+  - ui.*
+  contracts: []
+- id: architecture
+  layer: contracts_kernel
+  domain: architecture
+  status: ACTIVE
+  responsibility:
+  - 'architecture area root: registries, contract kernel, validator, manifest'
+  allowed_dependencies:
+  - architecture.contracts
+  forbidden_dependencies:
+  - core.*
+  - platform.*
+  - adapters.*
+  - ui.*
+  - research
+  contracts: []
+- id: core.oms
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - 'own the order lifecycle: accept, persist, cancel, replace, execution-report reconciliation,
+    idempotency, recovery, audit (Phase 5)'
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.execution
+  - core.time
+  - core.validation
+  - core.risk
+  - core.state
+  - core.ledger
+  - core.portfolio
+  - platform.audit
+  - platform.security
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  - adapters.simulation
+  contracts:
+  - execution_report
+- id: core.ems
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - 'own execution routing: adapter selection, submission, cancel/replace transport,
+    timeout/UNKNOWN handling, retry policy, outbox (Phase 5)'
+  allowed_dependencies:
+  - architecture.contracts
+  - core.events
+  - core.execution
+  - core.oms
+  - core.time
+  - core.validation
+  - platform.audit
+  - core.ledger
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  - core.policy
+  - core.risk
+  contracts:
+  - execution_capability
+  - outbox_message
+- id: adapters.simulation
+  layer: infrastructure
+  domain: adapters
+  status: ACTIVE
+  responsibility:
+  - implement the ExecutionAdapter port for the SIMULATION environment (explicit synthetic
+    execution evidence)
+  allowed_dependencies:
+  - architecture.contracts
+  - core.ems
+  - core.execution
+  - core.oms
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  - core.risk
+  contracts: []
+  implements:
+  - core.ems.ExecutionAdapter
+  - core.oms.ExecutionReportSource
+  - core.execution.CanonicalOrderTypes
+- id: core.backtest
+  layer: core
+  domain: core
+  status: ACTIVE
+  responsibility:
+  - 'own the backtest engine: deterministic simulation clock, execution/fill models,
+    metrics - reusing Phase 3 risk, Phase 4 portfolio and Phase 5 simulation semantics
+    (Phase 6)'
+  allowed_dependencies:
+  - architecture.contracts
+  - core.data
+  - core.events
+  - core.time
+  - core.validation
+  - core.risk
+  - core.policy
+  - core.state
+  - core.ledger
+  - core.strategy
+  - core.portfolio
+  - core.oms
+  - core.research
+  - platform.audit
+  forbidden_dependencies:
+  - ui.desktop
+  - ui.web
+  - adapters.mt5
+  - adapters.broker
+  contracts: []
+registries:
+- id: architecture
+  file: architecture/architecture.yaml
+  version: 1.6.0
+- id: schema-registry
+  file: architecture/schema-registry.yaml
+  version: 1.6.0
+- id: identifiers
+  file: architecture/identifiers.yaml
+  version: 1.6.0
+- id: state-machines
+  file: architecture/state-machines.yaml
+  version: 1.3.0
+- id: permissions
+  file: architecture/permissions.yaml
+  version: 1.0.0
+- id: api
+  file: architecture/api.yaml
+  version: 1.0.0
+- id: manifest
+  file: architecture/manifest.yaml
+  version: 1.6.0
+- id: currencies
+  file: architecture/currencies.yaml
+  version: 1.0.0
+- id: tolerances
+  file: architecture/tolerances.yaml
+  version: 1.0.0
+- id: risk-config
+  file: architecture/risk-config.yaml
+  version: 1.0.0
+rules_index:
+- rule: '001'
+  statement: Single Source of Truth
+  enforced_by:
+  - SOT-001
+  - SOT-003
+- rule: '002'
+  statement: No duplicated business logic across modules
+  enforced_by:
+  - SOT-002
+- rule: '003'
+  statement: No parallel calculation systems
+  enforced_by:
+  - SOT-002
+- rule: '004'
+  statement: GUI must not compute business logic
+  enforced_by:
+  - ARCH-006
+  - IMPORT-001
+- rule: '005'
+  statement: GUI must not access the database directly
+  enforced_by:
+  - ARCH-006
+  - GF-002
+- rule: '006'
+  statement: AI must not connect to broker/MT5 directly
+  enforced_by:
+  - ARCH-006
+  - GF-003
+- rule: '007'
+  statement: AI must not bypass the Policy Engine
+  enforced_by:
+  - ARCH-006
+  - RISK-GATE
+- rule: 008
+  statement: AI must not bypass the Risk Engine
+  enforced_by:
+  - RISK-GATE
+- rule: 009
+  statement: No order enters execution without a valid risk decision
+  enforced_by:
+  - RISK-GATE
+- rule: '010'
+  statement: UNKNOWN must never be interpreted as SAFE
+  enforced_by:
+  - RISK-GATE
+  - ENV-001
+- rule: '011'
+  statement: Missing data must not be interpreted as no-risk
+  enforced_by:
+  - RISK-GATE
+- rule: '012'
+  statement: Environments are strictly separated
+  enforced_by:
+  - ENV-001
+  - ENV-002
+- rule: '013'
+  statement: No mock/fake/placeholder in the production path
+  enforced_by:
+  - NOPRODUCTION-001
+- rule: '014'
+  statement: No TODO hiding functionality
+  enforced_by:
+  - NOPRODUCTION-001
+- rule: '015'
+  statement: Contract changes require a version bump
+  enforced_by:
+  - SCHEMA-002
+  - SCHEMA-003
+- rule: '016'
+  statement: Breaking changes detected by automated tests
+  enforced_by:
+  - SCHEMA-002
+- rule: '017'
+  statement: Decisions traceable to sources/events
+  enforced_by:
+  - TRACE-001
+- rule: 018
+  statement: Events link into causal chains
+  enforced_by:
+  - TRACE-002
+- rule: 019
+  statement: System fails closed on unclear validation/risk state
+  enforced_by:
+  - RISK-GATE
+  - SM-004
+  - ENV-001
+- rule: '020'
+  statement: Architecture ambiguity stops work (gap procedure)
+  enforced_by:
+  - docs/phase-0-report.md

@@ -1,0 +1,41 @@
+schema_id: governance_artifact
+version: 1.0.0
+status: ACTIVE
+owner: core.governance
+description: Versioned governed artifact with content hashes
+python_binding: core.governance.gate:GovernanceArtifact
+fields:
+  artifact_type:
+    type: string
+    required: true
+  artifact_id:
+    type: string
+    required: true
+  old_version:
+    type: string
+    required: true
+  new_version:
+    type: string
+    required: true
+  old_content_hash:
+    type: string
+    required: true
+  new_content_hash:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Every material change produces a new version + content hash.
+- Historical configuration is never mutated.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial governance_artifact contract (Phase 8)
+  changes: []

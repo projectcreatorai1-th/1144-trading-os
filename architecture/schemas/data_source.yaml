@@ -1,0 +1,39 @@
+schema_id: data_source
+version: "1.0.0"
+status: ACTIVE
+owner: core.data
+description: "Registered data source with timestamp semantics and reliability metadata. This registry IS the data-source configuration boundary (separated from system/risk/strategy config)."
+python_binding: "core.data.contracts:DataSourceRecord"
+
+fields:
+  source_id: { type: string, required: true, description: "Unique source identifier (e.g. 'mt5-demo-feed')" }
+  name: { type: string, required: true, description: "Human-readable name" }
+  source_type: { type: string, required: true, enum: source_type, description: "Source type" }
+  provider: { type: string, required: true, description: "Provider/owner of the source" }
+  version: { type: semver, required: true, description: "Source registration version" }
+  status: { type: string, required: true, enum: source_status, description: "Registration status" }
+  timezone: { type: string, required: true, description: "IANA timezone of source timestamps (e.g. UTC)" }
+  timestamp_semantics: { type: string, required: true, enum: timestamp_semantics, description: "How source timestamps behave" }
+  schema_id: { type: string, required: true, description: "Data schema this source produces" }
+  enabled: { type: boolean, required: true, description: "Whether ingestion accepts data from this source" }
+  reliability_metadata: { type: object, required: true, description: "Declared limits: stale_threshold_seconds, future_tolerance_seconds, max_sequence_gap..." }
+  allows_future_events: { type: boolean, required: false, description: "True for sources whose event times legitimately lie in the future (e.g. economic calendar)" }
+  max_expected_delay_seconds: { type: number, required: false, description: "Maximum expected delay between event and receipt before data is STALE" }
+  sensitive_fields: { type: array, required: false, description: "Payload field names that must be redacted from logs and derived views (raw payload stays untouched)" }
+
+enums:
+  source_type: [MARKET_DATA, NEWS, CALENDAR, BROKER, MT5, MANUAL, FILE, API, REPLAY]
+  source_status: [ACTIVE, DISABLED, RETIRED]
+  timestamp_semantics: [REALTIME, DELAYED, BATCH, HISTORICAL]
+
+constraints:
+  - "reliability_metadata MUST declare stale_threshold_seconds (>= 0) and future_tolerance_seconds (>= 0)."
+  - "Sources with timestamp_semantics HISTORICAL or allows_future_events=true never fail the future-timestamp check."
+  - "No secrets may appear in any source registration field."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial data source contract (Phase 1)"
+    changes: []

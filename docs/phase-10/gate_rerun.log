@@ -1,0 +1,11 @@
+FAIL  prerequisites: account trade_mode=2 is NOT DEMO - refusing the gate
+PASS  real_connection  {'connection_state': 'CONNECTED'}
+PASS  real_ticks_pipeline  {'accepted': 1, 'freshness': 'CURRENT'}
+PASS  long_run_bounded  {'polls': 60, 'peak_mb': 0.02, 'ticks': 2}
+FAIL  demo_execution_full_chain: execution state UNKNOWN: ('ems state UNKNOWN: CONNECTION_ERROR',)
+FAIL  reconciliation_real: positions MISMATCH: []
+PASS  safety_pause_blocks  {'blocked_state': 'REJECTED'}
+PASS  disconnect_reconnect_real  {'state': 'CONNECTED', 'freshness': 'DISCONNECTED'}
+FAIL  live_safety: account is not DEMO
+==================================================
+RUNTIME GATE: FAIL ['prerequisites', 'demo_execution_full_chain', 'reconciliation_real', 'live_safety']

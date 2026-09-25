@@ -1,0 +1,29 @@
+schema_id: calendar_event
+version: "1.0.0"
+status: ACTIVE
+owner: core.data
+description: "Economic calendar entry. Scheduled times legitimately lie in the future; no impact interpretation in Phase 1."
+python_binding: null
+
+fields:
+  title: { type: string, required: true, description: "Event title" }
+  country: { type: string, required: true, description: "Country code" }
+  scheduled_time: { type: timestamp, required: true, description: "Scheduled time (timezone-aware)" }
+  provider_impact_label: { type: string, required: false, description: "Provider-supplied label, carried verbatim - NOT interpreted in Phase 1" }
+  actual: { type: string, required: false, description: "Actual value when released" }
+  forecast: { type: string, required: false, description: "Forecast value" }
+  previous: { type: string, required: false, description: "Previous value" }
+  source_event_ref: { type: string, required: false, description: "Provider-side event reference (dedup input)" }
+
+enums: {}
+
+constraints:
+  - "scheduled_time may be in the future (legitimate for calendars)."
+  - "No HIGH IMPACT interpretation: provider labels are carried as data only."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial calendar event payload schema (Phase 1)"
+    changes: []

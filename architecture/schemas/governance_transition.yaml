@@ -1,0 +1,47 @@
+schema_id: governance_transition
+version: 1.0.0
+status: ACTIVE
+owner: core.governance
+description: Governed privileged transition evidence
+python_binding: core.governance.gate:GovernanceTransition
+fields:
+  governance_transition_id:
+    type: string
+    required: true
+  artifact:
+    type: string
+    required: true
+  maker_actor_id:
+    type: string
+    required: true
+  checker_actor_id:
+    type: string
+    required: true
+  approval_id:
+    type: string
+    required: true
+  decided_at:
+    type: timestamp
+    required: true
+  reason:
+    type: string
+    required: true
+  evidence:
+    type: object
+    required: false
+  environment:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- WHO/WHAT/WHEN/WHY/OLD/NEW/APPROVAL/EVIDENCE are all recorded.
+- Maker and checker must differ (separation of duties).
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial governance_transition contract (Phase 8)
+  changes: []

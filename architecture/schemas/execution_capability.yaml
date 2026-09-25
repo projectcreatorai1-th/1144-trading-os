@@ -1,0 +1,70 @@
+schema_id: execution_capability
+version: 1.0.0
+status: ACTIVE
+owner: core.ems
+description: execution_capability contract (Phase 5)
+python_binding: core.ems.adapter:AdapterCapability
+fields:
+  adapter_id:
+    type: string
+    required: true
+  adapter_version:
+    type: semver
+    required: true
+  environment:
+    type: string
+    required: true
+  supported_symbols:
+    type: array
+    required: true
+  order_types:
+    type: array
+    required: true
+  time_in_force:
+    type: array
+    required: true
+  min_quantity:
+    type: string
+    required: true
+    description: canonical decimal string
+  max_quantity:
+    type: string
+    required: true
+    description: canonical decimal string
+  quantity_step:
+    type: string
+    required: true
+    description: canonical decimal string
+  price_precision:
+    type: integer
+    required: true
+  position_semantics:
+    type: string
+    required: true
+    enum: position_semantics
+  partial_fill_support:
+    type: boolean
+    required: true
+  cancel_support:
+    type: boolean
+    required: true
+  replace_support:
+    type: boolean
+    required: true
+  provenance:
+    type: object
+    required: true
+enums:
+  position_semantics:
+  - HEDGING
+  - NETTING
+  - UNKNOWN
+constraints:
+- UNKNOWN capability fields block execution (fail closed).
+- Provenance required; declared vs observed capabilities must be distinguishable.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial execution_capability contract (Phase 5)
+  changes: []

@@ -1,0 +1,29 @@
+schema_id: permission
+version: "1.0.0"
+status: ACTIVE
+owner: platform.security
+description: "Permission grant instance. The role-permission matrix lives in architecture/permissions.yaml; GUI code must never hard-code role assumptions."
+python_binding: "platform.security.contracts:PermissionGrant"
+
+fields:
+  role: { type: string, required: true, enum: role, description: "Role enum value" }
+  permission: { type: string, required: true, enum: permission, description: "Permission enum value" }
+  environment: { type: string, required: true, description: "Environment the grant is valid in" }
+  granted_by: { type: identifier, required: true, description: "usr_ identifier of the grantor" }
+  granted_at: { type: timestamp, required: true, description: "Grant time" }
+  contract_version: { type: semver, required: false, description: "Contract version carried by the instance" }
+
+enums:
+  permission: [VIEW, ANALYZE, RESEARCH, SIMULATE, PAPER_TRADE, DEMO_TRADE, LIVE_TRADE, MODIFY_POLICY, MODIFY_RISK, APPROVE, PAUSE, CLOSE_ONLY, EMERGENCY_STOP, ADMIN]
+  role: [VIEWER, ANALYST, RESEARCHER, TRADER, RISK_MANAGER, OPERATOR, APPROVER, ADMIN]
+
+constraints:
+  - "Every grant MUST exist in the permission registry matrix."
+  - "Environment-restricted permissions MUST match the environment (e.g., LIVE_TRADE only in LIVE)."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial permission contract"
+    changes: []

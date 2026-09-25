@@ -1,0 +1,71 @@
+schema_id: portfolio_decision
+version: 1.0.0
+status: ACTIVE
+owner: core.portfolio
+description: portfolio_decision contract (Phase 4)
+python_binding: core.portfolio.decision:PortfolioDecision
+fields:
+  portfolio_decision_id:
+    type: identifier
+    required: true
+  portfolio_id:
+    type: identifier
+    required: true
+  portfolio_version:
+    type: semver
+    required: true
+  environment:
+    type: string
+    required: true
+  active_strategies:
+    type: array
+    required: true
+  eligible_strategies:
+    type: array
+    required: true
+  allocations:
+    type: object
+    required: true
+  risk_budgets:
+    type: object
+    required: true
+  projected_exposure:
+    type: object
+    required: true
+  triggered_constraints:
+    type: array
+    required: true
+  exceeded_capacities:
+    type: array
+    required: true
+  liquidity_status:
+    type: object
+    required: true
+  conflicts:
+    type: array
+    required: true
+  resulting_state:
+    type: object
+    required: true
+  risk_decision_id:
+    type: identifier
+    required: false
+  created_at:
+    type: timestamp
+    required: true
+  correlation_id:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums: {}
+constraints:
+- A PortfolioDecision is NOT an order and never overrides a RiskDecision.
+- Conflicts classify deterministically (7 canonical classes).
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial portfolio_decision contract (Phase 4)
+  changes: []

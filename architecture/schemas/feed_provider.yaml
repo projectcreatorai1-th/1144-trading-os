@@ -1,0 +1,38 @@
+schema_id: feed_provider
+version: 1.0.0
+status: ACTIVE
+owner: adapters.market_data
+description: Market data feed provider registration (Phase 10)
+fields:
+  source_id:
+    type: string
+    required: true
+  provider:
+    type: string
+    required: true
+  symbols:
+    type: array
+    required: true
+  environment:
+    type: string
+    required: true
+  freshness_policy:
+    type: object
+    required: true
+  dedup_policy_version:
+    type: string
+    required: true
+  content_hash:
+    type: string
+    required: true
+enums: {}
+constraints:
+- Provider failure -> observations stop -> freshness DISCONNECTED/UNKNOWN; missing
+  data is never SAFE.
+- Symbols are an explicit validated subset; unknown symbols REJECTED/NOT_SUPPORTED.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial feed_provider contract (Phase 10)
+  changes: []

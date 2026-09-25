@@ -1,0 +1,111 @@
+schema_id: strategy_intent
+version: 1.0.0
+status: ACTIVE
+owner: core.strategy
+description: strategy_intent contract (Phase 4)
+python_binding: core.strategy.contracts:StrategyIntent
+fields:
+  intent_id:
+    type: identifier
+    required: true
+  strategy_id:
+    type: identifier
+    required: true
+  strategy_version:
+    type: semver
+    required: true
+  intent_type:
+    type: string
+    required: true
+    enum: intent_type
+  symbol:
+    type: string
+    required: true
+  direction:
+    type: string
+    required: true
+    enum: intent_direction
+  requested_quantity:
+    type: string
+    required: true
+    description: canonical decimal string
+  requested_notional:
+    type: string
+    required: false
+    description: canonical decimal string
+  entry_conditions:
+    type: array
+    required: true
+  exit_conditions:
+    type: array
+    required: true
+  urgency:
+    type: string
+    required: true
+    enum: urgency
+  confidence:
+    type: string
+    required: false
+  rationale:
+    type: string
+    required: true
+  policy_id:
+    type: identifier
+    required: false
+  policy_version:
+    type: semver
+    required: false
+  risk_context_hash:
+    type: string
+    required: true
+  source_event_id:
+    type: identifier
+    required: true
+  correlation_id:
+    type: string
+    required: true
+  causation_id:
+    type: string
+    required: false
+  environment:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  expires_at:
+    type: timestamp
+    required: true
+  provenance:
+    type: object
+    required: false
+  schema_version:
+    type: semver
+    required: false
+enums:
+  intent_type:
+  - OPEN
+  - INCREASE
+  - REDUCE
+  - CLOSE
+  - HOLD
+  - CANCEL_INTENT
+  intent_direction:
+  - LONG
+  - SHORT
+  - FLAT
+  urgency:
+  - LOW
+  - NORMAL
+  - HIGH
+  - CRITICAL
+constraints:
+- An Intent is NOT an order; CANCEL_INTENT cancels an intent, never an order.
+- expires_at > created_at; expired intents are invalid.
+- Requested quantity/risk pass through Policy+Risk; strategies never size executions.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial strategy_intent contract (Phase 4)
+  changes: []

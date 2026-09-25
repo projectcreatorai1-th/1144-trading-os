@@ -1,0 +1,41 @@
+schema_id: reconciliation_result
+version: "1.0.0"
+status: ACTIVE
+owner: core.reconciliation
+description: "Structured, immutable reconciliation result: internal vs external with explicit tolerance. Reconciliation reports; it never auto-fixes."
+python_binding: "core.reconciliation.contracts:ReconciliationResult"
+
+fields:
+  reconciliation_id: { type: identifier, required: true, description: "rec_ identifier" }
+  scope: { type: string, required: true, enum: recon_scope, description: "Reconciliation scope" }
+  status: { type: string, required: true, enum: recon_status, description: "Reconciliation status" }
+  timestamp: { type: timestamp, required: true, description: "Run time" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  source: { type: string, required: true, description: "External source compared against" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier" }
+  internal_version: { type: string, required: true, description: "Internal state/ledger version compared" }
+  external_version: { type: string, required: true, description: "External observation reference/version" }
+  tolerance: { type: object, required: true, description: "Tolerance policy applied (explicit)" }
+  difference_summary: { type: object, required: true, description: "Counts and totals per severity" }
+  matched_items: { type: array, required: true, description: "Matched item keys" }
+  mismatched_items: { type: array, required: true, description: "Difference objects for mismatches" }
+  missing_internal: { type: array, required: true, description: "Keys present only externally" }
+  missing_external: { type: array, required: true, description: "Keys present only internally" }
+  unknown_items: { type: array, required: true, description: "Items that could not be compared" }
+  causation_id: { type: string, required: false, description: "Optional direct cause" }
+
+enums:
+  recon_scope: [ACCOUNT, BALANCE, POSITION, ORDER, LEDGER, TRANSACTION, STATE]
+  recon_status: [MATCH, MISMATCH, PARTIAL, MISSING_INTERNAL, MISSING_EXTERNAL, UNKNOWN, ERROR]
+
+constraints:
+  - "UNKNOWN never becomes MATCH without evidence (RECON-002)."
+  - "Reconciliation never mutates internal state, ledger or observations (RECON-001)."
+  - "Historical reconciliation results are immutable (RECON-004)."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial reconciliation result contract (Phase 2)"
+    changes: []

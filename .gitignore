@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+.env
+*.local.yaml
+# Secrets must never be committed (RULE: secrets out of source code)
+*.secret
+*.key
+credentials*
+
+# Runtime-generated state (SQLite stores, diagnostic bundles) — never commit
+runtime/

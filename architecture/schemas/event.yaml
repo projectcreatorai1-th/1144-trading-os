@@ -1,0 +1,177 @@
+schema_id: event
+version: "1.4.0"
+status: ACTIVE
+owner: core.events
+description: "Immutable domain event envelope. Causation links events into chains (RULE 018)."
+python_binding: "core.events.contracts:Event"
+
+fields:
+  event_id: { type: identifier, required: true, description: "evt_ identifier" }
+  event_type: { type: string, required: true, enum: event_type, description: "Event type enum value" }
+  event_version: { type: semver, required: true, description: "Contract version of this event type" }
+  event_time: { type: timestamp, required: true, description: "Time the event occurred at source (timezone-aware)" }
+  received_time: { type: timestamp, required: true, description: "Time the system received the event" }
+  source: { type: string, required: true, description: "Originating module/adapter id" }
+  source_id: { type: string, required: true, description: "Identifier of the source object" }
+  environment: { type: string, required: true, description: "Explicit environment enum value" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier" }
+  causation_id: { type: string, required: false, description: "event_id of the direct cause; None for chain roots" }
+  entity_id: { type: string, required: false, description: "Optional affected entity identifier" }
+  payload: { type: object, required: true, description: "Typed payload body" }
+  metadata: { type: object, required: false, description: "Additional non-contractual metadata" }
+  contract_version: { type: semver, required: false, description: "Contract version carried by the instance" }
+
+enums:
+  event_type:
+    - MARKET_DATA_RECEIVED
+    - NEWS_RECEIVED
+    - ECONOMIC_EVENT
+    - MARKET_STATE_CHANGED
+    - AI_ANALYSIS_COMPLETED
+    - STRATEGY_SIGNAL_CREATED
+    - POLICY_EVALUATED
+    - RISK_EVALUATED
+    - ORDER_CREATED
+    - ORDER_SUBMITTED
+    - ORDER_ACCEPTED
+    - ORDER_REJECTED
+    - ORDER_FILLED
+    - ORDER_PARTIALLY_FILLED
+    - POSITION_OPENED
+    - POSITION_UPDATED
+    - POSITION_CLOSED
+    - RECONCILIATION_COMPLETED
+    - LEDGER_POSTED
+    - SYSTEM_STATE_CHANGED
+    - RISK_STATE_CHANGED
+    - DATA_QUALITY_CHANGED
+    - DATA_SOURCE_CHANGED
+    - SYSTEM_TIME_ANOMALY
+    - EVENT_REJECTED
+    - EVENT_ACCEPTED
+    - REPLAY_STARTED
+    - REPLAY_COMPLETED
+    - FEATURE_CREATED
+    - INTELLIGENCE_DATASET_CREATED
+    - TRAINING_STARTED
+    - TRAINING_COMPLETED
+    - TRAINING_FAILED
+    - MODEL_REGISTERED
+    - MODEL_VALIDATED
+    - MODEL_SUSPENDED
+    - MODEL_RETIRED
+    - INFERENCE_COMPLETED
+    - AI_PROPOSAL_CREATED
+    - DRIFT_DETECTED
+    - MODEL_REPLAYED
+    - AUTHENTICATION_SUCCEEDED
+    - AUTHENTICATION_FAILED
+    - SESSION_CREATED
+    - SESSION_EXPIRED
+    - SESSION_REVOKED
+    - CREDENTIAL_ISSUED
+    - CREDENTIAL_ROTATED
+    - CREDENTIAL_REVOKED
+    - PERMISSION_GRANTED
+    - PERMISSION_REVOKED
+    - AUTHORIZATION_ALLOWED
+    - AUTHORIZATION_BLOCKED
+    - APPROVAL_CREATED
+    - APPROVAL_GRANTED
+    - APPROVAL_REJECTED
+    - SECURITY_POLICY_CHANGED
+    - CONFIG_CHANGE_REQUESTED
+    - CONFIG_CHANGE_APPROVED
+    - REPLAY_DETECTED
+    - RATE_LIMIT_TRIGGERED
+    - PRIVILEGE_ESCALATION_BLOCKED
+    - AUDIT_INTEGRITY_FAILURE
+    - INCIDENT_OPENED
+    - INCIDENT_CLOSED
+    - BACKUP_CREATED
+    - BACKUP_VERIFIED
+    - RESTORE_VERIFIED
+    - CONNECTION_STATE_CHANGED
+    - FEED_STALE
+    - FEED_RESYNC
+    - RECONCILIATION_MISMATCH_DETECTED
+
+constraints:
+  - "event_time and received_time MUST be timezone-aware (naive datetime is invalid)."
+  - "received_time MUST be >= event_time."
+  - "causation_id, when present, MUST be a valid event_id (evt_ prefix)."
+  - "Events are immutable; corrections are new events."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial event contract"
+    changes: []
+  - version: "1.1.0"
+    date: "2026-09-23"
+    summary: "Phase 1 data/time/event foundation types"
+    changes:
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: DATA_QUALITY_CHANGED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: DATA_SOURCE_CHANGED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: SYSTEM_TIME_ANOMALY }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: EVENT_REJECTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: EVENT_ACCEPTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: REPLAY_STARTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: REPLAY_COMPLETED }
+  - version: "1.2.0"
+    date: "2026-09-24"
+    summary: "Phase 7 intelligence plane event types (advisory only, never execution)"
+    changes:
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: FEATURE_CREATED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: INTELLIGENCE_DATASET_CREATED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: TRAINING_STARTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: TRAINING_COMPLETED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: TRAINING_FAILED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: MODEL_REGISTERED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: MODEL_VALIDATED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: MODEL_SUSPENDED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: MODEL_RETIRED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: INFERENCE_COMPLETED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: AI_PROPOSAL_CREATED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: DRIFT_DETECTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: MODEL_REPLAYED }
+  - version: "1.3.0"
+    date: "2026-09-24"
+    summary: "Phase 8 security/governance event types (guardrail plane)"
+    changes:
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: AUTHENTICATION_SUCCEEDED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: AUTHENTICATION_FAILED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: SESSION_CREATED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: SESSION_EXPIRED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: SESSION_REVOKED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: CREDENTIAL_ISSUED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: CREDENTIAL_ROTATED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: CREDENTIAL_REVOKED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: PERMISSION_GRANTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: PERMISSION_REVOKED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: AUTHORIZATION_ALLOWED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: AUTHORIZATION_BLOCKED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: APPROVAL_CREATED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: APPROVAL_GRANTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: APPROVAL_REJECTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: SECURITY_POLICY_CHANGED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: CONFIG_CHANGE_REQUESTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: CONFIG_CHANGE_APPROVED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: REPLAY_DETECTED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: RATE_LIMIT_TRIGGERED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: PRIVILEGE_ESCALATION_BLOCKED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: AUDIT_INTEGRITY_FAILURE }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: INCIDENT_OPENED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: INCIDENT_CLOSED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: BACKUP_CREATED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: BACKUP_VERIFIED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: RESTORE_VERIFIED }
+  - version: "1.4.0"
+    date: "2026-09-24"
+    summary: "Phase 10 connectivity/data-plane event types"
+    changes:
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: CONNECTION_STATE_CHANGED }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: FEED_STALE }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: FEED_RESYNC }
+      - { kind: ADDED_ENUM_VALUE, enum: event_type, value: RECONCILIATION_MISMATCH_DETECTED }

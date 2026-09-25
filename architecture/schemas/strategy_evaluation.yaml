@@ -1,0 +1,72 @@
+schema_id: strategy_evaluation
+version: 1.0.0
+status: ACTIVE
+owner: core.strategy
+description: strategy_evaluation contract (Phase 4)
+python_binding: core.strategy.contracts:StrategyEvaluation
+fields:
+  evaluation_id:
+    type: identifier
+    required: true
+  strategy_id:
+    type: identifier
+    required: true
+  strategy_version:
+    type: semver
+    required: true
+  result:
+    type: string
+    required: true
+    enum: evaluation_result
+  signals:
+    type: array
+    required: true
+  intents:
+    type: array
+    required: true
+  conditions:
+    type: array
+    required: true
+  blocked_conditions:
+    type: array
+    required: true
+  evidence:
+    type: object
+    required: true
+  state_hash:
+    type: string
+    required: true
+  config_hash:
+    type: string
+    required: true
+  policy_hash:
+    type: string
+    required: false
+  risk_context_hash:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  timestamp:
+    type: timestamp
+    required: true
+  correlation_id:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  evaluation_result:
+  - PROPOSED
+  - NO_ACTION
+  - BLOCKED
+constraints:
+- 'Deterministic: same inputs produce the same evaluation (no clock/random/network).'
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial strategy_evaluation contract (Phase 4)
+  changes: []

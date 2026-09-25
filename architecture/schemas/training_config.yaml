@@ -1,0 +1,53 @@
+schema_id: training_config
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Fully explicit training configuration (Phase 7)
+python_binding: core.intelligence.contracts:TrainingConfig
+fields:
+  config_id:
+    type: string
+    required: true
+  config_version:
+    type: string
+    required: true
+  model_family:
+    type: string
+    required: true
+  hyperparameters:
+    type: object
+    required: true
+  seed:
+    type: integer
+    required: true
+  feature_keys:
+    type: array
+    required: true
+  thresholds:
+    type: object
+    required: true
+  resource_limits:
+    type: object
+    required: true
+  config_hash:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  label_key:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- 'No implicit defaults: hyperparameters, thresholds, seed and resource limits are
+  explicit.'
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial training_config contract (Phase 7)
+  changes: []

@@ -1,0 +1,107 @@
+schema_id: strategy_capability
+version: 1.0.0
+status: ACTIVE
+owner: core.strategy
+description: strategy_capability contract (Phase 4)
+python_binding: core.strategy.contracts:CapabilityProfile
+fields:
+  capability_profile_id:
+    type: string
+    required: true
+  strategy_type:
+    type: string
+    required: true
+    enum: strategy_type
+  supported_symbols:
+    type: array
+    required: true
+  supported_markets:
+    type: array
+    required: true
+  supported_environments:
+    type: array
+    required: true
+  max_positions:
+    type: integer
+    required: false
+  max_grid_depth:
+    type: integer
+    required: false
+  max_observed_lot:
+    type: string
+    required: false
+    description: canonical decimal string
+  max_exposure:
+    type: string
+    required: false
+    description: canonical decimal string
+  max_risk:
+    type: string
+    required: false
+    description: canonical decimal string
+  recovery_behavior:
+    type: string
+    required: false
+  partial_close_capability:
+    type: boolean
+    required: true
+  basket_capability:
+    type: boolean
+    required: true
+  hedge_capability:
+    type: boolean
+    required: true
+  directional_capability:
+    type: string
+    required: true
+    enum: directional
+  news_sensitivity:
+    type: string
+    required: true
+  volatility_sensitivity:
+    type: string
+    required: true
+  spread_sensitivity:
+    type: string
+    required: true
+  liquidity_requirement:
+    type: string
+    required: true
+  margin_requirement:
+    type: string
+    required: false
+    description: canonical decimal string
+  capacity_estimate:
+    type: string
+    required: false
+  provenance:
+    type: object
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  strategy_type:
+  - TREND
+  - MEAN_REVERSION
+  - BREAKOUT
+  - MOMENTUM
+  - GRID
+  - SCALPING
+  - NEWS_REACTION
+  - ARBITRAGE_BOUNDARY
+  - CUSTOM
+  directional:
+  - LONG_ONLY
+  - SHORT_ONLY
+  - BOTH
+constraints:
+- Observation fields carry provenance; model assumptions never masquerade as observed
+  facts.
+- UNKNOWN is explicit (None).
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial strategy_capability contract (Phase 4)
+  changes: []

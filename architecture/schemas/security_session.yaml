@@ -1,0 +1,54 @@
+schema_id: security_session
+version: 1.0.0
+status: ACTIVE
+owner: core.security
+description: Authenticated session with frozen permission snapshot
+python_binding: core.security.contracts:SessionRecord
+fields:
+  session_id:
+    type: string
+    required: true
+  actor_id:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  issued_at:
+    type: timestamp
+    required: true
+  expires_at:
+    type: timestamp
+    required: true
+  authentication:
+    type: string
+    required: true
+  role:
+    type: string
+    required: true
+  permission_snapshot:
+    type: array
+    required: true
+  status:
+    type: string
+    required: false
+  last_activity:
+    type: timestamp
+    required: false
+  revoked_reason:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Sessions are created only from AUTHENTICATED results.
+- Expired/revoked/unknown sessions always BLOCK.
+- The permission snapshot is frozen at issue time.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial security_session contract (Phase 8)
+  changes: []

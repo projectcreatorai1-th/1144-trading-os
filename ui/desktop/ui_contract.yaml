@@ -1,0 +1,161 @@
+# UI semantic contract (ui.desktop, Phase 16).
+# Every critical control declares its role, action, expected event/state
+# change and the automated coverage that proves it. The Phase 16 test
+# validates: (a) schema completeness, (b) coverage names exist in the
+# suite, (c) every workflow in the critical-workflow list is covered.
+# Pixel evidence (live validation) complements - never replaces - this.
+version: 1.0.0
+module: ui.desktop
+controls:
+- control_id: login_dialog
+  accessible_name: 1144 Trading OS - Login
+  role: dialog
+  action: authenticate
+  expected_event: session established (model.session)
+  expected_state_change: statusbar shows SESSION <persona>
+  covered_by: tests/test_phase9_gui_repair.py::TestFix1LoginFlow
+- control_id: nav_overview
+  accessible_name: Overview
+  role: button
+  action: navigate
+  expected_event: model.navigation = Overview; preset OVERVIEW applied
+  expected_state_change: B workspace title/content change
+  covered_by: tests/test_phase9_gui_repair.py::TestFix2NavigationVisible
+- control_id: nav_markets
+  accessible_name: Markets
+  role: button
+  action: navigate
+  expected_event: model.navigation = Markets; preset MARKET applied
+  expected_state_change: market tab selected + watchlist content
+  covered_by: tests/test_phase9_gui_repair.py::TestFix2NavigationVisible
+- control_id: nav_intelligence
+  accessible_name: Intelligence
+  role: button
+  action: navigate
+  expected_event: preset INTELLIGENCE applied
+  expected_state_change: advisory workspace content
+  covered_by: tests/test_phase9_gui_repair.py::TestFix2NavigationVisible
+- control_id: nav_portfolio
+  accessible_name: Portfolio
+  role: button
+  action: navigate
+  expected_event: preset RISK applied
+  expected_state_change: positions/ledger content
+  covered_by: tests/test_phase9_gui_repair.py::TestFix2NavigationVisible
+- control_id: nav_execution
+  accessible_name: Execution
+  role: button
+  action: navigate
+  expected_event: preset EXECUTION applied
+  expected_state_change: orders content
+  covered_by: tests/test_phase9_gui_repair.py::TestFix2NavigationVisible
+- control_id: nav_research
+  accessible_name: Research
+  role: button
+  action: navigate
+  expected_event: preset RESEARCH applied
+  expected_state_change: research workspace content
+  covered_by: tests/test_phase9_gui_repair.py::TestFix2NavigationVisible
+- control_id: nav_strategies
+  accessible_name: Strategies
+  role: button
+  action: navigate
+  expected_event: preset RESEARCH applied
+  expected_state_change: strategy registry content
+  covered_by: tests/test_phase9_gui_repair.py::TestFix2NavigationVisible
+- control_id: nav_risk
+  accessible_name: Risk
+  role: button
+  action: navigate
+  expected_event: preset RISK applied
+  expected_state_change: risk engine snapshot content
+  covered_by: tests/test_phase9_gui_repair.py::TestFix2NavigationVisible
+- control_id: nav_operations
+  accessible_name: Operations
+  role: button
+  action: navigate
+  expected_event: preset OPERATIONS applied
+  expected_state_change: system state content
+  covered_by: tests/test_phase9_gui_repair.py::TestFix2NavigationVisible
+- control_id: action_buy
+  accessible_name: Buy 0.1
+  role: button
+  action: submit_order
+  expected_event: order receipt (APPLIED or REJECTED via authority chain)
+  expected_state_change: banner + blotter on APPLIED
+  covered_by: tests/test_phase9_gui_repair.py::TestFix3RejectedFeedback
+- control_id: action_pause
+  accessible_name: Pause
+  role: button
+  action: run_command pause
+  expected_event: command receipt (APPLIED/REJECTED)
+  expected_state_change: banner
+  covered_by: tests/test_phase9_gui_repair.py::TestFix3RejectedFeedback
+- control_id: action_close_only
+  accessible_name: Close Only
+  role: button
+  action: run_command close_only
+  expected_event: command receipt
+  expected_state_change: banner
+  covered_by: tests/test_phase9_gui_repair.py::TestFix3RejectedFeedback
+- control_id: action_emergency
+  accessible_name: Emergency Stop
+  role: button
+  action: run_command emergency_stop
+  expected_event: command receipt
+  expected_state_change: banner
+  covered_by: tests/test_phase9_gui_repair.py::TestFix3RejectedFeedback
+- control_id: search_entry
+  accessible_name: search
+  role: entry
+  action: search + Enter
+  expected_event: context update
+  expected_state_change: inspector/context + statusbar
+  covered_by: tests/test_phase9_gui_repair.py::TestExistingComponents
+- control_id: command_palette
+  accessible_name: Command Palette (Ctrl+K)
+  role: dialog
+  action: open palette / run command
+  expected_event: palette commands via gateway
+  expected_state_change: palette window visible
+  covered_by: tests/test_phase9_gui_repair.py::TestExistingComponents
+critical_workflows:
+- workflow: Login
+  controls: [login_dialog]
+- workflow: Search
+  controls: [search_entry]
+- workflow: Blotter
+  controls: [search_entry, action_buy]   # blotter evidence: search->context + applied order row
+- workflow: Navigation
+  controls: [nav_overview, nav_markets, nav_intelligence, nav_portfolio,
+             nav_execution, nav_research, nav_strategies, nav_risk,
+             nav_operations]
+- workflow: Order
+  controls: [action_buy]
+- workflow: Pause
+  controls: [action_pause]
+- workflow: Close Only
+  controls: [action_close_only]
+- workflow: Emergency
+  controls: [action_emergency]
+- workflow: Command Palette
+  controls: [command_palette]
+- workflow: Inspector
+  controls: [search_entry]
+- workflow: Research
+  controls: [nav_research]
+- workflow: Risk
+  controls: [nav_risk]
+- workflow: Execution
+  controls: [nav_execution]
+environment_findings:
+- id: keyboard_layout_non_latin
+  fact: Tk assigns keysym ?? to letter keys under the Thai layout; <Control-k>
+    cannot fire for physical or synthesized input until the window language
+    is EN (see docs/phase-9/evidence/gui-repair-live/KEYBOARD_LAYOUT_FINDING.md).
+  status: documented; binding intentionally unchanged
+- id: dpi_scaling
+  fact: App renders correctly at the host DPI; live validation proved
+    resize (1280x800 -> 1084x741 -> restore) and minimize/restore with
+    0-px title drift.
+  status: verified live

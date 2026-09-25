@@ -1,0 +1,90 @@
+schema_id: ai_proposal
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: AI proposal - never an order, never a RiskDecision (Phase 7)
+python_binding: core.intelligence.outputs:AIProposal
+fields:
+  ai_proposal_id:
+    type: string
+    required: true
+  proposed_direction:
+    type: string
+    required: true
+  model_ref:
+    type: string
+    required: true
+  model_hash:
+    type: string
+    required: true
+  feature_snapshot_ref:
+    type: string
+    required: true
+  feature_hash:
+    type: string
+    required: true
+  rationale:
+    type: string
+    required: true
+  output:
+    type: object
+    required: true
+  event_time:
+    type: timestamp
+    required: true
+  inference_time:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  provenance:
+    type: object
+    required: true
+  content_hash:
+    type: string
+    required: true
+  produced_at:
+    type: timestamp
+    required: true
+  valid_from:
+    type: timestamp
+    required: true
+  valid_until:
+    type: timestamp
+    required: true
+  proposed_strategy:
+    type: string
+    required: false
+  proposed_conditions:
+    type: object
+    required: false
+  evidence:
+    type: object
+    required: false
+  expected_horizon_bars:
+    type: integer
+    required: false
+  confidence:
+    type: number
+    required: false
+  uncertainty:
+    type: string
+    required: false
+  explanation_ref:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- AIProposal cannot bypass Strategy eligibility, cannot create RiskDecision, cannot
+  create Order.
+- Proposals carry their evidence (model/dataset/evaluation hashes).
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial ai_proposal contract (Phase 7)
+  changes: []

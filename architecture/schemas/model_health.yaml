@@ -1,0 +1,67 @@
+schema_id: model_health
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Operational model health - health is NOT profitability (Phase 7)
+python_binding: core.intelligence.outputs:ModelHealth
+fields:
+  model_health_id:
+    type: string
+    required: true
+  model_hash:
+    type: string
+    required: true
+  artifact_integrity:
+    type: string
+    required: true
+  dependency_integrity:
+    type: string
+    required: true
+  feature_compatibility:
+    type: string
+    required: true
+  inference_success_rate:
+    type: number
+    required: true
+  error_rate:
+    type: number
+    required: true
+  missing_features_rate:
+    type: number
+    required: true
+  data_freshness:
+    type: string
+    required: true
+  overall:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  latency:
+    type: object
+    required: false
+  confidence_distribution:
+    type: object
+    required: false
+  drift_status:
+    type: string
+    required: false
+  unknown_rate:
+    type: number
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Health is operational, NOT profitability; performance claims are absent by contract.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial model_health contract (Phase 7)
+  changes: []

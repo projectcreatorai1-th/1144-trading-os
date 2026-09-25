@@ -1,0 +1,47 @@
+schema_id: liquidity_budget
+version: 1.0.0
+status: ACTIVE
+owner: core.portfolio
+description: liquidity_budget contract (Phase 4)
+python_binding: core.portfolio.capacity:LiquidityBudget
+fields:
+  symbol:
+    type: string
+    required: true
+  available_liquidity:
+    type: string
+    required: false
+    description: canonical decimal string
+  required_liquidity:
+    type: string
+    required: false
+    description: canonical decimal string
+  utilization:
+    type: string
+    required: false
+    description: canonical decimal string
+  remaining_liquidity:
+    type: string
+    required: false
+    description: canonical decimal string
+  liquidity_state:
+    type: string
+    required: true
+  as_of:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums: {}
+constraints:
+- Insufficient data produces UNKNOWN (None); no guessing.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial liquidity_budget contract (Phase 4)
+  changes: []

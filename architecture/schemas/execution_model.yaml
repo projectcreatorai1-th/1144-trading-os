@@ -1,0 +1,69 @@
+schema_id: execution_model
+version: 1.0.0
+status: ACTIVE
+owner: core.research
+description: execution_model contract (Phase 6)
+python_binding: core.research.contracts:ExecutionModel
+fields:
+  execution_model_id:
+    type: identifier
+    required: true
+  execution_model_version:
+    type: semver
+    required: true
+  fill_models:
+    type: object
+    required: true
+  spread_model:
+    type: string
+    required: true
+    enum: spread_model
+  slippage_model:
+    type: object
+    required: true
+  latency_assumptions:
+    type: object
+    required: true
+  commission_model:
+    type: object
+    required: true
+  liquidity_assumption:
+    type: string
+    required: true
+  market_impact:
+    type: string
+    required: true
+  intrabar_policy:
+    type: string
+    required: true
+    enum: intrabar_policy
+  model_hash:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  spread_model:
+  - FIXED
+  - HISTORICAL
+  - VARIABLE
+  - UNKNOWN
+  intrabar_policy:
+  - CONSERVATIVE
+  - DETERMINISTIC
+  - TICK_REQUIRED
+  - UNKNOWN
+constraints:
+- Every model versioned + hashed (execution-model version lock).
+- UNKNOWN liquidity/market-impact are explicit assumptions, never infinite/zero silently.
+- Intrabar ambiguity is resolved by explicit versioned policy only.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial execution_model contract (Phase 6)
+  changes: []

@@ -1,0 +1,35 @@
+schema_id: external_observation
+version: "1.0.0"
+status: ACTIVE
+owner: core.reconciliation
+description: "Immutable external observation (external truth as seen). Observations are never edited to make reconciliation match."
+python_binding: "core.reconciliation.contracts:ExternalObservation"
+
+fields:
+  observation_id: { type: identifier, required: true, description: "obs_ identifier" }
+  source: { type: string, required: true, description: "External system that produced the observation" }
+  entity_type: { type: string, required: true, description: "Observed entity type" }
+  entity_id: { type: string, required: true, description: "Observed entity id (e.g. account id)" }
+  observed_at: { type: timestamp, required: true, description: "When the external system observed it" }
+  received_at: { type: timestamp, required: true, description: "When this system received it" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  payload: { type: object, required: true, description: "Observed values" }
+  payload_hash: { type: string, required: true, description: "SHA-256 of the canonical payload" }
+  schema_version: { type: semver, required: true, description: "Observation contract version" }
+  provenance: { type: object, required: true, description: "Provenance object" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier" }
+  causation_id: { type: string, required: false, description: "Optional direct cause" }
+
+enums: {}
+
+constraints:
+  - "Observations are immutable; correction means a NEW observation."
+  - "payload_hash must match the canonical payload serialization."
+  - "received_at >= observed_at (timezone-aware)."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial external observation contract (Phase 2)"
+    changes: []

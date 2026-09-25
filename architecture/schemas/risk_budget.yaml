@@ -1,0 +1,31 @@
+schema_id: risk_budget
+version: "1.0.0"
+status: ACTIVE
+owner: core.risk
+description: "Generic risk budget with centralized arithmetic: allocated/used/remaining/requested/projected. No portfolio optimization - deterministic constraints only."
+python_binding: "core.risk.budget:RiskBudget"
+
+fields:
+  risk_budget_id: { type: identifier, required: true, description: "rgb_ identifier" }
+  scope_type: { type: string, required: true, enum: budget_scope, description: "Budget scope" }
+  scope_id: { type: string, required: true, description: "Account/strategy/symbol/direction/portfolio id" }
+  allocated_risk: { type: string, required: true, description: "Canonical decimal string" }
+  used_risk: { type: string, required: true, description: "Canonical decimal string" }
+  requested_risk: { type: string, required: true, description: "Canonical decimal string" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  schema_version: { type: semver, required: false, description: "Contract version carried by the instance" }
+
+enums:
+  budget_scope: [ACCOUNT, STRATEGY, SYMBOL, DIRECTION, PORTFOLIO]
+
+constraints:
+  - "remaining = allocated - used; projected = used + requested (centralized in core.risk.budget - computed nowhere else)."
+  - "requested_risk beyond remaining violates the budget (evaluator fails closed)."
+  - "Decimal strings only (risk-config numeric rules)."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial risk budget contract (Phase 3)"
+    changes: []

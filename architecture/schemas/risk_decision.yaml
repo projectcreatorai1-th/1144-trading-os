@@ -1,0 +1,217 @@
+schema_id: risk_decision
+version: 1.2.0
+status: ACTIVE
+owner: core.risk
+description: Explicit risk decision with a non-boolean result. Fail closed on UNKNOWN
+  states (RULE 010/011/019).
+python_binding: core.risk.contracts:RiskDecision
+fields:
+  risk_decision_id:
+    type: identifier
+    required: true
+    description: rsk_ identifier
+  environment:
+    type: string
+    required: true
+    description: Explicit environment
+  scope:
+    type: string
+    required: true
+    description: Scope the decision covers
+  decision:
+    type: string
+    required: true
+    enum: risk_result
+    description: Explicit risk result (never a boolean)
+  reasons:
+    type: array
+    required: true
+    description: Machine-readable reasons
+  limits:
+    type: object
+    required: true
+    description: Limits applied during evaluation
+  current_exposure:
+    type: number
+    required: true
+    description: Exposure before this request
+  requested_exposure:
+    type: number
+    required: true
+    description: Exposure requested by this order/decision
+  risk_metrics:
+    type: object
+    required: true
+    description: Metrics snapshot used for the decision
+  risk_state:
+    type: string
+    required: true
+    enum: risk_state
+    description: Risk state at decision time
+  market_state:
+    type: string
+    required: true
+    enum: market_state
+    description: Market state at decision time; UNKNOWN fails closed
+  data_quality:
+    type: string
+    required: true
+    enum: data_quality_level
+    description: Data quality level; UNKNOWN fails closed
+  confidence:
+    type: number
+    required: true
+    description: Evaluation confidence 0..1 (confidence != risk permission)
+  policy_reference:
+    type: string
+    required: true
+    description: policy_id@version evaluated
+  correlation_id:
+    type: string
+    required: true
+    description: Chain correlation identifier
+  causation_id:
+    type: string
+    required: false
+    description: Triggering decision/event identifier
+  decision_time:
+    type: timestamp
+    required: true
+    description: Risk decision time
+  expires_at:
+    type: timestamp
+    required: true
+    description: Decision expiry; expired decisions are not executable
+  contract_version:
+    type: semver
+    required: false
+    description: Contract version carried by the instance
+  action_type:
+    type: string
+    required: false
+    description: Type of action being evaluated (NEW_EXPOSURE/CLOSE/REDUCE/...) (Phase
+      3)
+  subject:
+    type: string
+    required: false
+    description: Subject of the evaluated action (Phase 3)
+  account_id:
+    type: string
+    required: false
+    description: Account the decision applies to (Phase 3)
+  symbol:
+    type: string
+    required: false
+    description: Symbol the decision applies to (Phase 3)
+  strategy_id:
+    type: string
+    required: false
+    description: Strategy attribution (Phase 3)
+  evaluated_rules:
+    type: object
+    required: false
+    description: All rule ids evaluated with outcomes (Phase 3)
+  triggered_rules:
+    type: object
+    required: false
+    description: Rule ids that triggered (Phase 3)
+  blocked_rules:
+    type: object
+    required: false
+    description: Rule ids that forced BLOCK or worse (Phase 3)
+  risk_context_hash:
+    type: string
+    required: false
+    description: SHA-256 of the canonical risk context (Phase 3)
+  policy_hash:
+    type: string
+    required: false
+    description: SHA-256 of the canonical policy content (Phase 3)
+  provenance:
+    type: object
+    required: false
+    description: Provenance object (Phase 3)
+  permission_constraints:
+    type: object
+    required: false
+    description: LIMITED permission constraints from policy (never hard-coded defaults)
+      (Phase 3)
+enums:
+  risk_result:
+  - ALLOW
+  - LIMITED
+  - BLOCK
+  - CLOSE_ONLY
+  - EMERGENCY
+  risk_state:
+  - NORMAL
+  - CAUTION
+  - LIMITED
+  - PAUSE
+  - EMERGENCY
+  market_state:
+  - CALM
+  - NORMAL
+  - VOLATILE
+  - EXTREME
+  - UNKNOWN
+  data_quality_level:
+  - VERIFIED
+  - VALIDATED
+  - DEGRADED
+  - STALE
+  - INVALID
+  - UNKNOWN
+constraints:
+- market_state UNKNOWN => decision MUST be in {BLOCK, CLOSE_ONLY, EMERGENCY}.
+- data_quality UNKNOWN => decision MUST be in {BLOCK, CLOSE_ONLY, EMERGENCY}.
+- confidence MUST be within [0.0, 1.0]; AI confidence NEVER substitutes risk permission.
+- expires_at MUST be > decision_time.
+- Only {ALLOW, LIMITED} decisions are executable, and only before expiry and within
+  the same environment.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-23'
+  summary: Initial risk decision contract
+  changes: []
+- version: 1.1.0
+  date: '2026-09-23'
+  summary: Data quality level enum extended with STALE and INVALID (fail closed on
+    both)
+  changes:
+  - kind: ADDED_ENUM_VALUE
+    enum: data_quality_level
+    value: STALE
+  - kind: ADDED_ENUM_VALUE
+    enum: data_quality_level
+    value: INVALID
+- version: 1.2.0
+  date: '2026-09-23'
+  summary: 'Phase 3: action identity, rule evidence, context/policy hashes, provenance,
+    LIMITED constraints'
+  changes:
+  - kind: ADDED_OPTIONAL_FIELD
+    field: action_type
+  - kind: ADDED_OPTIONAL_FIELD
+    field: subject
+  - kind: ADDED_OPTIONAL_FIELD
+    field: account_id
+  - kind: ADDED_OPTIONAL_FIELD
+    field: symbol
+  - kind: ADDED_OPTIONAL_FIELD
+    field: strategy_id
+  - kind: ADDED_OPTIONAL_FIELD
+    field: evaluated_rules
+  - kind: ADDED_OPTIONAL_FIELD
+    field: triggered_rules
+  - kind: ADDED_OPTIONAL_FIELD
+    field: blocked_rules
+  - kind: ADDED_OPTIONAL_FIELD
+    field: risk_context_hash
+  - kind: ADDED_OPTIONAL_FIELD
+    field: policy_hash
+  - kind: ADDED_OPTIONAL_FIELD
+    field: provenance
+  - kind: ADDED_OPTIONAL_FIELD
+    field: permission_constraints

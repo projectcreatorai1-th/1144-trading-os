@@ -1,0 +1,31 @@
+schema_id: difference
+version: "1.0.0"
+status: ACTIVE
+owner: core.reconciliation
+description: "One comparison difference with decimal/tolerance semantics. Values are canonical decimal strings - binary floats are never compared directly."
+python_binding: "core.reconciliation.contracts:Difference"
+
+fields:
+  field: { type: string, required: true, description: "Compared field/item key" }
+  internal_value: { type: string, required: true, description: "Internal value (canonical decimal string)" }
+  external_value: { type: string, required: true, description: "External value (canonical decimal string)" }
+  difference: { type: string, required: true, description: "internal - external (canonical decimal string)" }
+  absolute_difference: { type: string, required: true, description: "|difference| as canonical decimal string" }
+  relative_difference: { type: string, required: true, description: "|difference| / reference; 'undefined' when not computable" }
+  tolerance: { type: string, required: true, description: "Absolute tolerance applied (canonical decimal string)" }
+  severity: { type: string, required: true, enum: diff_severity, description: "INFO within tolerance / ERROR beyond" }
+  reason: { type: string, required: true, description: "Classification reason" }
+
+enums:
+  diff_severity: [INFO, ERROR]
+
+constraints:
+  - "Comparisons use Decimal arithmetic with explicit tolerances (never float equality)."
+  - "'undefined' marks non-computable relative differences - no guessed values."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial difference contract (Phase 2)"
+    changes: []

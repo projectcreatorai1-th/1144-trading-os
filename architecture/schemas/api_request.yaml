@@ -1,0 +1,32 @@
+schema_id: api_request
+version: "1.0.0"
+status: ACTIVE
+owner: platform.api
+description: "API request contract. Every request carries identity, environment and chain identifiers."
+python_binding: "platform.api.contracts:APIRequest"
+
+fields:
+  request_id: { type: identifier, required: true, description: "req_ identifier" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier" }
+  method: { type: string, required: true, enum: http_method, description: "HTTP method" }
+  path: { type: string, required: true, description: "Endpoint path (registered or reserved namespace)" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  actor_id: { type: identifier, required: true, description: "usr_ identifier of the caller" }
+  permission: { type: string, required: true, description: "Permission claimed for this call" }
+  request_time: { type: timestamp, required: true, description: "Request time" }
+  payload: { type: object, required: false, description: "Request payload" }
+  contract_version: { type: semver, required: false, description: "Contract version carried by the instance" }
+
+enums:
+  http_method: [GET, POST, PUT, PATCH, DELETE]
+
+constraints:
+  - "method+path MUST be registered in architecture/api.yaml or fall under a reserved namespace."
+  - "claimed permission MUST match the endpoint's declared permission."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial api_request contract"
+    changes: []

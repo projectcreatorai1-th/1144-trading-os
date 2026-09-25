@@ -1,0 +1,29 @@
+# =============================================================================
+# 1144 Trading OS - RECONCILIATION TOLERANCE POLICY (Single Source of Truth)
+# version: 1.0.0 (Phase 2)
+# =============================================================================
+# Tolerances are explicit decimal strings (never floats). Modules must not
+# hard-code tolerances; they resolve them here by scope (SECTION 26).
+# =============================================================================
+
+version: "1.0.0"
+
+defaults:
+  absolute: "0.00000001"
+  relative: "0.00000001"
+
+by_scope:
+  BALANCE: { absolute: "0.01", relative: "0.0001" }
+  LEDGER: { absolute: "0.00000001", relative: "0.00000001" }
+  TRANSACTION: { absolute: "0.01", relative: "0.0001" }
+  POSITION: { absolute: "0.00000001", relative: "0.00000001" }
+  QUANTITY: { absolute: "0.00000001", relative: "0" }
+  PRICE: { absolute: "0.00000001", relative: "0" }
+  ORDER: { absolute: "0", relative: "0" }
+  ACCOUNT: { absolute: "0.01", relative: "0.0001" }
+  STATE: { absolute: "0", relative: "0" }
+
+rules:
+  - "A difference within BOTH absolute and relative tolerance is a match."
+  - "Zero tolerance means exact equality (string-canonical decimals)."
+  - "UNKNOWN observations never match without evidence."

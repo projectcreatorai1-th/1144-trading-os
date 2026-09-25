@@ -1,0 +1,98 @@
+schema_id: research_run
+version: 1.0.0
+status: ACTIVE
+owner: core.research
+description: research_run contract (Phase 6)
+python_binding: core.research.contracts:ResearchRun
+fields:
+  research_run_id:
+    type: identifier
+    required: true
+  dataset_id:
+    type: identifier
+    required: true
+  dataset_version:
+    type: semver
+    required: true
+  dataset_hash:
+    type: string
+    required: true
+  strategy_id:
+    type: identifier
+    required: true
+  strategy_version:
+    type: semver
+    required: true
+  strategy_hash:
+    type: string
+    required: true
+  config_id:
+    type: identifier
+    required: true
+  config_version:
+    type: semver
+    required: true
+  config_hash:
+    type: string
+    required: true
+  execution_model_id:
+    type: identifier
+    required: true
+  execution_model_version:
+    type: semver
+    required: true
+  execution_model_hash:
+    type: string
+    required: true
+  policy_reference:
+    type: string
+    required: true
+  policy_hash:
+    type: string
+    required: true
+  portfolio_version:
+    type: semver
+    required: true
+  portfolio_hash:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  source_hash:
+    type: string
+    required: true
+  input_hash:
+    type: string
+    required: true
+  code_version:
+    type: string
+    required: true
+  result_hash:
+    type: string
+    required: false
+  run_hash:
+    type: string
+    required: true
+    description: deterministic semantic identity
+  provenance:
+    type: object
+    required: false
+  schema_version:
+    type: semver
+    required: false
+enums: {}
+constraints:
+- Run identity derives from canonical semantic inputs (same inputs+versions+data =
+  same identity).
+- All dependency hashes are locked at run start and verified at run end.
+- Deterministic by default; randomness requires an explicit versioned seed in provenance.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial research_run contract (Phase 6)
+  changes: []

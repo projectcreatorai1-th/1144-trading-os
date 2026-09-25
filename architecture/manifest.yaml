@@ -1,0 +1,435 @@
+system:
+  name: 1144 Trading OS
+  phase: 10
+  system_version: 1.1.0
+  architecture_version: 1.10.0
+  contract_version: 1.10.0
+  schema_version: 1.10.0
+supported_environments:
+- RESEARCH
+- SIMULATION
+- REPLAY
+- PAPER
+- DEMO
+- LIVE
+- BACKTEST
+domains:
+- core
+- platform
+- adapters
+- ui
+- research
+- tests
+- docs
+- architecture
+- benchmarks
+modules:
+- architecture.contracts
+- architecture.validator
+- core.data
+- core.time
+- core.events
+- core.intelligence
+- core.security
+- core.governance
+- core.research
+- core.strategy
+- core.decision
+- core.policy
+- core.risk
+- core.state
+- core.portfolio
+- core.execution
+- core.reconciliation
+- core.ledger
+- core.validation
+- platform.database
+- platform.event_bus
+- platform.api
+- platform.cache
+- platform.scheduler
+- platform.security
+- platform.audit
+- platform.monitoring
+- platform.incident
+- platform.recovery
+- platform.backup
+- platform.chaos
+- platform.gateway
+- adapters.mt5
+- adapters.broker
+- adapters.market_data
+- adapters.news
+- adapters.calendar
+- adapters.ai
+- adapters.alternative_data
+- ui.desktop
+- ui.web
+- research
+- tests
+- benchmarks
+- docs
+- architecture
+- core.oms
+- core.ems
+- adapters.simulation
+- core.backtest
+contracts:
+  schema_registry: 1.10.0
+  schemas:
+  - event
+  - decision
+  - policy
+  - risk_decision
+  - order
+  - position
+  - ledger_entry
+  - audit_record
+  - permission
+  - environment
+  - api_request
+  - api_response
+  - api
+  - provenance
+  - data_quality
+  - config
+  - raw_data
+  - normalized_data
+  - data_source
+  - lineage_record
+  - quality_check
+  - latency_report
+  - market_tick
+  - news_item
+  - calendar_event
+  - state_record
+  - state_transition
+  - state_snapshot
+  - external_observation
+  - reconciliation_result
+  - difference
+  - policy_evaluation
+  - risk_context
+  - risk_budget
+  - strategy_record
+  - strategy_capability
+  - strategy_config
+  - strategy_intent
+  - strategy_evaluation
+  - strategy_eligibility
+  - kill_criteria
+  - strategy_health
+  - portfolio_record
+  - portfolio_membership
+  - capital_allocation
+  - capacity
+  - liquidity_budget
+  - portfolio_exposure
+  - portfolio_decision
+  - execution_report
+  - execution_capability
+  - outbox_message
+  - research_dataset
+  - research_config
+  - execution_model
+  - research_run
+  - research_result
+  - strategy_candidate
+  - bias_report
+  - stress_report
+  - feature_definition
+  - feature_snapshot
+  - intelligence_dataset
+  - label_definition
+  - training_config
+  - training_run
+  - model_definition
+  - model_evaluation
+  - model_validation
+  - inference_request
+  - inference_result
+  - ai_observation
+  - ai_prediction
+  - ai_recommendation
+  - ai_proposal
+  - ai_signal
+  - model_health
+  - drift_report
+  - explanation
+  - model_replay
+  - model_selection
+  - model_card
+  - ai_incident
+  - security_credential
+  - security_session
+  - security_key
+  - security_secret_reference
+  - security_approval
+  - security_request
+  - security_incident
+  - backup_manifest
+  - rate_limit_decision
+  - encryption_policy
+  - governance_transition
+  - governance_artifact
+  - workspace_state
+  - connection_state
+  - feed_provider
+  identifiers: 1.11.0
+  state_machines: 1.6.0
+  permissions: 1.1.0
+  api: 1.0.0
+  currencies: 1.0.0
+  tolerances: 1.0.0
+  risk_config: 1.0.0
+validators:
+- ARCH-001
+- ARCH-002
+- ARCH-003
+- ARCH-004
+- ARCH-005
+- ARCH-006
+- ARCH-007
+- ARCH-008
+- SM-001
+- SM-002
+- ENV-001
+- ENV-002
+- SCHEMA-001
+- SCHEMA-002
+- SCHEMA-003
+- SCHEMA-004
+- SOT-001
+- SOT-002
+- SOT-003
+- IMPORT-001
+- NOPRODUCTION-001
+- MANIFEST-001
+- TRACE-001
+- TRACE-002
+- DATA-001
+- DATA-002
+- DATA-003
+- TIME-001
+- TIME-002
+- EVENT-003
+- EVENT-004
+- EVENT-005
+- STATE-001
+- STATE-002
+- STATE-003
+- LEDGER-001
+- LEDGER-002
+- LEDGER-003
+- LEDGER-004
+- RECON-001
+- RECON-002
+- RECON-003
+- RECON-004
+- POLICY-001
+- POLICY-002
+- POLICY-003
+- RISK-001
+- RISK-002
+- RISK-003
+- RISK-004
+- RISK-005
+- RISK-006
+- SAFETY-001
+- SAFETY-002
+- DECISION-001
+- DECISION-002
+- ENV-003
+- AUDIT-003
+- STRATEGY-001
+- STRATEGY-002
+- STRATEGY-003
+- STRATEGY-004
+- STRATEGY-005
+- PORTFOLIO-001
+- PORTFOLIO-002
+- PORTFOLIO-003
+- PORTFOLIO-004
+- PORTFOLIO-005
+- ALLOCATION-001
+- ALLOCATION-002
+- EXPOSURE-001
+- EXPOSURE-002
+- INTENT-001
+- INTENT-002
+- BOUNDARY-001
+- BOUNDARY-002
+- OMS-001
+- OMS-002
+- EMS-001
+- EMS-002
+- EXEC-001
+- EXEC-002
+- EXEC-003
+- EXEC-004
+- EXEC-005
+- MT5-001
+- MT5-002
+- ENVX-001
+- POSX-001
+- LEDX-001
+- RECX-001
+- SECX-001
+- AIX-001
+- BOUNDX-001
+- DATASET-001
+- DATASET-002
+- DATASET-003
+- DATASET-004
+- BIAS-001
+- BIAS-002
+- BIAS-003
+- BIAS-004
+- BACKTEST-001
+- BACKTEST-002
+- BACKTEST-003
+- BACKTEST-004
+- BACKTEST-005
+- REPLAYX-001
+- REPLAYX-002
+- REPLAYX-003
+- RESEARCHX-001
+- RESEARCHX-002
+- RESEARCHX-003
+- RESEARCHX-004
+- VALIDATIONX-001
+- VALIDATIONX-002
+- VALIDATIONX-003
+- STRESSX-001
+- CANDIDATE-001
+- PROMOTION-001
+- AI-001
+- AI-002
+- AI-003
+- AI-004
+- AI-005
+- AI-006
+- AI-007
+- AI-008
+- AI-009
+- AI-010
+- AI-011
+- AI-012
+- AI-013
+- AI-014
+- AI-015
+- AI-016
+- AI-017
+- AI-018
+- AI-019
+- AI-020
+- AI-021
+- AI-022
+- AI-023
+- AI-024
+- AI-025
+- AI-026
+- AI-027
+- AI-028
+- AI-029
+- AI-030
+- AI-031
+- AI-032
+- AI-033
+- AI-034
+- AI-035
+- AI-036
+- SEC-001
+- SEC-002
+- SEC-003
+- SEC-004
+- SEC-005
+- SEC-006
+- SEC-007
+- SEC-008
+- SEC-009
+- SEC-010
+- SEC-011
+- SEC-012
+- SEC-013
+- SEC-014
+- SEC-015
+- SEC-016
+- SEC-017
+- SEC-018
+- SEC-019
+- SEC-020
+- SEC-021
+- SEC-022
+- SEC-023
+- SEC-024
+- SEC-025
+- SEC-026
+- SEC-027
+- SEC-028
+- SEC-029
+- SEC-030
+- SEC-031
+- SEC-032
+- SEC-033
+- SEC-034
+- SEC-035
+- SEC-036
+- SEC-037
+- SEC-038
+- SEC-039
+- SEC-040
+- SEC-041
+- SEC-042
+- SEC-043
+- SEC-044
+- SEC-045
+- SEC-046
+- SEC-047
+- SEC-048
+- SEC-049
+- SEC-050
+- SEC-051
+- SEC-052
+- SEC-053
+- SEC-054
+- SEC-055
+- SEC-056
+- SEC-057
+- SEC-058
+- SEC-059
+- SEC-060
+- GUI-001
+- GUI-002
+- GUI-003
+- GUI-004
+- GUI-005
+- GUI-006
+- GUI-007
+- GUI-008
+- GUI-009
+- GUI-010
+- GUI-011
+- GUI-012
+- MT5X-001
+- MT5X-002
+- MT5X-003
+- MT5X-004
+- FDX-001
+- FDX-002
+test_status:
+  suite: pytest
+  command: python -m pytest
+  location: tests/
+  evidence: docs/phase-0-report.md
+source_of_truth_files:
+- architecture/architecture.yaml
+- architecture/schema-registry.yaml
+- architecture/identifiers.yaml
+- architecture/state-machines.yaml
+- architecture/permissions.yaml
+- architecture/api.yaml
+- architecture/manifest.yaml
+- architecture/currencies.yaml
+- architecture/tolerances.yaml
+- architecture/risk-config.yaml

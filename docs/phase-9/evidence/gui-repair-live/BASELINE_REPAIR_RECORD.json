@@ -1,0 +1,172 @@
+{
+  "record_type": "BASELINE REPAIR",
+  "generated_utc": "2026-09-24T19:52:28.531376+00:00",
+  "source_of_truth": {
+    "requested": "git status / git diff",
+    "git_available": false,
+    "note": "Project is not a git repository; the deterministic equivalent is a full hash-manifest diff against PHASE_9_FILE_HASHES.json (every recorded file re-hashed, plus new-file detection under ui/desktop, tests, tools)."
+  },
+  "original_baseline_untouched": "docs/phase-9/PHASE_9_FILE_HASHES.json",
+  "baseline_files_checked": 31,
+  "modified_files": [
+    {
+      "file": "architecture/architecture.yaml",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "c5790af497e1482e9e495772e09c1f98e4bb8968a045751d109463f094770706",
+      "current_sha256": "095e91f7d16bc1441975e18d326281eb57ba4573782045661e43a2cecce4948b",
+      "classification": "MODIFIED (outside repair scope - investigate)",
+      "reason": "unexpected modification"
+    },
+    {
+      "file": "architecture/identifiers.yaml",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "a4ee266decd527d7efd75de99ae309009e8e3f2431fff7a032dbd7a55d02f174",
+      "current_sha256": "e1bbd12c750a3d8c50ca4119b516793ebaa9ac31a4a3cc97ca2f1ea871a9ecda",
+      "classification": "MODIFIED (outside repair scope - investigate)",
+      "reason": "unexpected modification"
+    },
+    {
+      "file": "architecture/manifest.yaml",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "fada432261d1423f447877e82788c4a2aacac2ac6e35843b6cdbd5a01d8f0995",
+      "current_sha256": "14c369111305387005877af7a253519b59949321c52d9cc2d9d300061cc7d8b5",
+      "classification": "MODIFIED (outside repair scope - investigate)",
+      "reason": "unexpected modification"
+    },
+    {
+      "file": "architecture/schema-registry.yaml",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "c0f57c997a325d836389056625450e9018ea298dab0d7aa1421701a39f0ac85b",
+      "current_sha256": "70e47c38235999c144c393ddee28622abf45c1688fbd29f136b59a471a17a9c0",
+      "classification": "MODIFIED (outside repair scope - investigate)",
+      "reason": "unexpected modification"
+    },
+    {
+      "file": "architecture/state-machines.yaml",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "c5b5a91a3cb2971942d35a61e73698fbbd3b181f171b771a174f080aec845bb7",
+      "current_sha256": "d9a1aabf6c28009341c414ac40933c460d74a55ede29f7e3830d75b20bfc2f89",
+      "classification": "MODIFIED (outside repair scope - investigate)",
+      "reason": "unexpected modification"
+    },
+    {
+      "file": "architecture/validator/rules.py",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "a6082e35430ec308a97219fda54e623d88a93cc29fc6fec43601b3d247e65250",
+      "current_sha256": "4a72bd2dc2ca254b022fe11bda89a25a63a601fc33d39a5ea0529c5e15fbbb71",
+      "classification": "MODIFIED (outside repair scope - investigate)",
+      "reason": "unexpected modification"
+    },
+    {
+      "file": "core/events/contracts.py",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "087606eb53ebc1c09b6a2a3636e3bb34958c02a96cfc2c7ce40bfd4ceeada533",
+      "current_sha256": "997863257f06e8e20b80efab48f3697fd71470889ebc2e1fe19d4b70c3ec6cf3",
+      "classification": "MODIFIED (outside repair scope - investigate)",
+      "reason": "unexpected modification"
+    },
+    {
+      "file": "platform/api/desktop_gateway.py",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "dc6263c9c45d9d7f52380ee496fa8f349ad67e4481cc92bff6d62fc207ae695d",
+      "current_sha256": "e07f93bc018ca18bf68509208fafa66a3bfbc0a404fa9707506485dd6fb2518f",
+      "classification": "MODIFIED (outside repair scope - investigate)",
+      "reason": "unexpected modification"
+    },
+    {
+      "file": "ui/desktop/run_windows.py",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "ebebcf54bdf8d322a99af3acafc93dbec69ebaecd2b1397075dd4f09b8632f99",
+      "current_sha256": "0d3f0cede33915ba380fed2cef1e4f23c4dfecd493e88b00b605a9ebd30df970",
+      "classification": "PRODUCTION CHANGE",
+      "reason": "PRODUCTION CHANGE - RC-3 production entry point shows the existing LoginDialog (reuse; no duplicate auth; no bypass). The external edit layer also restored the Phase-9 build verifier as --verify-build inside this file (used as gate F). Repair-layer sha256 prefix 6ab1c541a571529a (same doc). Verified intact."
+    },
+    {
+      "file": "ui/desktop/shell.py",
+      "change_type": "MODIFIED",
+      "phase9_original_sha256": "6827a8b89b0787d236cb7f37ff4874cd5b5ea43fcdf79ab080c5094c6b86b73d",
+      "current_sha256": "f34b750bc0c047b83c348ffaba1b9214d1dfb399d75c00371c2eef1a275fe5ab",
+      "classification": "PRODUCTION CHANGE",
+      "reason": "PRODUCTION CHANGE - RC-F navigation->preset->visible workspace (NAV_PRESET + apply_preset + B title/content render); RC-2 REJECTED banner + existing notification reuse; SYMBOL context fix. NOTE: a SECOND external edit layer was applied after the repair (repair-layer sha256 prefix c4c920ea0a5f40f9, documented in PHASE_9_GUI_BASELINE_REPAIR.md); repair functionality verified intact against the current file by the GUI repair suite (15/15) and the live validation (17/17)."
+    }
+  ],
+  "new_files": [
+    {
+      "file": "tests/test_phase9_gui_repair.py",
+      "change_type": "NEW",
+      "phase9_original_sha256": null,
+      "current_sha256": "e01c207c024bfc237b98da921d058f8a93ea2880edca323e9a294553f764f1a1",
+      "classification": "TEST CHANGE - new GUI-001..014 E2E suite (15 tests) for the repair",
+      "reason": "new GUI-001..014 E2E suite (15 tests) for the repair"
+    },
+    {
+      "file": "tools/p9_gui_diagnosis.py",
+      "change_type": "NEW",
+      "phase9_original_sha256": null,
+      "current_sha256": "cd976f32b9cc8610be3da77b5a33a295b9e207021014e97cd11ba0c64c3d10e8",
+      "classification": "TEST TOOLING - diagnosis harness (root-cause evidence generator)",
+      "reason": "diagnosis harness (root-cause evidence generator)"
+    },
+    {
+      "file": "tools/p9_live_gui_test.py",
+      "change_type": "NEW",
+      "phase9_original_sha256": null,
+      "current_sha256": "e01403fdb98a421cefc5818e21b7678ea1ecc0a7028c6d546be6f3a92269df32",
+      "classification": "TEST TOOLING - live GUI validation driver v4 (real OS input)",
+      "reason": "live GUI validation driver v4 (real OS input)"
+    },
+    {
+      "file": "tools/p9r_baseline_record.py",
+      "change_type": "NEW",
+      "phase9_original_sha256": null,
+      "current_sha256": "cd3676f399ab0cb9f70d4bfdb4a4e9c74287e948cf4baa46db109a340ec9147c",
+      "classification": "TEST TOOLING - this record generator",
+      "reason": "this record generator"
+    },
+    {
+      "file": "tools/p9r_gates.py",
+      "change_type": "NEW",
+      "phase9_original_sha256": null,
+      "current_sha256": "abf5be98e552e4ce7e36bb0c8a795fba27806e0260e2a8e6fe16a9ffef578bde",
+      "classification": "TEST TOOLING - regression gate runner",
+      "reason": "regression gate runner"
+    }
+  ],
+  "summary": {
+    "production_changes": [
+      "ui/desktop/run_windows.py",
+      "ui/desktop/shell.py"
+    ],
+    "test_changes": [
+      "tests/test_phase9_gui_repair.py",
+      "tools/p9_gui_diagnosis.py",
+      "tools/p9_live_gui_test.py",
+      "tools/p9r_baseline_record.py",
+      "tools/p9r_gates.py"
+    ],
+    "unexpected_changes": [
+      "architecture/architecture.yaml",
+      "architecture/identifiers.yaml",
+      "architecture/manifest.yaml",
+      "architecture/schema-registry.yaml",
+      "architecture/state-machines.yaml",
+      "architecture/validator/rules.py",
+      "core/events/contracts.py",
+      "platform/api/desktop_gateway.py"
+    ]
+  },
+  "phase10_protection": {
+    "status": "IMPLEMENTATION COMPLETE - RUNTIME GATE BLOCKED",
+    "modified_this_repair": [],
+    "current_sha256_audit_anchor": {
+      "adapters/mt5/connection.py": "0eb5b8b29360ddaae24613d633a11d7620b290dbe7696f989ce13aaed07afe63",
+      "adapters/mt5/transport.py": "84b59d96930ca74607cd0d0349783ed6959345447d89f40540d59f9da976b74e",
+      "adapters/mt5/reconciliation.py": "17424c33a0b8ac0c63aeaee06edcc536c3703b4a07584934abf2220355be77d4",
+      "adapters/market_data/mt5_feed.py": "93652edbce4c40837a42568227c11e43b60366705139740101fe13543a70477a",
+      "platform/api/connectivity_plane.py": "a49c90b7f199791ef10ae3489145630b96d83c5f8ca222c7228839229b75747b",
+      "core/research/tick_history.py": "8f350bed8404c7cd177cb375b16fcd34ee9c81b8ef2e8972f072438ad08e5d13",
+      "tools/p10_runtime_gate.py": "9fd2b7ab195cead7fd95f8158a843708ee3f5184615a40a2ae20cf459bc8bcb9",
+      "architecture/connectivity.yaml": "3cd1d27ca79469ef7d027055801ae083d0428860e5f2282c38b40258b6011707"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+schema_id: intelligence_dataset
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Immutable intelligence dataset derived from a Phase 6 PIT dataset (Phase
+  7)
+python_binding: core.intelligence.contracts:IntelligenceDataset
+fields:
+  intelligence_dataset_id:
+    type: string
+    required: true
+  dataset_version:
+    type: string
+    required: true
+  dataset_type:
+    type: string
+    required: true
+  feature_schema_hash:
+    type: string
+    required: true
+  source_dataset_hash:
+    type: string
+    required: true
+  observation_count:
+    type: integer
+    required: true
+  time_range:
+    type: object
+    required: true
+  symbol_scope:
+    type: array
+    required: true
+  environment:
+    type: string
+    required: true
+  split_definition:
+    type: object
+    required: true
+  normalization_version:
+    type: string
+    required: true
+  provenance:
+    type: object
+    required: true
+  content_hash:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  label_definition_hash:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Datasets are immutable; changed data creates a new version.
+- Derived from Phase 6 point-in-time datasets only (no second PIT implementation).
+- Normalization parameters are versioned and fitted on TRAIN only.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial intelligence_dataset contract (Phase 7)
+  changes: []

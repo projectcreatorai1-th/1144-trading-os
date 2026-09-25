@@ -1,0 +1,31 @@
+schema_id: provenance
+version: "1.0.0"
+status: ACTIVE
+owner: architecture.contracts
+description: "Provenance object carried by decision-critical contracts: RAW -> NORMALIZED -> ANALYZED -> DECISION -> EXECUTION -> RESULT must stay traceable (SECTION 23)."
+python_binding: "architecture.contracts.provenance:Provenance"
+
+fields:
+  source: { type: string, required: true, description: "Originating source (adapter/module id)" }
+  source_id: { type: string, required: true, description: "Identifier at the source" }
+  source_version: { type: string, required: false, description: "Version at the source" }
+  ingestion_time: { type: timestamp, required: true, description: "Time the system ingested the input" }
+  event_time: { type: timestamp, required: true, description: "Time the input occurred at source" }
+  processing_time: { type: timestamp, required: false, description: "Time processing completed" }
+  model_version: { type: string, required: false, description: "AI/quant model version used" }
+  policy_version: { type: string, required: false, description: "Policy version used" }
+  data_version: { type: string, required: false, description: "Data version used" }
+
+enums: {}
+
+constraints:
+  - "All timestamps MUST be timezone-aware."
+  - "ingestion_time MUST be >= event_time."
+  - "Decision-critical objects without provenance are invalid (fail closed)."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial provenance contract"
+    changes: []

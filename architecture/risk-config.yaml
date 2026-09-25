@@ -1,0 +1,38 @@
+# =============================================================================
+# 1144 Trading OS - RISK CONFIG (Single Source of Truth for risk semantics)
+# version: 1.0.0 (Phase 3)
+# =============================================================================
+# Precedence, decision TTL, hard-limit authority and critical-unknown fields.
+# Modules must resolve these here - never hard-code (SECTION 15/27).
+# =============================================================================
+
+version: "1.0.0"
+
+# Highest authority first. Composition picks the most severe triggered result.
+permission_precedence: [EMERGENCY, CLOSE_ONLY, BLOCK, LIMITED, ALLOW]
+
+# Default RiskDecision lifetime in seconds (policies may override per-policy).
+decision_ttl_seconds: 30
+
+# Hard limits can never be overridden - by AI, strategy, user policy or
+# confidence scores (SECTION 10/28).
+hard_limit_override_allowed: false
+
+# Fields whose UNKNOWN/missing value forces BLOCK (fail closed, SECTION 16).
+# Paths follow the canonical flattened risk-context schema (core.risk.context).
+critical_unknown_fields:
+  - account.equity
+  - account.margin_level
+  - positions.gross
+  - risk.drawdown_pct
+  - market.state
+  - market.volatility
+  - market.spread
+  - market.liquidity
+  - data.quality
+  - event.risk
+  - system.state
+  - system.execution_state
+
+# Risk rule interpreter version (bumped with any semantic change to rules).
+risk_rule_version: "1.0.0"

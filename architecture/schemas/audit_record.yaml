@@ -1,0 +1,113 @@
+schema_id: audit_record
+version: 1.1.0
+status: ACTIVE
+owner: platform.audit
+description: 'Audit record answering: who did what, when, to which entity, from/to
+  which state, why, under which versions and environment.'
+python_binding: platform.audit.contracts:AuditRecord
+fields:
+  audit_id:
+    type: identifier
+    required: true
+    description: aud_ identifier
+  actor_type:
+    type: string
+    required: true
+    enum: actor_type
+    description: Actor type
+  actor_id:
+    type: string
+    required: true
+    description: Actor identifier (user/system/strategy/model)
+  action:
+    type: string
+    required: true
+    description: Action performed
+  entity_type:
+    type: string
+    required: true
+    description: Affected entity type
+  entity_id:
+    type: string
+    required: true
+    description: Affected entity identifier
+  event_time:
+    type: timestamp
+    required: true
+    description: Audit event time
+  before:
+    type: object
+    required: false
+    description: Entity state before the action
+  after:
+    type: object
+    required: false
+    description: Entity state after the action
+  reason:
+    type: string
+    required: true
+    description: Reason for the action
+  source:
+    type: string
+    required: true
+    description: Recording module id
+  environment:
+    type: string
+    required: true
+    description: Explicit environment
+  correlation_id:
+    type: string
+    required: true
+    description: Chain correlation identifier
+  causation_id:
+    type: string
+    required: false
+    description: Causing event identifier
+  policy_version:
+    type: string
+    required: false
+    description: Policy version in effect
+  risk_version:
+    type: string
+    required: false
+    description: Risk contract version in effect
+  model_version:
+    type: string
+    required: false
+    description: AI model version in effect
+  contract_version:
+    type: semver
+    required: false
+    description: Contract version carried by the instance
+  integrity_hash:
+    type: string
+    required: false
+    description: Tamper-evidence hash over this record + previous_hash
+  previous_hash:
+    type: string
+    required: false
+    description: integrity_hash of the previous record in the chain
+enums:
+  actor_type:
+  - USER
+  - SYSTEM
+  - STRATEGY
+  - AI_MODEL
+constraints:
+- Audit records are immutable (append-only).
+- at least one of before/after SHOULD be present for state-changing actions.
+- correlation_id is REQUIRED so audit entries join causal chains.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-23'
+  summary: Initial audit contract
+  changes: []
+- version: 1.1.0
+  date: '2026-09-24'
+  summary: Phase 8 tamper-evidence fields (optional, chained)
+  changes:
+  - kind: ADDED_OPTIONAL_FIELD
+    field: integrity_hash
+  - kind: ADDED_OPTIONAL_FIELD
+    field: previous_hash

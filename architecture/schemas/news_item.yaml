@@ -1,0 +1,26 @@
+schema_id: news_item
+version: "1.0.0"
+status: ACTIVE
+owner: core.data
+description: "News item payload. Ingested and stored only - no sentiment, no good/bad interpretation in Phase 1."
+python_binding: null
+
+fields:
+  headline: { type: string, required: true, description: "News headline as delivered by the provider" }
+  publisher: { type: string, required: true, description: "Publisher/agency" }
+  body: { type: string, required: false, description: "Body text if provided" }
+  category: { type: string, required: false, description: "Provider category label (carried, not interpreted)" }
+  source_event_ref: { type: string, required: false, description: "Provider-side event reference (dedup input)" }
+  sequence_number: { type: integer, required: false, description: "Provider sequence number when supported" }
+
+enums: {}
+
+constraints:
+  - "Phase 1 stores news as data; sentiment/impact interpretation is out of scope."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial news item payload schema (Phase 1)"
+    changes: []

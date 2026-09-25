@@ -1,0 +1,755 @@
+{
+  "run": "BASELINE REPAIR live GUI validation (driver v4)",
+  "started_utc": "2026-09-24T19:50:09.028829+00:00",
+  "steps": [
+    {
+      "step": "A/B1. run_windows.py -> Main Window + LoginDialog (RC-3)",
+      "result": "PASS",
+      "detail": {
+        "main": 1097273242,
+        "dialog": 294917848
+      }
+    },
+    {
+      "step": "B1. exactly one Main Window",
+      "result": "PASS",
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "step": "B1. exactly one LoginDialog",
+      "result": "PASS",
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "step": "B2. invalid login -> rejected, dialog closes, app fails safe",
+      "result": "PASS",
+      "detail": {
+        "keys_delivered": true,
+        "dialog_closed": true
+      }
+    },
+    {
+      "step": "B7. Buy no-session -> visible REJECTED banner",
+      "result": "PASS",
+      "detail": {
+        "red_before": 165,
+        "red_after": 2469,
+        "banner_text_changed_pixels": 5758
+      }
+    },
+    {
+      "step": "B8. Buy banner updates, single banner (no stacking)",
+      "result": "PASS",
+      "detail": {
+        "red_text_bbox_height_px": 37
+      }
+    },
+    {
+      "step": "B7. Pause no-session -> visible REJECTED banner",
+      "result": "PASS",
+      "detail": {
+        "red_before": 2469,
+        "red_after": 2471,
+        "banner_text_changed_pixels": 121
+      }
+    },
+    {
+      "step": "B8. Pause banner updates, single banner (no stacking)",
+      "result": "PASS",
+      "detail": {
+        "red_text_bbox_height_px": 37
+      }
+    },
+    {
+      "step": "B7. Close Only no-session -> visible REJECTED banner",
+      "result": "PASS",
+      "detail": {
+        "red_before": 2471,
+        "red_after": 2503,
+        "banner_text_changed_pixels": 182
+      }
+    },
+    {
+      "step": "B8. Close Only banner updates, single banner (no stacking)",
+      "result": "PASS",
+      "detail": {
+        "red_text_bbox_height_px": 37
+      }
+    },
+    {
+      "step": "B7. Emergency no-session -> visible REJECTED banner",
+      "result": "PASS",
+      "detail": {
+        "red_before": 2503,
+        "red_after": 2554,
+        "banner_text_changed_pixels": 293
+      }
+    },
+    {
+      "step": "B8. Emergency banner updates, single banner (no stacking)",
+      "result": "PASS",
+      "detail": {
+        "red_text_bbox_height_px": 37
+      }
+    },
+    {
+      "step": "B9. all 4 no-session actions -> zero accidental APPLIED",
+      "result": "PASS",
+      "detail": {
+        "green_pixels_total": 0
+      }
+    },
+    {
+      "step": "B5. nav Overview -> visible workspace change",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 9548
+      }
+    },
+    {
+      "step": "B5. nav Markets -> visible workspace change",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 11468
+      }
+    },
+    {
+      "step": "B5. nav Intelligence -> visible workspace change",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 10012
+      }
+    },
+    {
+      "step": "B5. nav Portfolio -> visible workspace change",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 4966
+      }
+    },
+    {
+      "step": "B5. nav Execution -> visible workspace change",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 3450
+      }
+    },
+    {
+      "step": "B5. nav Research -> visible workspace change",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 5448
+      }
+    },
+    {
+      "step": "B5. nav Strategies -> visible workspace change",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 2953
+      }
+    },
+    {
+      "step": "B5. nav Risk -> visible workspace change",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 7395
+      }
+    },
+    {
+      "step": "B5. nav Operations -> visible workspace change",
+      "result": "PASS",
+      "detail": {
+        "changed_b_pixels": 6559
+      }
+    },
+    {
+      "step": "B5. 9/9 titles pairwise distinct (9 distinct workspaces)",
+      "result": "PASS",
+      "detail": {}
+    },
+    {
+      "step": "B6. reverse -> Overview: title matches destination",
+      "result": "PASS",
+      "detail": {
+        "title_mismatch_pixels": 0
+      }
+    },
+    {
+      "step": "B6. reverse -> Research: title matches destination",
+      "result": "PASS",
+      "detail": {
+        "title_mismatch_pixels": 0
+      }
+    },
+    {
+      "step": "B6. reverse -> Execution: title matches destination",
+      "result": "PASS",
+      "detail": {
+        "title_mismatch_pixels": 0
+      }
+    },
+    {
+      "step": "B6. reverse -> Overview: title matches destination",
+      "result": "PASS",
+      "detail": {
+        "title_mismatch_pixels": 0
+      }
+    },
+    {
+      "step": "B6. repeat Research x3 -> title stable, matches destination",
+      "result": "PASS",
+      "detail": {
+        "mismatches": [
+          0,
+          0,
+          0
+        ],
+        "shot2_vs_shot3_title_diff": 0
+      }
+    },
+    {
+      "step": "B6. after repeats -> Overview state intact (no corruption)",
+      "result": "PASS",
+      "detail": {
+        "title_mismatch_pixels": 0
+      }
+    },
+    {
+      "step": "B10. Ctrl+K real keyboard (en-US) -> Command Palette",
+      "result": "PASS",
+      "detail": {
+        "result": "PASS"
+      }
+    },
+    {
+      "step": "B11. Search: focus -> type -> Enter -> search + context update",
+      "result": "PASS",
+      "detail": {
+        "search_strip_changed": 732,
+        "status_changed": 50
+      }
+    },
+    {
+      "step": "B11. Resize: client size changes, render intact, restored",
+      "result": "PASS",
+      "detail": {
+        "before": [
+          1280,
+          800
+        ],
+        "resized": [
+          1084,
+          741
+        ],
+        "restored": [
+          1280,
+          800
+        ],
+        "title_diff_resized": 0
+      }
+    },
+    {
+      "step": "B11. Minimize -> Restore: render intact",
+      "result": "PASS",
+      "detail": {
+        "was_minimized": true,
+        "restored": true,
+        "title_diff_restored": 0
+      }
+    },
+    {
+      "step": "B12. clean close -> process exits cleanly",
+      "result": "PASS",
+      "detail": {
+        "exit_code": 0
+      }
+    },
+    {
+      "step": "B3. cancel precondition -> exactly one LoginDialog",
+      "result": "PASS",
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "step": "B3. cancel -> dialog closes, app fails safe, no session",
+      "result": "PASS",
+      "detail": {
+        "dialog_closed": true
+      }
+    },
+    {
+      "step": "B3. after cancel -> Buy still REJECTED (no bypass)",
+      "result": "PASS",
+      "detail": {
+        "red_before": 165,
+        "red_after": 2469
+      }
+    },
+    {
+      "step": "B4. valid login precondition -> LoginDialog present",
+      "result": "PASS",
+      "detail": {}
+    },
+    {
+      "step": "B4. valid login -> dialog closes, session visibly established",
+      "result": "PASS",
+      "detail": {
+        "keys_delivered": true,
+        "dialog_closed": true,
+        "changed_status_pixels": 4758
+      }
+    },
+    {
+      "step": "B4. exactly one Main Window, no duplicate LoginDialog",
+      "result": "PASS",
+      "detail": {
+        "main_count": 1,
+        "dialog_count": 0
+      }
+    },
+    {
+      "step": "B4. authenticated Buy -> visible APPLIED banner (behavior kept)",
+      "result": "PASS",
+      "detail": {
+        "green_before": 2,
+        "green_after": 57
+      }
+    },
+    {
+      "step": "B12. authenticated session close -> clean exit",
+      "result": "PASS",
+      "detail": {
+        "exit_code": 0
+      }
+    },
+    {
+      "step": "B12. no zombie Main Window after close",
+      "result": "PASS",
+      "detail": {
+        "count": 0
+      }
+    },
+    {
+      "step": "B12. relaunch -> exactly one LoginDialog, one Main Window",
+      "result": "PASS",
+      "detail": {
+        "dialogs": 1,
+        "mains": 1
+      }
+    },
+    {
+      "step": "B12. relaunch -> no stale session (Buy REJECTED)",
+      "result": "PASS",
+      "detail": {
+        "red_before": 165,
+        "red_after": 2469
+      }
+    }
+  ],
+  "kb_log": [
+    {
+      "action": "click:secret field",
+      "timestamp": "2026-09-24T19:50:11.552324+00:00",
+      "expected_hwnd": 294917848,
+      "foreground_hwnd": 294917848,
+      "window_title": "1144 Trading OS - Login",
+      "match": true
+    },
+    {
+      "action": "kb:secret select-all",
+      "timestamp": "2026-09-24T19:50:12.579051+00:00",
+      "expected_hwnd": 294917848,
+      "foreground_hwnd": 294917848,
+      "window_title": "1144 Trading OS - Login",
+      "match": true
+    },
+    {
+      "action": "kb:invalid secret",
+      "timestamp": "2026-09-24T19:50:13.330879+00:00",
+      "expected_hwnd": 294917848,
+      "foreground_hwnd": 294917848,
+      "window_title": "1144 Trading OS - Login",
+      "match": true
+    },
+    {
+      "action": "kb:invalid login submit",
+      "timestamp": "2026-09-24T19:50:15.093841+00:00",
+      "expected_hwnd": 294917848,
+      "foreground_hwnd": 294917848,
+      "window_title": "1144 Trading OS - Login",
+      "match": true
+    },
+    {
+      "action": "click:neutral Buy",
+      "timestamp": "2026-09-24T19:50:15.991983+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:Buy",
+      "timestamp": "2026-09-24T19:50:17.541488+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:neutral Pause",
+      "timestamp": "2026-09-24T19:50:18.374897+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:Pause",
+      "timestamp": "2026-09-24T19:50:19.197960+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:neutral Close Only",
+      "timestamp": "2026-09-24T19:50:20.034964+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:Close Only",
+      "timestamp": "2026-09-24T19:50:20.871421+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:neutral Emergency",
+      "timestamp": "2026-09-24T19:50:21.813943+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:Emergency",
+      "timestamp": "2026-09-24T19:50:22.826358+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:nav Overview",
+      "timestamp": "2026-09-24T19:50:23.729248+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:nav Markets",
+      "timestamp": "2026-09-24T19:50:24.594594+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:nav Intelligence",
+      "timestamp": "2026-09-24T19:50:25.460964+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:nav Portfolio",
+      "timestamp": "2026-09-24T19:50:26.336523+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:nav Execution",
+      "timestamp": "2026-09-24T19:50:27.204552+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:nav Research",
+      "timestamp": "2026-09-24T19:50:28.072061+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:nav Strategies",
+      "timestamp": "2026-09-24T19:50:28.942765+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:nav Risk",
+      "timestamp": "2026-09-24T19:50:29.810771+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:nav Operations",
+      "timestamp": "2026-09-24T19:50:30.675529+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:reverse nav Overview",
+      "timestamp": "2026-09-24T19:50:31.547598+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:reverse nav Research",
+      "timestamp": "2026-09-24T19:50:32.375972+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:reverse nav Execution",
+      "timestamp": "2026-09-24T19:50:33.208205+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:reverse nav Overview",
+      "timestamp": "2026-09-24T19:50:34.038824+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:repeat Research #1",
+      "timestamp": "2026-09-24T19:50:34.867478+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:repeat Research #2",
+      "timestamp": "2026-09-24T19:50:35.712609+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:repeat Research #3",
+      "timestamp": "2026-09-24T19:50:36.539913+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:post-repeat Overview",
+      "timestamp": "2026-09-24T19:50:37.382348+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:neutral ctrl+k",
+      "timestamp": "2026-09-24T19:50:38.208427+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "kbvk:Ctrl+K",
+      "timestamp": "2026-09-24T19:50:38.961349+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "layout:Ctrl+K",
+      "timestamp": "2026-09-24T19:50:39.762490+00:00",
+      "before": "0x41e041e",
+      "requested": "0x4090409",
+      "after": "0x4090409"
+    },
+    {
+      "action": "layout-restore:Ctrl+K",
+      "timestamp": "2026-09-24T19:50:41.216954+00:00",
+      "target": "0x41e041e",
+      "restored": "0x41e041e"
+    },
+    {
+      "action": "palette",
+      "timestamp": "2026-09-24T19:50:41.593927+00:00",
+      "expected_hwnd": 60823330,
+      "foreground_hwnd": 60823330,
+      "window_title": "Command Palette",
+      "match": true
+    },
+    {
+      "action": "click:search entry",
+      "timestamp": "2026-09-24T19:50:42.415952+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "kb:search select-all",
+      "timestamp": "2026-09-24T19:50:43.177519+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "kb:search text",
+      "timestamp": "2026-09-24T19:50:43.929856+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "kb:search Enter",
+      "timestamp": "2026-09-24T19:50:44.834739+00:00",
+      "expected_hwnd": 1097273242,
+      "foreground_hwnd": 1097273242,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:neutral cancel-Buy",
+      "timestamp": "2026-09-24T19:50:50.446108+00:00",
+      "expected_hwnd": 22289016,
+      "foreground_hwnd": 22289016,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:cancel-then-Buy",
+      "timestamp": "2026-09-24T19:50:51.365502+00:00",
+      "expected_hwnd": 22289016,
+      "foreground_hwnd": 22289016,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:secret field (valid)",
+      "timestamp": "2026-09-24T19:50:53.601413+00:00",
+      "expected_hwnd": 27073172,
+      "foreground_hwnd": 27073172,
+      "window_title": "1144 Trading OS - Login",
+      "match": true
+    },
+    {
+      "action": "kb:secret select-all (valid)",
+      "timestamp": "2026-09-24T19:50:54.529426+00:00",
+      "expected_hwnd": 27073172,
+      "foreground_hwnd": 27073172,
+      "window_title": "1144 Trading OS - Login",
+      "match": true
+    },
+    {
+      "action": "kb:valid secret",
+      "timestamp": "2026-09-24T19:50:55.281555+00:00",
+      "expected_hwnd": 27073172,
+      "foreground_hwnd": 27073172,
+      "window_title": "1144 Trading OS - Login",
+      "match": true
+    },
+    {
+      "action": "kb:valid login submit",
+      "timestamp": "2026-09-24T19:50:57.449814+00:00",
+      "expected_hwnd": 27073172,
+      "foreground_hwnd": 27073172,
+      "window_title": "1144 Trading OS - Login",
+      "match": true
+    },
+    {
+      "action": "click:neutral auth Buy",
+      "timestamp": "2026-09-24T19:50:58.176652+00:00",
+      "expected_hwnd": 1023085638,
+      "foreground_hwnd": 1023085638,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:authenticated Buy",
+      "timestamp": "2026-09-24T19:50:59.003629+00:00",
+      "expected_hwnd": 1023085638,
+      "foreground_hwnd": 1023085638,
+      "window_title": "1144 Trading OS",
+      "match": true
+    },
+    {
+      "action": "click:relaunch Buy (stale session check)",
+      "timestamp": "2026-09-24T19:51:01.461560+00:00",
+      "expected_hwnd": 72161876,
+      "foreground_hwnd": 72161876,
+      "window_title": "1144 Trading OS",
+      "match": true
+    }
+  ],
+  "app_instances": [
+    {
+      "instance": 1,
+      "pid": 261112,
+      "exit_code": 0
+    },
+    {
+      "instance": 2,
+      "pid": 256696,
+      "exit_code": 0
+    },
+    {
+      "instance": 3,
+      "pid": 262176,
+      "exit_code": 0
+    },
+    {
+      "instance": 4,
+      "pid": 262400,
+      "exit_code": 0
+    }
+  ],
+  "cross_window_safe": true,
+  "runtime_exceptions": 0,
+  "ctrl_k": "PASS",
+  "finished_utc": "2026-09-24T19:51:02.166326+00:00"
+}

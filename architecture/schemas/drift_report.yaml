@@ -1,0 +1,47 @@
+schema_id: drift_report
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Drift evidence with versioned thresholds (Phase 7)
+python_binding: core.intelligence.outputs:DriftReport
+fields:
+  drift_report_id:
+    type: string
+    required: true
+  model_hash:
+    type: string
+    required: true
+  drift_type:
+    type: string
+    required: true
+  status:
+    type: string
+    required: true
+  threshold_version:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  statistic:
+    type: number
+    required: false
+  evidence:
+    type: object
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Drift thresholds are versioned configuration.
+- Drift produces evidence; it never modifies risk directly.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial drift_report contract (Phase 7)
+  changes: []

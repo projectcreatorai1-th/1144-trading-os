@@ -1,0 +1,75 @@
+schema_id: inference_result
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Deterministic, idempotent inference result (Phase 7)
+python_binding: core.intelligence.contracts:InferenceResult
+fields:
+  inference_id:
+    type: string
+    required: true
+  model_hash:
+    type: string
+    required: true
+  feature_hash:
+    type: string
+    required: true
+  output:
+    type: object
+    required: true
+  status:
+    type: string
+    required: true
+  inference_time:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  produced_at:
+    type: timestamp
+    required: true
+  valid_from:
+    type: timestamp
+    required: true
+  valid_until:
+    type: timestamp
+    required: true
+  provenance:
+    type: object
+    required: true
+  content_hash:
+    type: string
+    required: true
+  confidence:
+    type: number
+    required: false
+  probability:
+    type: number
+    required: false
+  score:
+    type: number
+    required: false
+  uncertainty:
+    type: string
+    required: false
+  uncertainty_measures:
+    type: object
+    required: false
+  explanation_ref:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Same semantic request returns the same immutable result (idempotency).
+- confidence, probability and score are distinct semantics, never interchanged.
+- Validity window is explicit; expired results are EXPIRED, never silently current.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial inference_result contract (Phase 7)
+  changes: []

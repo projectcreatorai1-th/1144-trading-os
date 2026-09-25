@@ -1,0 +1,40 @@
+# =============================================================================
+# 1144 Trading OS - API CONTRACT REGISTRY (Single Source of Truth)
+# version: 1.0.0
+# =============================================================================
+# Phase 0 defines the contract structure only. Business endpoints are added by
+# later phases under the reserved namespaces below (SECTION 19).
+# =============================================================================
+
+version: "1.0.0"
+
+endpoints:
+  - { method: GET, path: /health, permission: VIEW, environment_scope: all, description: "Liveness/readiness of the OS" }
+  - { method: GET, path: /system/state, permission: VIEW, environment_scope: all, description: "Current system state machine state" }
+  - { method: GET, path: /environment, permission: VIEW, environment_scope: all, description: "Current explicit environment" }
+  - { method: GET, path: /contracts, permission: VIEW, environment_scope: all, description: "Contract registry and versions" }
+  - { method: GET, path: /schemas, permission: VIEW, environment_scope: all, description: "Schema registry and versions" }
+  - { method: GET, path: /events, permission: VIEW, environment_scope: all, description: "Event query (read-only, contract-compliant)" }
+  - { method: GET, path: /audit, permission: VIEW, environment_scope: all, description: "Audit trail query (read-only)" }
+
+reserved_namespaces:
+  - /market
+  - /news
+  - /intelligence
+  - /strategy
+  - /policy
+  - /risk
+  - /portfolio
+  - /orders
+  - /positions
+  - /ledger
+  - /research
+  - /backtest
+  - /replay
+  - /operations
+
+rules:
+  - "Every future endpoint MUST declare: method, path, permission, environment_scope."
+  - "Business endpoints MUST live under a reserved namespace."
+  - "API responses MUST use the api_response contract (versioned)."
+  - "The API layer never bypasses core policy/risk engines (RULE 007/008)."

@@ -1,0 +1,48 @@
+schema_id: connection_state
+version: 1.0.0
+status: ACTIVE
+owner: adapters.mt5
+description: Broker/feed connection state record (Phase 10)
+python_binding: adapters.mt5.connection:ConnectionStateRecord
+fields:
+  connection_id:
+    type: identifier
+    required: true
+  environment:
+    type: string
+    required: true
+  provider:
+    type: string
+    required: true
+  state:
+    type: string
+    required: true
+  changed_at:
+    type: timestamp
+    required: true
+  reconnect_policy_version:
+    type: string
+    required: true
+  secret_id:
+    type: string
+    required: false
+  last_heartbeat:
+    type: timestamp
+    required: false
+  content_hash:
+    type: string
+    required: false
+  schema_version:
+    type: semver
+    required: false
+enums: {}
+constraints:
+- UNKNOWN is a first-class state; while UNKNOWN privileged actions stay blocked.
+- Every transition is machine-validated and emits CONNECTION_STATE_CHANGED evidence.
+- LIVE is structurally refused (DEMO/SIMULATION only).
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial connection_state contract (Phase 10)
+  changes: []

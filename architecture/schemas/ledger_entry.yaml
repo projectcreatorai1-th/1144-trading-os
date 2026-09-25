@@ -1,0 +1,60 @@
+schema_id: ledger_entry
+version: "1.1.0"
+status: ACTIVE
+owner: core.ledger
+description: "Immutable ledger entry. Corrections are adjustment/reversal entries; raw entries are never edited."
+python_binding: "core.ledger.contracts:LedgerEntry"
+
+fields:
+  ledger_entry_id: { type: identifier, required: true, description: "ldg_ identifier" }
+  entry_type: { type: string, required: true, enum: ledger_entry_type, description: "Ledger entry type" }
+  account_id: { type: string, required: true, description: "Account identifier" }
+  amount: { type: decimal, required: true, description: "Signed amount" }
+  currency: { type: string, required: true, description: "Currency code" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  source_event_id: { type: identifier, required: false, description: "evt_ identifier of the source event" }
+  order_id: { type: identifier, required: false, description: "ord_ identifier" }
+  execution_id: { type: identifier, required: false, description: "exe_ identifier" }
+  position_id: { type: identifier, required: false, description: "pos_ identifier" }
+  strategy_id: { type: identifier, required: false, description: "str_ identifier" }
+  entry_time: { type: timestamp, required: true, description: "Entry time" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier" }
+  causation_id: { type: string, required: false, description: "Causing event identifier" }
+  adjusts_entry_id: { type: identifier, required: false, description: "ldg_ identifier of the entry this adjustment corrects" }
+  reverses_entry_id: { type: identifier, required: false, description: "ldg_ identifier of the entry this reversal reverses" }
+  quantity: { type: decimal, required: false, description: "Instrument quantity when relevant; explicit null/absent otherwise" }
+  symbol: { type: string, required: false, description: "Instrument symbol when relevant" }
+  status: { type: string, required: false, enum: ledger_status, description: "Posting status (POSTED once stored; future workflow states arrive versioned)" }
+  entry_hash: { type: string, required: false, description: "SHA-256 of the canonical entry content (required once posted)" }
+  previous_entry_hash: { type: string, required: false, description: "Hash of the previous posted entry for the same account (chain verification)" }
+  idempotency_key: { type: string, required: false, description: "Deterministic key (source event + type + semantic identity) preventing duplicate posting" }
+  contract_version: { type: semver, required: false, description: "Contract version carried by the instance" }
+
+enums:
+  ledger_entry_type: [ORDER, EXECUTION, POSITION, CASH, FEE, COMMISSION, SWAP, FUNDING, MARGIN, ADJUSTMENT, TRANSFER]
+  ledger_status: [POSTED]
+
+constraints:
+  - "At least ONE of source_event_id, order_id, execution_id, position_id, strategy_id MUST be present (traceability)."
+  - "adjusts_entry_id and reverses_entry_id are mutually exclusive."
+  - "ADJUSTMENT entries MUST set adjusts_entry_id; TRANSFER entries MUST NOT."
+  - "Raw entries are immutable; corrections are new linked entries."
+  - "amount/quantity are canonical decimals - never binary floats (LEDGER-004)."
+  - "Posted entries carry entry_hash; corrections must reference the original entry (LEDGER-002)."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial ledger contract"
+    changes: []
+  - version: "1.1.0"
+    date: "2026-09-23"
+    summary: "Phase 2: quantity/symbol, posting status, integrity hash chain, idempotency key"
+    changes:
+      - { kind: ADDED_OPTIONAL_FIELD, field: quantity }
+      - { kind: ADDED_OPTIONAL_FIELD, field: symbol }
+      - { kind: ADDED_OPTIONAL_FIELD, field: status }
+      - { kind: ADDED_OPTIONAL_FIELD, field: entry_hash }
+      - { kind: ADDED_OPTIONAL_FIELD, field: previous_entry_hash }
+      - { kind: ADDED_OPTIONAL_FIELD, field: idempotency_key }

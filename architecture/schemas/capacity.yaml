@@ -1,0 +1,58 @@
+schema_id: capacity
+version: 1.0.0
+status: ACTIVE
+owner: core.portfolio
+description: capacity contract (Phase 4)
+python_binding: core.portfolio.capacity:CapacityAssessment
+fields:
+  subject_type:
+    type: string
+    required: true
+    enum: capacity_subject
+  subject_id:
+    type: string
+    required: true
+  capacity_kind:
+    type: string
+    required: true
+    enum: capacity_kind
+  value:
+    type: string
+    required: false
+    description: canonical decimal string
+  unit:
+    type: string
+    required: true
+  provenance:
+    type: object
+    required: true
+  as_of:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  capacity_subject:
+  - STRATEGY
+  - SYMBOL
+  - MARKET
+  - LIQUIDITY
+  - RISK
+  - CAPITAL
+  capacity_kind:
+  - THEORETICAL
+  - OBSERVED
+  - ESTIMATED
+  - UNKNOWN
+constraints:
+- Estimated capacity is never treated as observed fact; every value is provenance-aware.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial capacity contract (Phase 4)
+  changes: []

@@ -1,0 +1,70 @@
+schema_id: ai_observation
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: AI observation output - advisory evidence only (Phase 7)
+python_binding: core.intelligence.outputs:AIObservation
+fields:
+  output_id:
+    type: string
+    required: true
+  model_ref:
+    type: string
+    required: true
+  model_hash:
+    type: string
+    required: true
+  feature_snapshot_ref:
+    type: string
+    required: true
+  feature_hash:
+    type: string
+    required: true
+  output:
+    type: object
+    required: true
+  event_time:
+    type: timestamp
+    required: true
+  inference_time:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  provenance:
+    type: object
+    required: true
+  content_hash:
+    type: string
+    required: true
+  produced_at:
+    type: timestamp
+    required: true
+  valid_from:
+    type: timestamp
+    required: true
+  valid_until:
+    type: timestamp
+    required: true
+  confidence:
+    type: number
+    required: false
+  uncertainty:
+    type: string
+    required: false
+  explanation_ref:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Advisory evidence only - NOT a RiskDecision, Order or ExecutionRequest.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial ai_observation contract (Phase 7)
+  changes: []

@@ -1,0 +1,84 @@
+schema_id: model_definition
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Content-identified immutable model (Phase 7)
+python_binding: core.intelligence.contracts:ModelDefinition
+fields:
+  model_id:
+    type: string
+    required: true
+  model_version:
+    type: string
+    required: true
+  model_family:
+    type: string
+    required: true
+  artifact_hash:
+    type: string
+    required: true
+  code_hash:
+    type: string
+    required: true
+  feature_schema_hash:
+    type: string
+    required: true
+  dataset_hash:
+    type: string
+    required: true
+  label_definition_hash:
+    type: string
+    required: true
+  training_config_hash:
+    type: string
+    required: true
+  evaluation_hash:
+    type: string
+    required: true
+  dependency_hash:
+    type: string
+    required: true
+  training_environment:
+    type: string
+    required: true
+  inference_environments:
+    type: array
+    required: true
+  seed:
+    type: integer
+    required: true
+  framework_version:
+    type: string
+    required: true
+  runtime_version:
+    type: string
+    required: true
+  status:
+    type: string
+    required: true
+  model_hash:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  provenance:
+    type: object
+    required: true
+  valid_until:
+    type: timestamp
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Model identity is content-based (model_hash over immutable inputs); registry ids
+  are handles.
+- inference_environments is explicit; cross-environment use without approval is BLOCK.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial model_definition contract (Phase 7)
+  changes: []

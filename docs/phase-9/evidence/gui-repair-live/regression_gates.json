@@ -1,0 +1,107 @@
+{
+  "run": "BASELINE REPAIR regression gates (final validation command)",
+  "finished_utc": "2026-09-24T22:32:29.739896+00:00",
+  "suite_restructure_note": "Phase 9 test files were externally restructured between sessions; gates target the actual files present. Full pytest (D4) is the authoritative regression gate.",
+  "gates": [
+    {
+      "gate": "D1 Phase9 core tests (incl. shell; restructured)",
+      "cmd": "C:\\Users\\BANK\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m pytest -q tests/test_phase9_core.py",
+      "exit_code": 0,
+      "ok": true,
+      "seconds": 18.0,
+      "tail": [
+        "................................                                         [100%]"
+      ]
+    },
+    {
+      "gate": "D2 Phase9 invariants/E2E",
+      "cmd": "C:\\Users\\BANK\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m pytest -q tests/test_phase9_invariants_e2e.py",
+      "exit_code": 0,
+      "ok": true,
+      "seconds": 13.3,
+      "tail": [
+        "......................                                                   [100%]"
+      ]
+    },
+    {
+      "gate": "D3 GUI Repair tests",
+      "cmd": "C:\\Users\\BANK\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m pytest -q tests/test_phase9_gui_repair.py",
+      "exit_code": 0,
+      "ok": true,
+      "seconds": 33.9,
+      "tail": [
+        "...............                                                          [100%]"
+      ]
+    },
+    {
+      "gate": "D4 Full pytest",
+      "cmd": "C:\\Users\\BANK\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m pytest -q -p no:cacheprovider",
+      "exit_code": 0,
+      "ok": true,
+      "seconds": 581.8,
+      "tail": [
+        "........................................................................ [ 78%]",
+        "........................................................................ [ 81%]",
+        "........................................................................ [ 85%]",
+        "........................................................................ [ 88%]",
+        "........................................................................ [ 92%]",
+        "........................................................................ [ 95%]",
+        "........................................................................ [ 98%]",
+        ".........................                                                [100%]"
+      ]
+    },
+    {
+      "gate": "E Architecture Validator",
+      "cmd": "C:\\Users\\BANK\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m architecture.validator",
+      "exit_code": 0,
+      "ok": true,
+      "seconds": 1.1,
+      "tail": [
+        "============================================================",
+        "1144 TRADING OS - ARCHITECTURE VALIDATION",
+        "============================================================",
+        "STATUS: PASS  (failures=0, warnings=0)",
+        "No violations found.",
+        "============================================================"
+      ]
+    },
+    {
+      "gate": "F Windows Build (relocated into run_windows.py --verify-build)",
+      "cmd": "C:\\Users\\BANK\\AppData\\Local\\Programs\\Python\\Python312\\python.exe ui/desktop/run_windows.py --verify-build",
+      "exit_code": 0,
+      "ok": true,
+      "seconds": 0.6,
+      "tail": [
+        "authentication                   PASS",
+        "workspace persistence            PASS",
+        "default workspace valid          PASS",
+        "event handling + dedup           PASS",
+        "order chain                      PASS",
+        "fail-closed disconnect           PASS",
+        "shutdown                         PASS",
+        "BUILD                            PASS"
+      ]
+    },
+    {
+      "gate": "G1 LIVE Safety (relocated: Phase 10 core LIVE-refusal tests)",
+      "cmd": "C:\\Users\\BANK\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m pytest -q tests/test_phase10_core.py -k live",
+      "exit_code": 0,
+      "ok": true,
+      "seconds": 0.4,
+      "tail": [
+        "...s..                                                                   [100%]"
+      ]
+    },
+    {
+      "gate": "G2 Security/Quality Audit",
+      "cmd": "tools/security_quality_audit.py (deleted externally)",
+      "exit_code": null,
+      "ok": false,
+      "seconds": 0.0,
+      "tail": [
+        "BLOCKED: standalone audit tool deleted externally; searched platform/backup, Releases, Recycle Bin ($R scan), Desktop/Documents/Downloads, D:/F: roots, all shortcut targets - not found; NOT recreated from memory (no fake tools). Partial static coverage: SEC-* rules inside the passing validator."
+      ]
+    }
+  ],
+  "all_pass": false
+}

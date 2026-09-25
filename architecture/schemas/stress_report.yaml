@@ -1,0 +1,40 @@
+schema_id: stress_report
+version: 1.0.0
+status: ACTIVE
+owner: core.research
+description: stress_report contract (Phase 6)
+python_binding: core.research.contracts:StressReport
+fields:
+  stress_report_id:
+    type: identifier
+    required: true
+  research_run_id:
+    type: identifier
+    required: true
+  scenarios:
+    type: array
+    required: true
+  overall:
+    type: string
+    required: true
+  config_version:
+    type: semver
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums: {}
+constraints:
+- Every stress scenario is versioned; parameters live in configuration, never hard-coded.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial stress_report contract (Phase 6)
+  changes: []

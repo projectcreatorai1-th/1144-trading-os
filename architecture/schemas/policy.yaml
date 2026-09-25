@@ -1,0 +1,194 @@
+schema_id: policy
+version: 1.1.0
+status: ACTIVE
+owner: core.policy
+description: Policy contract. Phase 0 defines structure only; calculations arrive
+  in Phase 3.
+python_binding: core.policy.contracts:Policy
+fields:
+  policy_id:
+    type: identifier
+    required: true
+    description: pol_ identifier
+  policy_version:
+    type: semver
+    required: true
+    description: Policy document version
+  policy_type:
+    type: string
+    required: true
+    enum: policy_type
+    description: Policy type
+  status:
+    type: string
+    required: true
+    enum: policy_status
+    description: Policy lifecycle status
+  scope:
+    type: string
+    required: true
+    description: Scope (symbol/strategy/account/portfolio/system)
+  conditions:
+    type: array
+    required: true
+    description: Activation conditions (declarative)
+  actions:
+    type: array
+    required: true
+    description: Actions when conditions hold
+  limits:
+    type: object
+    required: true
+    description: Quantitative limits
+  priority:
+    type: integer
+    required: true
+    description: Evaluation priority; lower runs first
+  effective_from:
+    type: timestamp
+    required: true
+    description: Effectivity start (timezone-aware)
+  effective_to:
+    type: timestamp
+    required: false
+    description: Effectivity end; None = open-ended
+  created_by:
+    type: identifier
+    required: true
+    description: usr_ identifier of the creator
+  approved_by:
+    type: identifier
+    required: false
+    description: usr_ identifier of the approver; REQUIRED when status is ACTIVE
+  created_at:
+    type: timestamp
+    required: true
+    description: Creation time
+  updated_at:
+    type: timestamp
+    required: true
+    description: Last update time
+  contract_version:
+    type: semver
+    required: false
+    description: Contract version carried by the instance
+  name:
+    type: string
+    required: false
+    description: Human-readable policy name (Phase 3)
+  description:
+    type: string
+    required: false
+    description: What the policy governs (Phase 3)
+  environment:
+    type: string
+    required: false
+    description: Environment scope; None = all environments (Phase 3)
+  approved_at:
+    type: timestamp
+    required: false
+    description: Approval time (Phase 3)
+  provenance:
+    type: object
+    required: false
+    description: Provenance of the policy document (Phase 3)
+enums:
+  policy_type:
+  - ENTRY
+  - DIRECTION
+  - GRID
+  - POSITION_SIZING
+  - EXPOSURE
+  - FREQUENCY
+  - RECOVERY
+  - PROFIT
+  - NEWS
+  - VOLATILITY
+  - SESSION
+  - PORTFOLIO
+  - EXECUTION
+  - ACCOUNT_RISK_POLICY
+  - POSITION_RISK_POLICY
+  - EXPOSURE_POLICY
+  - DRAWDOWN_POLICY
+  - MARGIN_POLICY
+  - VOLATILITY_POLICY
+  - SPREAD_POLICY
+  - LIQUIDITY_POLICY
+  - CORRELATION_POLICY
+  - NEWS_RISK_POLICY
+  - EXECUTION_PERMISSION_POLICY
+  - GLOBAL_SAFETY_POLICY
+  policy_status:
+  - DRAFT
+  - REVIEW
+  - APPROVED
+  - ACTIVE
+  - SUSPENDED
+  - RETIRED
+constraints:
+- effective_to, when present, MUST be > effective_from.
+- status ACTIVE requires approved_by (fail closed).
+- updated_at MUST be >= created_at.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-23'
+  summary: Initial policy contract
+  changes: []
+- version: 1.1.0
+  date: '2026-09-23'
+  summary: 'Phase 3: lifecycle REVIEW/APPROVED, risk policy types, identity fields'
+  changes:
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: ACCOUNT_RISK_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: POSITION_RISK_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: EXPOSURE_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: DRAWDOWN_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: MARGIN_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: VOLATILITY_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: SPREAD_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: LIQUIDITY_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: CORRELATION_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: NEWS_RISK_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: EXECUTION_PERMISSION_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_type
+    value: GLOBAL_SAFETY_POLICY
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_status
+    value: REVIEW
+  - kind: ADDED_ENUM_VALUE
+    enum: policy_status
+    value: APPROVED
+  - kind: ADDED_OPTIONAL_FIELD
+    field: name
+  - kind: ADDED_OPTIONAL_FIELD
+    field: description
+  - kind: ADDED_OPTIONAL_FIELD
+    field: environment
+  - kind: ADDED_OPTIONAL_FIELD
+    field: approved_at
+  - kind: ADDED_OPTIONAL_FIELD
+    field: provenance

@@ -1,0 +1,99 @@
+{
+  "generated_utc": "2026-09-24T22:42:14.717699+00:00",
+  "orr": {
+    "monitoring_metrics_slo_alerts": {
+      "ok": true,
+      "evidence": "platform.monitoring modules importable + Phase 11 tests"
+    },
+    "runbooks": {
+      "ok": true,
+      "evidence": "13 mandated scenarios in platform/incident/runbooks.yaml"
+    },
+    "security_rbac": {
+      "ok": true,
+      "evidence": "permission matrix registry present + validator SEC rules"
+    },
+    "recovery_backup": {
+      "ok": true,
+      "evidence": "backup/restore + fail-closed recovery with measured RPO/RTO (Phase 12 tests)"
+    },
+    "operations_roles": {
+      "ok": true,
+      "evidence": "roles/personas via platform.security (Phase 8)"
+    },
+    "escalation_alerting": {
+      "ok": true,
+      "evidence": "severity ladder + escalation + audited transitions"
+    }
+  },
+  "prr": {
+    "can_we_detect_failure": {
+      "ok": true,
+      "evidence": "alert rules + health aggregation (Phase 11 tests)"
+    },
+    "can_we_contain_failure": {
+      "ok": true,
+      "evidence": "chaos scenarios prove fail-closed containment (Phase 13)"
+    },
+    "can_we_recover": {
+      "ok": true,
+      "evidence": "verified-backup restore + fail-closed verification (P12)"
+    },
+    "can_we_explain_a_transaction": {
+      "ok": true,
+      "evidence": "TraceAssembler over audit/lineage with gap reporting (P14)"
+    },
+    "can_we_reconstruct_state": {
+      "ok": true,
+      "evidence": "active_at(t) historical reconstruction (Phase 15)"
+    },
+    "can_we_prove_authorization": {
+      "ok": true,
+      "evidence": "every action carries permission+audit (Phase 8 suites)"
+    },
+    "can_we_prove_risk_checks": {
+      "ok": true,
+      "evidence": "risk engine hard gate with audit (Phase 3 suites)"
+    },
+    "can_we_reproduce_historical_decisions": {
+      "ok": true,
+      "evidence": "versioned strategies + ordered promotion evidence (15B/18)"
+    },
+    "can_we_rollback_configuration": {
+      "ok": true,
+      "evidence": "governed config ROLLED_BACK transition (Phase 15)"
+    },
+    "can_we_recover_from_broker_disconnect": {
+      "ok": true,
+      "evidence": "disconnect/reconnect proven live (Phase 10 gate rerun) + LIVE-refusal tests"
+    },
+    "can_we_recover_after_application_restart": {
+      "ok": true,
+      "evidence": "clean close/relaunch + no stale session (GUI live 17/17)"
+    },
+    "can_we_prove_no_unauthorized_order": {
+      "ok": true,
+      "evidence": "full pytest green incl. authority/EMS invariants (2034 passed incl. new phase suites)"
+    }
+  },
+  "phase20_live_candidate": {
+    "requirements": {
+      "architecture": true,
+      "contracts": true,
+      "risk_decision_oms_ems": true,
+      "security_audit": false,
+      "observability": true,
+      "incident_dr_chaos": true,
+      "ui_reliability": true,
+      "orr": true,
+      "prr": true,
+      "phase10_demo_runtime": false
+    },
+    "blockers": [
+      "security_audit",
+      "phase10_demo_runtime"
+    ],
+    "verdict": "BLOCKED"
+  },
+  "live_execution": "DISABLED (by design; LIVE is never enabled by any of phases 0-20)"
+}

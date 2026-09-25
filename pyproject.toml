@@ -1,0 +1,10 @@
+[project]
+name = "1144-trading-os"
+version = "0.1.0"
+description = "1144 Trading OS - Phase 0: Architecture + Contracts"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

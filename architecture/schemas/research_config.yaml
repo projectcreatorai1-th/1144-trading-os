@@ -1,0 +1,84 @@
+schema_id: research_config
+version: 1.0.0
+status: ACTIVE
+owner: core.research
+description: research_config contract (Phase 6)
+python_binding: core.research.contracts:ResearchConfig
+fields:
+  config_id:
+    type: identifier
+    required: true
+  config_version:
+    type: semver
+    required: true
+  initial_capital:
+    type: string
+    required: true
+  symbols:
+    type: array
+    required: true
+  timeframe:
+    type: string
+    required: true
+  date_range:
+    type: object
+    required: true
+  commission:
+    type: string
+    required: true
+    description: explicit; UNKNOWN not allowed to default to zero
+  spread:
+    type: string
+    required: true
+  slippage:
+    type: string
+    required: true
+  swap:
+    type: string
+    required: false
+  leverage:
+    type: string
+    required: true
+  margin_assumptions:
+    type: object
+    required: false
+  execution_assumptions:
+    type: object
+    required: true
+  session_rules:
+    type: object
+    required: false
+  position_sizing:
+    type: object
+    required: false
+  capital_mode:
+    type: string
+    required: false
+    enum: capital_mode
+  seed:
+    type: integer
+    required: false
+    description: explicit versioned seed when randomness exists
+  config_hash:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  capital_mode:
+  - FIXED_CAPITAL
+  - DYNAMIC_EQUITY
+  - COMPOUNDING
+constraints:
+- Every assumption versioned, hashed, reproducible.
+- Missing assumptions are UNKNOWN - never implicit zero.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial research_config contract (Phase 6)
+  changes: []

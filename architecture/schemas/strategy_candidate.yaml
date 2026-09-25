@@ -1,0 +1,60 @@
+schema_id: strategy_candidate
+version: 1.0.0
+status: ACTIVE
+owner: core.research
+description: strategy_candidate contract (Phase 6)
+python_binding: core.research.contracts:StrategyCandidate
+fields:
+  candidate_id:
+    type: identifier
+    required: true
+  strategy_family:
+    type: string
+    required: true
+  logic_version:
+    type: semver
+    required: true
+  logic_hash:
+    type: string
+    required: true
+  parameter_set:
+    type: object
+    required: true
+  dataset_reference:
+    type: identifier
+    required: true
+  research_run_reference:
+    type: identifier
+    required: true
+  status:
+    type: string
+    required: true
+    enum: candidate_status
+  created_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  candidate_status:
+  - DRAFT
+  - RESEARCHING
+  - BACKTESTED
+  - VALIDATING
+  - PASSED
+  - FAILED
+  - REJECTED
+constraints:
+- A candidate is NOT a live strategy; promotion is an explicit governed process (no
+  auto-promotion).
+- Logic changes create a new version - historical candidates are never overwritten.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial strategy_candidate contract (Phase 6)
+  changes: []

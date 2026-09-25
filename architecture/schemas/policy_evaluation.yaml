@@ -1,0 +1,36 @@
+schema_id: policy_evaluation
+version: "1.0.0"
+status: ACTIVE
+owner: core.policy
+description: "Deterministic policy evaluation result: which rules triggered, on which context, under which policy version. Reproducible: same inputs -> same result and hashes."
+python_binding: "core.policy.evaluation:PolicyEvaluation"
+
+fields:
+  evaluation_id: { type: identifier, required: true, description: "pev_ identifier" }
+  policy_id: { type: identifier, required: true, description: "pol_ identifier of the evaluated policy" }
+  policy_version: { type: semver, required: true, description: "Policy version evaluated" }
+  result: { type: string, required: true, enum: risk_result, description: "Evaluation outcome permission" }
+  triggered_rules: { type: array, required: true, description: "Rule ids that triggered with evidence" }
+  failed_rules: { type: array, required: true, description: "Rule ids that failed validation/resolution" }
+  warnings: { type: array, required: true, description: "Non-fatal warnings (e.g. non-critical unknown fields)" }
+  context_hash: { type: string, required: true, description: "SHA-256 of the canonical evaluation context" }
+  policy_hash: { type: string, required: true, description: "SHA-256 of the canonical policy content" }
+  timestamp: { type: timestamp, required: true, description: "Evaluation time (injected, timezone-aware)" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier" }
+  causation_id: { type: string, required: false, description: "Direct cause (event/decision)" }
+  schema_version: { type: semver, required: false, description: "Contract version carried by the instance" }
+
+enums:
+  risk_result: [ALLOW, LIMITED, BLOCK, CLOSE_ONLY, EMERGENCY]
+
+constraints:
+  - "Same policy version + same context + same environment -> identical result and hashes (no clock/random)."
+  - "Unresolvable policy data fails closed (BLOCK)."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial policy evaluation contract (Phase 3)"
+    changes: []

@@ -1,0 +1,100 @@
+schema_id: strategy_record
+version: 1.0.0
+status: ACTIVE
+owner: core.strategy
+description: strategy_record contract (Phase 4)
+python_binding: core.strategy.contracts:Strategy
+fields:
+  strategy_id:
+    type: identifier
+    required: true
+  strategy_version:
+    type: semver
+    required: true
+  strategy_type:
+    type: string
+    required: true
+    enum: strategy_type
+  name:
+    type: string
+    required: true
+  description:
+    type: string
+    required: false
+  owner:
+    type: string
+    required: true
+  lifecycle_status:
+    type: string
+    required: true
+    enum: strategy_lifecycle
+  environment:
+    type: string
+    required: true
+  effective_from:
+    type: timestamp
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  updated_at:
+    type: timestamp
+    required: true
+  configuration_version:
+    type: semver
+    required: true
+  capability_profile_id:
+    type: string
+    required: true
+  risk_budget_id:
+    type: identifier
+    required: false
+  policy_id:
+    type: identifier
+    required: false
+  policy_version:
+    type: semver
+    required: false
+  effective_to:
+    type: timestamp
+    required: false
+  provenance:
+    type: object
+    required: false
+  schema_version:
+    type: semver
+    required: false
+enums:
+  strategy_type:
+  - TREND
+  - MEAN_REVERSION
+  - BREAKOUT
+  - MOMENTUM
+  - GRID
+  - SCALPING
+  - NEWS_REACTION
+  - ARBITRAGE_BOUNDARY
+  - CUSTOM
+  strategy_lifecycle:
+  - IDEA
+  - RESEARCH
+  - BACKTEST
+  - ROBUSTNESS
+  - OUT_OF_SAMPLE
+  - REPLAY
+  - PAPER
+  - DEMO
+  - FORWARD
+  - APPROVED
+  - LIVE
+  - SUSPENDED
+  - RETIRED
+constraints:
+- Versions are immutable; semantic changes create a new version.
+- LIVE requires the full promotion prerequisite chain.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial strategy_record contract (Phase 4)
+  changes: []

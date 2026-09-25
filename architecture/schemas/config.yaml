@@ -1,0 +1,30 @@
+schema_id: config
+version: "1.0.0"
+status: ACTIVE
+owner: architecture.contracts
+description: "Versioned configuration envelope. System/environment/strategy/risk/user-preference configurations are separated and versioned (SECTION 37)."
+python_binding: "architecture.contracts.config:ConfigContract"
+
+fields:
+  config_id: { type: identifier, required: true, description: "cfg_ identifier" }
+  kind: { type: string, required: true, description: "Configuration kind" }
+  version: { type: semver, required: true, description: "Configuration version (required for decision/risk/execution-affecting config)" }
+  environment: { type: string, required: false, description: "Environment scope; None = all environments" }
+  data: { type: object, required: true, description: "Configuration payload" }
+  created_by: { type: identifier, required: true, description: "usr_ identifier of the creator" }
+  created_at: { type: timestamp, required: true, description: "Creation time" }
+  contract_version: { type: semver, required: false, description: "Contract version carried by the instance" }
+
+enums:
+  config_kind: [SYSTEM, ENVIRONMENT, STRATEGY, RISK, USER_PREFERENCES]
+
+constraints:
+  - "kind STRATEGY and RISK configurations REQUIRE an explicit environment scope."
+  - "Secrets must never appear in config data (no credentials in configuration)."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial config contract"
+    changes: []

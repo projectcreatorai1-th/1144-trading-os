@@ -1,0 +1,73 @@
+schema_id: ai_signal
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Versioned market intelligence signal (Phase 7)
+python_binding: core.intelligence.outputs:AISignal
+fields:
+  output_id:
+    type: string
+    required: true
+  signal_kind:
+    type: string
+    required: true
+  semantics:
+    type: string
+    required: true
+  timeframe:
+    type: string
+    required: true
+  model_ref:
+    type: string
+    required: true
+  model_hash:
+    type: string
+    required: true
+  feature_snapshot_ref:
+    type: string
+    required: true
+  feature_hash:
+    type: string
+    required: true
+  output:
+    type: object
+    required: true
+  timestamp:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  provenance:
+    type: object
+    required: true
+  content_hash:
+    type: string
+    required: true
+  valid_from:
+    type: timestamp
+    required: true
+  valid_until:
+    type: timestamp
+    required: true
+  confidence:
+    type: number
+    required: false
+  uncertainty:
+    type: string
+    required: false
+  produced_at:
+    type: timestamp
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- An AI Signal is NOT an Order.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial ai_signal contract (Phase 7)
+  changes: []

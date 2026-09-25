@@ -1,0 +1,47 @@
+schema_id: bias_report
+version: 1.0.0
+status: ACTIVE
+owner: core.research
+description: bias_report contract (Phase 6)
+python_binding: core.research.contracts:BiasReport
+fields:
+  bias_report_id:
+    type: identifier
+    required: true
+  research_run_id:
+    type: identifier
+    required: true
+  overall:
+    type: string
+    required: true
+    enum: bias_status
+  checks:
+    type: array
+    required: true
+  evidence_hash:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  bias_status:
+  - PASS
+  - WARN
+  - FAIL
+  - UNKNOWN
+constraints:
+- LOOK_AHEAD FAIL invalidates the backtest.
+- UNKNOWN on critical leakage classes is INVALID for the run.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial bias_report contract (Phase 6)
+  changes: []

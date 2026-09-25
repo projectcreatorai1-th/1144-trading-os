@@ -1,0 +1,26 @@
+schema_id: quality_check
+version: "1.0.0"
+status: ACTIVE
+owner: core.validation
+description: "One structured quality check result. Never a bare boolean."
+python_binding: "core.validation.engine:QualityCheckResult"
+
+fields:
+  rule_id: { type: string, required: true, description: "DQ-001..DQ-015" }
+  severity: { type: string, required: true, enum: quality_severity, description: "PASS / WARNING / FAIL" }
+  message: { type: string, required: true, description: "Human-readable result" }
+  field: { type: string, required: false, description: "Field the check applies to" }
+  details: { type: object, required: false, description: "Structured evidence (thresholds, expected/actual, ...)" }
+enums:
+  quality_severity: [PASS, WARNING, FAIL]
+
+constraints:
+  - "Every WARNING/FAIL carries evidence in details."
+  - "Rule ids are stable: DQ-001..DQ-015 (Phase 1 quality engine)."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial quality check contract (Phase 1)"
+    changes: []

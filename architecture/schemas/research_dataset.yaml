@@ -1,0 +1,71 @@
+schema_id: research_dataset
+version: 1.0.0
+status: ACTIVE
+owner: core.research
+description: research_dataset contract (Phase 6)
+python_binding: core.research.contracts:ResearchDataset
+fields:
+  dataset_id:
+    type: identifier
+    required: true
+  dataset_version:
+    type: semver
+    required: true
+  symbols:
+    type: array
+    required: true
+  time_range:
+    type: object
+    required: true
+  timeframe:
+    type: string
+    required: true
+  timezone:
+    type: string
+    required: true
+  data_source:
+    type: string
+    required: true
+  source_versions:
+    type: object
+    required: true
+  quality_summary:
+    type: object
+    required: true
+  lineage:
+    type: object
+    required: true
+  content_hash:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  historical_membership:
+    type: object
+    required: false
+  session_calendar:
+    type: object
+    required: false
+  schema_version:
+    type: semver
+    required: false
+  observations:
+    type: array
+    required: false
+    description: Point-in-time observations (event_time + available_time)
+enums: {}
+constraints:
+- Datasets are immutable; data changes create a new version.
+- content_hash commits to the canonical content.
+- Point-in-time availability times are mandatory per observation.
+- Survivorship status is explicit (UNKNOWN without historical membership).
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial research_dataset contract (Phase 6)
+  changes: []

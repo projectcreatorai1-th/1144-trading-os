@@ -1,0 +1,44 @@
+schema_id: backup_manifest
+version: 1.0.0
+status: ACTIVE
+owner: core.security
+description: Backup integrity manifest
+python_binding: core.security.contracts:BackupManifest
+fields:
+  backup_id:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  source_version:
+    type: string
+    required: true
+  component_hashes:
+    type: object
+    required: true
+  content_hash:
+    type: string
+    required: true
+  manifest_hash:
+    type: string
+    required: true
+  integrity_status:
+    type: string
+    required: true
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Backups carry content + manifest hashes.
+- UNKNOWN or CORRUPTED integrity never restores.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial backup_manifest contract (Phase 8)
+  changes: []

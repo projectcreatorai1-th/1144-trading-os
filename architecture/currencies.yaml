@@ -1,0 +1,29 @@
+# =============================================================================
+# 1144 Trading OS - CURRENCY / MONEY POLICY (Single Source of Truth)
+# version: 1.0.0 (Phase 2)
+# =============================================================================
+# Canonical money semantics: every monetary value is a decimal string at the
+# registered precision. Rounding is NEVER decided ad-hoc in modules; this
+# registry is the only rounding authority (SECTION 40/41).
+# =============================================================================
+
+version: "1.0.0"
+
+default_rounding: ROUND_HALF_EVEN
+
+currencies:
+  - { code: USD, precision: 2 }
+  - { code: EUR, precision: 2 }
+  - { code: GBP, precision: 2 }
+  - { code: THB, precision: 2 }
+  - { code: SGD, precision: 2 }
+  - { code: CHF, precision: 2 }
+  - { code: AUD, precision: 2 }
+  - { code: CAD, precision: 2 }
+  - { code: JPY, precision: 0 }
+  - { code: XAU, precision: 2 }
+
+rules:
+  - "Money/price/quantity/fee/commission/balance are canonical decimals (never binary floats)."
+  - "Arithmetic uses Decimal; results quantize to the currency precision using the registered rounding mode."
+  - "Cross-currency arithmetic is rejected in Phase 2 (FX conversion is a later-phase interface boundary)."

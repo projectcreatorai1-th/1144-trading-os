@@ -1,0 +1,234 @@
+standard:
+  format: '{prefix}_{uuid4hex}'
+  regex: ^[a-z]{3}_[0-9a-f]{32}$
+  generation: uuid4
+  case: lower
+  version: 1.11.0
+identifiers:
+- kind: gateway_session_id
+  prefix: gss
+  description: SNIPER Gateway server session identifier (platform.gateway)
+- kind: alert_id
+  prefix: alr
+  description: Observability alert identifier (platform.monitoring, Phase 11)
+- kind: operational_incident_id
+  prefix: inc
+  description: Operational incident identifier (platform.incident, Phase 12)
+- kind: event_id
+  prefix: evt
+  description: Domain event identifier
+- kind: decision_id
+  prefix: dec
+  description: Trading decision identifier
+- kind: policy_id
+  prefix: pol
+  description: Policy identifier
+- kind: risk_decision_id
+  prefix: rsk
+  description: Risk decision identifier
+- kind: order_id
+  prefix: ord
+  description: Order identifier
+- kind: execution_id
+  prefix: exe
+  description: Execution (fill) identifier
+- kind: position_id
+  prefix: pos
+  description: Position identifier
+- kind: ledger_entry_id
+  prefix: ldg
+  description: Ledger entry identifier
+- kind: audit_id
+  prefix: aud
+  description: Audit record identifier
+- kind: request_id
+  prefix: req
+  description: API request identifier
+- kind: correlation_id
+  prefix: cor
+  description: Correlation identifier grouping one causal chain
+- kind: causation_id
+  prefix: cau
+  description: Identifier of the direct cause of an event
+- kind: session_id
+  prefix: ssn
+  description: Session identifier
+- kind: strategy_id
+  prefix: str
+  description: Strategy identifier
+- kind: model_id
+  prefix: mdl
+  description: AI/quant model identifier
+- kind: model_version_id
+  prefix: mdv
+  description: Model version identifier
+- kind: config_id
+  prefix: cfg
+  description: Configuration identifier
+- kind: user_id
+  prefix: usr
+  description: User identity identifier
+- kind: raw_id
+  prefix: raw
+  description: Raw ingested data record identifier (Phase 1)
+- kind: normalized_id
+  prefix: nrm
+  description: Normalized data record identifier (Phase 1)
+- kind: lineage_id
+  prefix: lin
+  description: Lineage record identifier (Phase 1)
+- kind: ingestion_id
+  prefix: ing
+  description: Ingestion batch identifier (Phase 1)
+- kind: state_id
+  prefix: stt
+  description: State record identifier (Phase 2)
+- kind: snapshot_id
+  prefix: snp
+  description: State snapshot identifier (Phase 2)
+- kind: transition_id
+  prefix: trn
+  description: State transition identifier (Phase 2)
+- kind: observation_id
+  prefix: obs
+  description: External observation identifier (Phase 2)
+- kind: reconciliation_id
+  prefix: rec
+  description: Reconciliation run identifier (Phase 2)
+- kind: policy_evaluation_id
+  prefix: pev
+  description: Policy evaluation identifier (Phase 3)
+- kind: risk_context_id
+  prefix: rxc
+  description: Risk context identifier (Phase 3)
+- kind: risk_budget_id
+  prefix: rgb
+  description: Risk budget identifier (Phase 3)
+- kind: intent_id
+  prefix: itt
+  description: Strategy intent identifier (Phase 4)
+- kind: strategy_evaluation_id
+  prefix: sev
+  description: Strategy evaluation identifier (Phase 4)
+- kind: portfolio_id
+  prefix: ptf
+  description: Portfolio identifier (Phase 4)
+- kind: capital_allocation_id
+  prefix: alc
+  description: Capital allocation identifier (Phase 4)
+- kind: portfolio_decision_id
+  prefix: pdc
+  description: Portfolio decision identifier (Phase 4)
+- kind: capability_profile_id
+  prefix: cap
+  description: Capability profile identifier (Phase 4)
+- kind: outbox_message_id
+  prefix: obx
+  description: Durable outbox message identifier (Phase 5)
+- kind: dataset_id
+  prefix: dts
+  description: Research dataset identifier (Phase 6)
+- kind: research_run_id
+  prefix: rsr
+  description: Research run identifier (Phase 6)
+- kind: research_result_id
+  prefix: rst
+  description: Research result identifier (Phase 6)
+- kind: strategy_candidate_id
+  prefix: scd
+  description: Strategy candidate identifier (Phase 6)
+- kind: execution_model_id
+  prefix: exm
+  description: Execution model identifier (Phase 6)
+- kind: research_artifact_id
+  prefix: rta
+  description: Research artifact identifier (Phase 6)
+- kind: bias_report_id
+  prefix: bis
+  description: Bias audit report identifier (Phase 6)
+- kind: stress_report_id
+  prefix: sts
+  description: Stress report identifier (Phase 6)
+- kind: feature_definition_id
+  prefix: ftr
+  description: Feature definition identifier (Phase 7)
+- kind: feature_snapshot_id
+  prefix: fsn
+  description: Feature snapshot identifier (Phase 7)
+- kind: intelligence_dataset_id
+  prefix: ids
+  description: Intelligence dataset identifier (Phase 7)
+- kind: label_definition_id
+  prefix: lbl
+  description: Label definition identifier (Phase 7)
+- kind: training_run_id
+  prefix: trg
+  description: Model training run identifier (Phase 7)
+- kind: model_evaluation_id
+  prefix: mev
+  description: Model evaluation identifier (Phase 7)
+- kind: model_validation_id
+  prefix: mvl
+  description: Model validation gate identifier (Phase 7)
+- kind: inference_id
+  prefix: inf
+  description: AI inference identifier (Phase 7)
+- kind: ai_output_id
+  prefix: aio
+  description: AI output identifier (Phase 7)
+- kind: ai_proposal_id
+  prefix: aip
+  description: AI proposal identifier (Phase 7)
+- kind: explanation_id
+  prefix: exp
+  description: AI explanation identifier (Phase 7)
+- kind: drift_report_id
+  prefix: dft
+  description: Drift report identifier (Phase 7)
+- kind: model_replay_id
+  prefix: mrp
+  description: Model replay identifier (Phase 7)
+- kind: model_health_id
+  prefix: mhl
+  description: Model health identifier (Phase 7)
+- kind: model_selection_id
+  prefix: msl
+  description: Explicit model selection record identifier (Phase 7)
+- kind: ai_incident_id
+  prefix: inc
+  description: AI incident identifier (Phase 7)
+- kind: credential_id
+  prefix: crd
+  description: Security credential identifier (Phase 8)
+- kind: secret_id
+  prefix: sct
+  description: Secret reference identifier (Phase 8)
+- kind: key_id
+  prefix: key
+  description: Cryptographic key identifier (Phase 8)
+- kind: approval_id
+  prefix: apv
+  description: Maker-checker approval record identifier (Phase 8)
+- kind: governance_transition_id
+  prefix: gvt
+  description: Governance transition record identifier (Phase 8)
+- kind: security_incident_id
+  prefix: sxi
+  description: Security incident identifier (Phase 8)
+- kind: backup_id
+  prefix: bkp
+  description: Backup manifest identifier (Phase 8)
+- kind: restore_id
+  prefix: rsb
+  description: Restore operation identifier (Phase 8)
+- kind: connection_id
+  prefix: cnn
+  description: Broker/feed connection identifier (Phase 10)
+- kind: feed_provider_id
+  prefix: fdv
+  description: Market data feed provider identifier (Phase 10)
+special_rules:
+- event.causation_id must be either None (chain root) or a valid event_id (evt_ prefix).
+- event.correlation_id may carry any identifier kind; it must remain identical along
+  one causal chain.
+- IDs are immutable; a new logical object always receives a new id.

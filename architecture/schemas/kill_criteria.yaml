@@ -1,0 +1,51 @@
+schema_id: kill_criteria
+version: 1.0.0
+status: ACTIVE
+owner: core.strategy
+description: kill_criteria contract (Phase 4)
+python_binding: core.strategy.contracts:KillCriteriaEvaluation
+fields:
+  strategy_id:
+    type: identifier
+    required: true
+  strategy_version:
+    type: semver
+    required: true
+  criteria_version:
+    type: semver
+    required: true
+  result:
+    type: string
+    required: true
+    enum: kill_result
+  triggered:
+    type: array
+    required: true
+  evidence:
+    type: object
+    required: true
+  evaluated_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  kill_result:
+  - ACTIVE
+  - WARNING
+  - SUSPEND_REQUIRED
+  - KILL_REQUIRED
+constraints:
+- Versioned, deterministic, auditable, policy-controlled; strategies cannot self-override.
+- Evidence enters via contract (drift/degradation boundaries are inputs, not computed
+  here).
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial kill_criteria contract (Phase 4)
+  changes: []

@@ -1,0 +1,72 @@
+schema_id: training_run
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Immutable training run with dependency lock (Phase 7)
+python_binding: core.intelligence.contracts:TrainingRun
+fields:
+  training_run_id:
+    type: string
+    required: true
+  model_candidate_id:
+    type: string
+    required: true
+  dataset_hash:
+    type: string
+    required: true
+  feature_schema_hash:
+    type: string
+    required: true
+  label_hash:
+    type: string
+    required: true
+  config_hash:
+    type: string
+    required: true
+  code_hash:
+    type: string
+    required: true
+  dependency_hash:
+    type: string
+    required: true
+  seed:
+    type: integer
+    required: true
+  environment:
+    type: string
+    required: true
+  started_at:
+    type: timestamp
+    required: true
+  status:
+    type: string
+    required: true
+  completed_at:
+    type: timestamp
+    required: false
+  metrics:
+    type: object
+    required: false
+  artifact_hash:
+    type: string
+    required: false
+  failure_reason:
+    type: string
+    required: false
+  provenance:
+    type: object
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- FAILED/INVALID runs can never become validated models.
+- Dependency hashes are locked at start and verified at completion.
+- COMPLETED requires artifact hash and completion time (partial artifacts are quarantined).
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial training_run contract (Phase 7)
+  changes: []

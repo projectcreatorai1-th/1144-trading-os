@@ -1,0 +1,40 @@
+schema_id: rate_limit_decision
+version: 1.0.0
+status: ACTIVE
+owner: core.security
+description: Auditable rate-limit decision
+python_binding: core.security.contracts:RateLimitDecision
+fields:
+  limit_key:
+    type: string
+    required: true
+  verdict:
+    type: string
+    required: true
+  window_start:
+    type: timestamp
+    required: true
+  window_seconds:
+    type: integer
+    required: true
+  max_operations:
+    type: integer
+    required: true
+  operations_used:
+    type: integer
+    required: true
+  decided_at:
+    type: timestamp
+    required: true
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Rate limiting never substitutes for authorization.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial rate_limit_decision contract (Phase 8)
+  changes: []

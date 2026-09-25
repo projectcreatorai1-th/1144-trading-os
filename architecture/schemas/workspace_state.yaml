@@ -1,0 +1,33 @@
+schema_id: workspace_state
+version: 1.0.0
+status: ACTIVE
+owner: ui.desktop
+description: Persistable UI-only workstation layout (Phase 9)
+python_binding: ui.desktop.contracts:WorkspaceState
+fields:
+  workspace_id:
+    type: string
+    required: true
+  preset:
+    type: string
+    required: true
+  panels:
+    type: array
+    required: true
+  monitor:
+    type: integer
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- 'UI-only state: workspace layout never carries domain authority.'
+- Corrupted workspace state must recover to a known-valid preset.
+- Panels belong to the A-G workstation regions only.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial workspace_state contract (Phase 9)
+  changes: []

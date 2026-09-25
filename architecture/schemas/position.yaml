@@ -1,0 +1,42 @@
+schema_id: position
+version: "1.0.0"
+status: ACTIVE
+owner: core.portfolio
+description: "Position contract designed for multi-EA / multi-strategy accounts (one account may host many strategies)."
+python_binding: "core.portfolio.contracts:Position"
+
+fields:
+  position_id: { type: identifier, required: true, description: "pos_ identifier" }
+  account_id: { type: string, required: true, description: "Account identifier" }
+  symbol: { type: string, required: true, description: "Trade symbol" }
+  side: { type: string, required: true, enum: position_side, description: "LONG or SHORT" }
+  quantity: { type: decimal, required: true, description: "Open quantity (> 0 while open)" }
+  average_price: { type: decimal, required: true, description: "Average open price" }
+  unrealized_pnl: { type: decimal, required: true, description: "Unrealized profit/loss" }
+  realized_pnl: { type: decimal, required: true, description: "Realized profit/loss" }
+  margin: { type: decimal, required: true, description: "Allocated margin" }
+  exposure: { type: decimal, required: true, description: "Current exposure value" }
+  strategy_id: { type: identifier, required: true, description: "str_ identifier of the owning strategy" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  opened_at: { type: timestamp, required: true, description: "Position opening time" }
+  updated_at: { type: timestamp, required: true, description: "Last update time" }
+  status: { type: string, required: true, enum: position_status, description: "Position lifecycle status" }
+  causation_id: { type: string, required: false, description: "Causing order/execution identifier" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier (RULE 018)" }
+  contract_version: { type: semver, required: false, description: "Contract version carried by the instance" }
+
+enums:
+  position_side: [LONG, SHORT]
+  position_status: [OPEN, PARTIALLY_CLOSED, CLOSED]
+
+constraints:
+  - "quantity MUST be > 0 while status is OPEN or PARTIALLY_CLOSED; MUST be 0 when CLOSED."
+  - "updated_at MUST be >= opened_at."
+  - "Positions are per (account, strategy): one account may hold positions of many strategies."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial position contract"
+    changes: []

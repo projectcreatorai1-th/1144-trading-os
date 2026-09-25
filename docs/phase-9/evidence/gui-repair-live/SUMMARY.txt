@@ -1,0 +1,48 @@
+LIVE GUI VALIDATION (PHASE C): ALL PASS (17/17 rows)
+
+LoginDialog launch            PASS
+Invalid Login                 PASS
+Cancel Login                  PASS
+Valid Login                   PASS
+Navigation                    9/9 PASS
+Reverse Navigation            PASS
+Repeat Navigation             PASS
+Buy rejection feedback        PASS
+Pause rejection feedback      PASS
+Close Only rejection feedback PASS
+Emergency rejection feedback  PASS
+Rejection no-side-effect      PASS
+Existing GUI components       PASS
+Ctrl+K                        PASS   (real keyboard, en-US layout normalization;
+                                      root cause of prior failures = Thai
+                                      keyboard layout -> Tk keysym ?? - see
+                                      KEYBOARD_LAYOUT_FINDING.md; binding untouched)
+Focus safety                  PASS   (expected/foreground HWND + title + timestamp
+                                      logged before every keyboard action; input
+                                      refused on mismatch)
+Clean close/relaunch          PASS
+Runtime exceptions            0      (4 instances, all exit code 0)
+
+REGRESSION GATES (final rerun, pytest temp redirected to D: after disk-full):
+  D1 Phase9 core tests (restructured file)        PASS
+  D2 Phase9 invariants/E2E                        PASS
+  D3 GUI Repair tests                             PASS (15/15)
+  D4 Full pytest                                  PASS (exit 0)
+  E  Architecture Validator (python -m            PASS (failures=0)
+     architecture.validator - entry relocated
+     externally; old architecture/validate.py gone)
+  F  Windows Build (verify-build)                 BLOCKED - tools/verify_build.py
+                                                    deleted externally; cannot be
+                                                    recreated without fabricating
+                                                    the original gate (forbidden)
+  G1 LIVE Safety                                  BLOCKED - tools/p0_live_safety_check.py
+                                                    deleted externally (same reason)
+  G2 Security/Quality Audit                       BLOCKED - tools/security_quality_audit.py
+                                                    deleted externally (same reason)
+
+EXECUTIVE STATUS: GUI REPAIR VALIDATION - BLOCKED
+(F/G1/G2 entry points deleted by external modification between sessions;
+everything else - live validation, Phase 9 suites, full pytest, architecture
+validator - PASSED. See TOOLING_INCIDENTS.md + BASELINE_REPAIR_RECORD.json.)
+
+PHASE 10: IMPLEMENTATION COMPLETE - RUNTIME GATE BLOCKED (unchanged)

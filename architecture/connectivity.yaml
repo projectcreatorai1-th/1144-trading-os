@@ -1,0 +1,43 @@
+# =============================================================================
+# 1144 Trading OS - CONNECTIVITY CONFIG (Single Source of Truth)
+# version: 1.0.0 (Phase 10)
+# =============================================================================
+# DEMO-grade connectivity only. LIVE is structurally refused in code;
+# this file cannot enable it.
+# =============================================================================
+
+version: "1.0.0"
+environment: DEMO
+
+# Explicit, versioned, auditable symbol subscription list (D8.2).
+# Unknown symbols are REJECTED/NOT_SUPPORTED at startup - never silent.
+symbols:
+  - EURUSD
+  - XAUUSD
+  - US30
+
+reconnect:
+  initial_retry_delay_ms: 500
+  max_retry_delay_ms: 8000
+  backoff_multiplier: 2.0
+  max_retry_attempts: 10
+  connection_timeout_ms: 5000
+
+freshness:
+  tick_stream_timeout_ms: 3000
+  stale_threshold_ms: 15000
+  unknown_threshold_ms: 30000
+
+resync:
+  batch_size: 500
+  reconcile_positions: true
+  reconcile_account: true
+
+tick_history:
+  max_ticks: 100000
+  max_age_days: 30
+
+execution:
+  # EMS routing remains authority-gated; this only documents the
+  # adapter registration target. LIVE cannot appear here (validated).
+  adapter_environment: DEMO

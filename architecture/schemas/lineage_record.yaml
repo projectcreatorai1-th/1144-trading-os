@@ -1,0 +1,30 @@
+schema_id: lineage_record
+version: "1.0.0"
+status: ACTIVE
+owner: core.data
+description: "Lineage link: SOURCE -> RAW -> NORMALIZED -> EVENT in Phase 1; stages ANALYZED/DECISION/ORDER/EXECUTION/RESULT are declared for later phases."
+python_binding: "core.data.contracts:LineageRecord"
+
+fields:
+  lineage_id: { type: identifier, required: true, description: "lin_ identifier" }
+  stage: { type: string, required: true, enum: lineage_stage, description: "Pipeline stage of the entity" }
+  entity_type: { type: string, required: true, description: "Entity type (raw_data/normalized_data/event/...)" }
+  entity_id: { type: string, required: true, description: "Entity identifier" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier" }
+  recorded_at: { type: timestamp, required: true, description: "Time the lineage link was recorded" }
+  parent_id: { type: string, required: false, description: "Entity id of the direct predecessor stage" }
+  metadata: { type: object, required: false, description: "Additional lineage context" }
+
+enums:
+  lineage_stage: [SOURCE, RAW, NORMALIZED, EVENT, ANALYZED, DECISION, ORDER, EXECUTION, RESULT]
+
+constraints:
+  - "Phase 1 creates links for SOURCE, RAW, NORMALIZED and EVENT only; later stages are reserved by this contract."
+  - "Every non-SOURCE link MUST reference a parent entity id."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial lineage contract (Phase 1)"
+    changes: []

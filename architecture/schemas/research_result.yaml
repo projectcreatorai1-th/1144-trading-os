@@ -1,0 +1,88 @@
+schema_id: research_result
+version: 1.0.0
+status: ACTIVE
+owner: core.research
+description: research_result contract (Phase 6)
+python_binding: core.research.contracts:ResearchResult
+fields:
+  result_id:
+    type: identifier
+    required: true
+  research_run_id:
+    type: identifier
+    required: true
+  status:
+    type: string
+    required: true
+    enum: result_status
+  metrics:
+    type: object
+    required: true
+  risk_metrics:
+    type: object
+    required: true
+  bias_status:
+    type: string
+    required: true
+    enum: bias_status
+  data_quality:
+    type: string
+    required: true
+  robustness_status:
+    type: string
+    required: true
+    enum: robustness_status
+  validation_status:
+    type: string
+    required: true
+    enum: validation_status
+  evidence_hash:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  multiple_testing:
+    type: boolean
+    required: true
+  assumption_labels:
+    type: object
+    required: false
+  schema_version:
+    type: semver
+    required: false
+enums:
+  result_status:
+  - VALID
+  - VALID_WITH_WARNINGS
+  - INVALID
+  - INCONCLUSIVE
+  bias_status:
+  - PASS
+  - WARN
+  - FAIL
+  - UNKNOWN
+  robustness_status:
+  - STABLE
+  - SENSITIVE
+  - UNSTABLE
+  - UNKNOWN
+  validation_status:
+  - PASSED
+  - FAILED
+  - PENDING
+  - UNKNOWN
+constraints:
+- UNKNOWN never becomes VALID without evidence.
+- Results are labeled FACT / ASSUMPTION / ESTIMATE / SYNTHETIC / UNKNOWN per input
+  class.
+- Historical research results are never guarantees of future performance.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial research_result contract (Phase 6)
+  changes: []

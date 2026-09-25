@@ -1,0 +1,130 @@
+C:\Users\BANK\.zcode\workspace\default\1144-Trading-OS\tools\p9_live_gui_test.py:328: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  for r, g, b in img.convert("RGB").getdata():
+C:\Users\BANK\.zcode\workspace\default\1144-Trading-OS\tools\p9_live_gui_test.py:359: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  for pa, pb in zip(ra.convert("RGB").getdata(), rb.convert("RGB").getdata()):
+C:\Users\BANK\.zcode\workspace\default\1144-Trading-OS\tools\p9_live_gui_test.py:438: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  for pa, pb in zip(ref_strip.convert("RGB").getdata(),
+C:\Users\BANK\.zcode\workspace\default\1144-Trading-OS\tools\p9_live_gui_test.py:439: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  cur.convert("RGB").getdata()):
+C:\Users\BANK\.zcode\workspace\default\1144-Trading-OS\tools\p9_live_gui_test.py:609: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  for pa, pb in zip(pre_title.convert("RGB").getdata(),
+C:\Users\BANK\.zcode\workspace\default\1144-Trading-OS\tools\p9_live_gui_test.py:610: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  post_title.convert("RGB").getdata()):
+C:\Users\BANK\.zcode\workspace\default\1144-Trading-OS\tools\p9_live_gui_test.py:635: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  for pa, pb in zip(pre_t.convert("RGB").getdata(),
+C:\Users\BANK\.zcode\workspace\default\1144-Trading-OS\tools\p9_live_gui_test.py:636: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  post_t.convert("RGB").getdata()):
+[PASS] A/B1. run_windows.py -> Main Window + LoginDialog (RC-3): {'main': 1097273242, 'dialog': 294917848}
+[PASS] B1. exactly one Main Window: {'count': 1}
+[PASS] B1. exactly one LoginDialog: {'count': 1}
+   [fg] click:secret field: expected=294917848 fg=294917848 ('1144 Trading OS - Login') match=True
+   [fg] kb:secret select-all: expected=294917848 fg=294917848 ('1144 Trading OS - Login') match=True
+   [fg] kb:invalid secret: expected=294917848 fg=294917848 ('1144 Trading OS - Login') match=True
+   [fg] kb:invalid login submit: expected=294917848 fg=294917848 ('1144 Trading OS - Login') match=True
+[PASS] B2. invalid login -> rejected, dialog closes, app fails safe: {'keys_delivered': True, 'dialog_closed': True}
+   [fg] click:neutral Buy: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] click:Buy: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B7. Buy no-session -> visible REJECTED banner: {'red_before': 165, 'red_after': 2469, 'banner_text_changed_pixels': 5758}
+[PASS] B8. Buy banner updates, single banner (no stacking): {'red_text_bbox_height_px': 37}
+   [fg] click:neutral Pause: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] click:Pause: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B7. Pause no-session -> visible REJECTED banner: {'red_before': 2469, 'red_after': 2471, 'banner_text_changed_pixels': 121}
+[PASS] B8. Pause banner updates, single banner (no stacking): {'red_text_bbox_height_px': 37}
+   [fg] click:neutral Close Only: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] click:Close Only: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B7. Close Only no-session -> visible REJECTED banner: {'red_before': 2471, 'red_after': 2503, 'banner_text_changed_pixels': 182}
+[PASS] B8. Close Only banner updates, single banner (no stacking): {'red_text_bbox_height_px': 37}
+   [fg] click:neutral Emergency: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] click:Emergency: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B7. Emergency no-session -> visible REJECTED banner: {'red_before': 2503, 'red_after': 2554, 'banner_text_changed_pixels': 293}
+[PASS] B8. Emergency banner updates, single banner (no stacking): {'red_text_bbox_height_px': 37}
+[PASS] B9. all 4 no-session actions -> zero accidental APPLIED: {'green_pixels_total': 0}
+   [fg] click:nav Overview: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B5. nav Overview -> visible workspace change: {'changed_b_pixels': 9548}
+   [fg] click:nav Markets: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B5. nav Markets -> visible workspace change: {'changed_b_pixels': 11468}
+   [fg] click:nav Intelligence: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B5. nav Intelligence -> visible workspace change: {'changed_b_pixels': 10012}
+   [fg] click:nav Portfolio: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B5. nav Portfolio -> visible workspace change: {'changed_b_pixels': 4966}
+   [fg] click:nav Execution: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B5. nav Execution -> visible workspace change: {'changed_b_pixels': 3450}
+   [fg] click:nav Research: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B5. nav Research -> visible workspace change: {'changed_b_pixels': 5448}
+   [fg] click:nav Strategies: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B5. nav Strategies -> visible workspace change: {'changed_b_pixels': 2953}
+   [fg] click:nav Risk: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B5. nav Risk -> visible workspace change: {'changed_b_pixels': 7395}
+   [fg] click:nav Operations: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B5. nav Operations -> visible workspace change: {'changed_b_pixels': 6559}
+[PASS] B5. 9/9 titles pairwise distinct (9 distinct workspaces): {}
+   [fg] click:reverse nav Overview: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B6. reverse -> Overview: title matches destination: {'title_mismatch_pixels': 0}
+   [fg] click:reverse nav Research: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B6. reverse -> Research: title matches destination: {'title_mismatch_pixels': 0}
+   [fg] click:reverse nav Execution: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B6. reverse -> Execution: title matches destination: {'title_mismatch_pixels': 0}
+   [fg] click:reverse nav Overview: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B6. reverse -> Overview: title matches destination: {'title_mismatch_pixels': 0}
+   [fg] click:repeat Research #1: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] click:repeat Research #2: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] click:repeat Research #3: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B6. repeat Research x3 -> title stable, matches destination: {'mismatches': [0, 0, 0], 'shot2_vs_shot3_title_diff': 0}
+   [fg] click:post-repeat Overview: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B6. after repeats -> Overview state intact (no corruption): {'title_mismatch_pixels': 0}
+   [fg] click:neutral ctrl+k: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] kbvk:Ctrl+K: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [layout] Ctrl+K: 0x41e041e -> 0x4090409
+   [layout] Ctrl+K: restored 0x41e041e
+   [fg] palette: expected=60823330 fg=60823330 ('Command Palette') match=True
+[PASS] B10. Ctrl+K real keyboard (en-US) -> Command Palette: {'result': 'PASS'}
+   [fg] click:search entry: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] kb:search select-all: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] kb:search text: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+   [fg] kb:search Enter: expected=1097273242 fg=1097273242 ('1144 Trading OS') match=True
+[PASS] B11. Search: focus -> type -> Enter -> search + context update: {'search_strip_changed': 732, 'status_changed': 50}
+[PASS] B11. Resize: client size changes, render intact, restored: {'before': (1280, 800), 'resized': (1084, 741), 'restored': (1280, 800), 'title_diff_resized': 0}
+[PASS] B11. Minimize -> Restore: render intact: {'was_minimized': True, 'restored': True, 'title_diff_restored': 0}
+[PASS] B12. clean close -> process exits cleanly: {'exit_code': 0}
+[PASS] B3. cancel precondition -> exactly one LoginDialog: {'count': 1}
+[PASS] B3. cancel -> dialog closes, app fails safe, no session: {'dialog_closed': True}
+   [fg] click:neutral cancel-Buy: expected=22289016 fg=22289016 ('1144 Trading OS') match=True
+   [fg] click:cancel-then-Buy: expected=22289016 fg=22289016 ('1144 Trading OS') match=True
+[PASS] B3. after cancel -> Buy still REJECTED (no bypass): {'red_before': 165, 'red_after': 2469}
+[PASS] B4. valid login precondition -> LoginDialog present: {}
+   [fg] click:secret field (valid): expected=27073172 fg=27073172 ('1144 Trading OS - Login') match=True
+   [fg] kb:secret select-all (valid): expected=27073172 fg=27073172 ('1144 Trading OS - Login') match=True
+   [fg] kb:valid secret: expected=27073172 fg=27073172 ('1144 Trading OS - Login') match=True
+   [fg] kb:valid login submit: expected=27073172 fg=27073172 ('1144 Trading OS - Login') match=True
+[PASS] B4. valid login -> dialog closes, session visibly established: {'keys_delivered': True, 'dialog_closed': True, 'changed_status_pixels': 4758}
+[PASS] B4. exactly one Main Window, no duplicate LoginDialog: {'main_count': 1, 'dialog_count': 0}
+   [fg] click:neutral auth Buy: expected=1023085638 fg=1023085638 ('1144 Trading OS') match=True
+   [fg] click:authenticated Buy: expected=1023085638 fg=1023085638 ('1144 Trading OS') match=True
+[PASS] B4. authenticated Buy -> visible APPLIED banner (behavior kept): {'green_before': 2, 'green_after': 57}
+[PASS] B12. authenticated session close -> clean exit: {'exit_code': 0}
+[PASS] B12. no zombie Main Window after close: {'count': 0}
+[PASS] B12. relaunch -> exactly one LoginDialog, one Main Window: {'dialogs': 1, 'mains': 1}
+   [fg] click:relaunch Buy (stale session check): expected=72161876 fg=72161876 ('1144 Trading OS') match=True
+[PASS] B12. relaunch -> no stale session (Buy REJECTED): {'red_before': 165, 'red_after': 2469}
+
+================ PHASE C - LIVE GUI ACCEPTANCE GATE ================
+LoginDialog launch                 PASS
+Invalid Login                      PASS
+Cancel Login                       PASS
+Valid Login                        PASS
+Navigation (9/9)                   PASS
+Reverse Navigation                 PASS
+Repeat Navigation                  PASS
+Buy rejection feedback             PASS
+Pause rejection feedback           PASS
+Close Only rejection feedback      PASS
+Emergency rejection feedback       PASS
+Rejection no-side-effect           PASS
+Existing GUI components            PASS
+Ctrl+K                             PASS
+Focus safety                       PASS
+Clean close/relaunch               PASS
+Runtime exceptions                 PASS
+Ctrl+K                  PASS
+======================================================================
+LIVE GUI VALIDATION: ALL PASS

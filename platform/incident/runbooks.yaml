@@ -1,0 +1,115 @@
+# Operational runbooks (platform.incident, Phase 12) - the mandated
+# failure scenarios. Each runbook is data: condition, containment,
+# recovery and verification steps an operator follows; the incident
+# lifecycle records which steps were actually taken (audited evidence).
+runbooks:
+- runbook_id: rb_mt5_disconnect
+  applies_to: mt5,connection,terminal
+  condition: ConnectionMonitor leaves CONNECTED (DEGRADED/RECONNECTING/DISCONNECTED)
+  detection: connectivity state metric + health aggregator UNKNOWN/DOWN
+  containment: >
+    Verify no orders are in flight (EMS state); if any, expect broker-side
+    terminal handling - never blind-resubmit. Place risk state to PAUSE if
+    reconnection exceeds the connectivity.yaml backoff window.
+  recovery: >
+    Wait for the exponential backoff reconnection sequence (500ms -> 8s);
+    on CONNECTED wait for RESYNC/RECONCILING to complete before enabling
+    execution; freshness must return to CURRENT.
+  verification: freshness CURRENT for all subscribed symbols + one clean poll cycle.
+
+- runbook_id: rb_market_data_stale
+  applies_to: feed,freshness,market data,mt5-feed
+  condition: market_data_freshness above stale threshold or STALE health
+  detection: SLO market_data_freshness_slo VIOLATED alert
+  containment: strategies must treat STALE as not-tradeable (UNKNOWN != SAFE); no new intents on stale data.
+  recovery: check terminal connectivity (rb_mt5_disconnect); resync; confirm tick age back under 3s.
+  verification: SLO back to PASS over one window.
+
+- runbook_id: rb_broker_reject
+  applies_to: broker,reject,retcode
+  condition: order_send returns a rejection retcode
+  detection: execution report REJECTED with reason
+  containment: do not auto-retry beyond policy; log evidence; keep intent state consistent.
+  recovery: read retcode reason; correct parameters only with an audited change; resubmit as a NEW intent.
+  verification: order state terminal + reconciliation shows no phantom position.
+
+- runbook_id: rb_partial_fill
+  applies_to: partial fill,fill
+  condition: fill quantity < order quantity
+  detection: execution report PARTIAL
+  containment: track remaining quantity; never assume full fill.
+  recovery: "policy-driven: wait, replace remainder, or cancel - each path audited."
+  verification: order fully accounted (fills + cancel/expire) + position matches fills.
+
+- runbook_id: rb_duplicate_execution
+  applies_to: duplicate,dedup,execution
+  condition: same execution evidence seen twice
+  detection: execution_id dedup / reconciliation duplicate finding
+  containment: stop resubmission paths; quarantine the duplicate report.
+  recovery: reconcile internal vs broker; the authoritative state is the reconciliation result, never the duplicate.
+  verification: reconciliation MATCH + no duplicate position created.
+
+- runbook_id: rb_db_unavailable
+  applies_to: database,sqlite,storage
+  condition: storage open/commit raises OperationalError
+  detection: exception evidence in logs; stores unavailable
+  containment: fail closed - halt order intake; keep process alive for diagnosis.
+  recovery: restore availability (disk/service); reopen stores; run audit verify.
+  verification: audit verify clean + a write/read probe succeeds.
+
+- runbook_id: rb_disk_full
+  applies_to: disk,winerror 112,space
+  condition: WinError 112 / no space left on device
+  detection: OSError ENOSPC evidence (this occurred in production sessions 2026-09-24/25)
+  containment: stop processes writing unbounded temp; halt test loops that copy the tree.
+  recovery: clear bounded caches (pytest temp, pip cache) or move temp to another volume; keep 10% headroom.
+  verification: free-space probe above threshold + targeted write succeeds.
+  note: "prevention = bounded buffers everywhere (MetricsRegistry caps, tick history caps) + temp-on-D policy"
+
+- runbook_id: rb_audit_unavailable
+  applies_to: audit
+  condition: audit append fails
+  detection: append raises
+  containment: FAIL CLOSED - permission/risk checks that require audit evidence must refuse to proceed.
+  recovery: restore audit store; verify chain; replay nothing (audit is append-only).
+  verification: audit verify + one append/read roundtrip.
+
+- runbook_id: rb_event_bus_unavailable
+  applies_to: event bus,bus
+  condition: event dispatch fails or lags beyond bound
+  detection: event_bus_lag metric alert
+  containment: decouple trading path per architecture (bus is observability fan-out, never order authority).
+  recovery: restart dispatcher; consumers re-read from the event store (source of truth), not the bus.
+  verification: lag back under SLO + consumers consistent with store.
+
+- runbook_id: rb_application_crash
+  applies_to: crash,process,exit
+  condition: workstation/gateway process exits non-zero
+  detection: process supervision evidence
+  containment: none (process down); terminal/broker state unchanged by design.
+  recovery: relaunch entry point (pythonw ui/desktop/run_windows.py); session requires explicit re-login (no stale session by design).
+  verification: startup_latency recorded + login + one rejected-when-unauthenticated probe.
+
+- runbook_id: rb_restart
+  applies_to: restart,reboot
+  condition: planned restart
+  detection: operator action
+  containment: pause intents; drain in-flight orders to terminal states.
+  recovery: stop process cleanly; restart; reconnect; resync; reconcile.
+  verification: reconciliation MATCH + risk state as intended + audit verify.
+
+- runbook_id: rb_clock_failure
+  applies_to: clock,time,epoch,timezone,offset
+  condition: provider timestamp beyond ingestion + tolerance (FDX-TIME) or non-timezone-like skew
+  detection: MT5TickSource._measure_offset ContractError; timestamp anomaly reports
+  containment: fail closed - the offending tick never enters the pipeline.
+  recovery: measure/verify server offset evidence; correct conversion only with an audited code change (Phase 10 finding 1 pattern).
+  verification: real ticks accepted with freshness CURRENT.
+
+- runbook_id: rb_reconciliation_mismatch
+  applies_to: reconciliation,mismatch
+  condition: internal vs broker state mismatch
+  detection: reconciliation MISMATCH evidence
+  containment: freeze the affected symbol (no new intents); never silent auto-fix.
+  recovery: evidence-based correction through the existing reconciliation workflow with approval.
+  verification: reconciliation MATCH across positions, orders and account.

@@ -1,0 +1,40 @@
+schema_id: decision
+version: "1.0.0"
+status: ACTIVE
+owner: core.decision
+description: "Trading decision produced by strategy/intelligence before policy and risk evaluation. Requires provenance."
+python_binding: "core.decision.contracts:Decision"
+
+fields:
+  decision_id: { type: identifier, required: true, description: "dec_ identifier" }
+  decision_type: { type: string, required: true, enum: decision_type, description: "Decision type" }
+  status: { type: string, required: true, enum: decision_status, description: "Decision lifecycle status" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  scope: { type: string, required: true, description: "Scope the decision applies to (symbol/account/portfolio)" }
+  strategy_id: { type: identifier, required: true, description: "str_ identifier of the producing strategy" }
+  source: { type: string, required: true, description: "Producing module id" }
+  confidence: { type: number, required: true, description: "Model/strategy confidence 0..1; never a risk permission (RULE: confidence != risk)" }
+  reasons: { type: array, required: true, description: "Machine-readable decision reasons" }
+  output: { type: object, required: true, description: "Decision output (proposed action and parameters)" }
+  provenance: { type: object, required: true, description: "Provenance object (source chain)" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier" }
+  causation_id: { type: string, required: false, description: "Triggering event/decision identifier" }
+  decision_time: { type: timestamp, required: true, description: "Timezone-aware decision time" }
+  expires_at: { type: timestamp, required: false, description: "Optional decision expiry" }
+  contract_version: { type: semver, required: false, description: "Contract version carried by the instance" }
+
+enums:
+  decision_type: [ENTRY, EXIT, MODIFY, HOLD, CLOSE, REJECT]
+  decision_status: [PROPOSED, VALIDATED, EXECUTED, REJECTED, EXPIRED]
+
+constraints:
+  - "confidence MUST be within [0.0, 1.0]."
+  - "provenance is REQUIRED (missing provenance is a failure, not a warning)."
+  - "A decision alone NEVER authorizes execution; policy then risk must approve."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial decision contract"
+    changes: []

@@ -1,0 +1,37 @@
+schema_id: raw_data
+version: "1.0.0"
+status: ACTIVE
+owner: core.data
+description: "Immutable raw data record as received from a source. Never edited to look cleaner; wrong data stays raw and is flagged by quality."
+python_binding: "core.data.contracts:RawDataRecord"
+
+fields:
+  raw_id: { type: identifier, required: true, description: "raw_ identifier" }
+  ingestion_id: { type: identifier, required: true, description: "Identifier of the ingestion batch" }
+  source: { type: string, required: true, description: "Registered source identifier" }
+  source_id: { type: string, required: true, description: "Identifier of the source object/stream" }
+  received_time: { type: timestamp, required: true, description: "Time the system received the payload (timezone-aware)" }
+  source_timestamp: { type: timestamp, required: true, description: "Timestamp claimed by the source (timezone-aware)" }
+  payload: { type: object, required: true, description: "Untouched raw payload" }
+  payload_hash: { type: string, required: true, description: "SHA-256 of the canonical payload serialization" }
+  schema_id: { type: string, required: true, description: "Data schema this payload claims" }
+  schema_version: { type: semver, required: true, description: "Data schema version" }
+  environment: { type: string, required: true, description: "Explicit environment" }
+  correlation_id: { type: string, required: true, description: "Chain correlation identifier" }
+  source_version: { type: string, required: false, description: "Version at the source" }
+  metadata: { type: object, required: false, description: "Additional ingestion metadata" }
+  duplicate_of: { type: identifier, required: false, description: "raw_id of the original when this record is a detected duplicate" }
+
+enums: {}
+
+constraints:
+  - "Raw records are immutable; re-ingestion of the same content is recorded as a duplicate reference, never an overwrite."
+  - "payload_hash MUST equal the hash of the canonical payload serialization."
+  - "source MUST be a registered, enabled data source."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial raw data contract (Phase 1)"
+    changes: []

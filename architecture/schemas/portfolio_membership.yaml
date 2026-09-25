@@ -1,0 +1,52 @@
+schema_id: portfolio_membership
+version: 1.0.0
+status: ACTIVE
+owner: core.portfolio
+description: portfolio_membership contract (Phase 4)
+python_binding: core.portfolio.portfolio_contract:PortfolioMembership
+fields:
+  portfolio_id:
+    type: identifier
+    required: true
+  strategy_id:
+    type: identifier
+    required: true
+  strategy_version:
+    type: semver
+    required: true
+  allocation:
+    type: string
+    required: true
+    description: canonical decimal string
+  risk_budget:
+    type: string
+    required: true
+    description: canonical decimal string
+  priority:
+    type: integer
+    required: true
+  enabled:
+    type: boolean
+    required: true
+  effective_from:
+    type: timestamp
+    required: true
+  effective_to:
+    type: timestamp
+    required: false
+  environment:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums: {}
+constraints:
+- Historical membership is immutable; changes append new records.
+- Explicit integer priority; duplicate priorities among active members are rejected.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial portfolio_membership contract (Phase 4)
+  changes: []

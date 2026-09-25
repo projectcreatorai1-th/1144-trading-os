@@ -1,0 +1,88 @@
+schema_id: feature_definition
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Versioned, immutable feature definition (Phase 7)
+python_binding: core.intelligence.contracts:FeatureDefinition
+fields:
+  feature_id:
+    type: string
+    required: true
+  feature_version:
+    type: string
+    required: true
+  name:
+    type: string
+    required: true
+  description:
+    type: string
+    required: true
+  input_schema:
+    type: object
+    required: true
+  output_schema:
+    type: object
+    required: true
+  calculation_definition:
+    type: string
+    required: true
+  event_time_semantics:
+    type: string
+    required: true
+  available_time_semantics:
+    type: string
+    required: true
+  lookback_window:
+    type: integer
+    required: true
+  dependencies:
+    type: array
+    required: true
+  normalization_definition:
+    type: object
+    required: true
+  missing_value_policy:
+    type: string
+    required: true
+  unknown_policy:
+    type: string
+    required: true
+  timezone:
+    type: string
+    required: true
+  source_provenance:
+    type: object
+    required: true
+  content_hash:
+    type: string
+    required: true
+  implementation_hash:
+    type: string
+    required: true
+  status:
+    type: string
+    required: true
+  feature_type:
+    type: string
+    required: false
+  session_definition:
+    type: object
+    required: false
+  declared_default:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Feature definitions are immutable; a changed calculation is a NEW VERSION.
+- available_time_semantics must declare availability; event-time-only visibility is
+  LOOK_AHEAD.
+- DECLARED_DEFAULT missing-value policy requires an explicit declared default.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial feature_definition contract (Phase 7)
+  changes: []

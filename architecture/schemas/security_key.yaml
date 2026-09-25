@@ -1,0 +1,44 @@
+schema_id: security_key
+version: 1.0.0
+status: ACTIVE
+owner: core.security
+description: Cryptographic key metadata with lifecycle
+python_binding: core.security.contracts:KeyRecord
+fields:
+  key_id:
+    type: string
+    required: true
+  version:
+    type: integer
+    required: true
+  purpose:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  status:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  rotated_from:
+    type: string
+    required: false
+  revoked_at:
+    type: timestamp
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Keys are versioned, purpose-bound and environment-bound.
+- Revoked keys must record revoked_at.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial security_key contract (Phase 8)
+  changes: []

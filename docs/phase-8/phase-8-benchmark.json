@@ -1,0 +1,51 @@
+{
+  "label": "SYNTHETIC / LOCAL / NON-PRODUCTION",
+  "iterations": 50,
+  "authentication_pbkdf2": {
+    "p50_ms": 25.133,
+    "p95_ms": 27.452,
+    "ops_per_sec": 39.4,
+    "n": 50
+  },
+  "authorization": {
+    "p50_ms": 0.004,
+    "p95_ms": 0.016,
+    "ops_per_sec": 157232.7,
+    "n": 50
+  },
+  "approval_validation": {
+    "p50_ms": 0.0,
+    "p95_ms": 0.002,
+    "ops_per_sec": 1322753.5,
+    "n": 50
+  },
+  "audit_append": {
+    "p50_ms": 0.025,
+    "p95_ms": 0.092,
+    "ops_per_sec": 27517.9,
+    "n": 50
+  },
+  "audit_chain_verification_full": {
+    "p50_ms": 0.233,
+    "p95_ms": 0.466,
+    "ops_per_sec": 3552.3,
+    "n": 50
+  },
+  "replay_check": {
+    "p50_ms": 0.004,
+    "p95_ms": 0.004,
+    "ops_per_sec": 263019.6,
+    "n": 50
+  },
+  "governed_transition_full_path": {
+    "p50_ms": 0.218,
+    "p95_ms": 0.37,
+    "ops_per_sec": 4986.4,
+    "n": 50
+  },
+  "notes": [
+    "PBKDF2 (100k iterations) dominates authentication cost by design.",
+    "In-memory stores; single process; synthetic credentials.",
+    "Never interpret as production scale."
+  ]
+}

@@ -1,0 +1,261 @@
+schema_id: order
+version: 1.1.0
+status: ACTIVE
+owner: core.execution
+description: Order contract with lifecycle. No order passes RISK_CHECK -> SUBMITTED
+  without a valid risk decision (RULE 009).
+python_binding: core.execution.contracts:Order
+fields:
+  order_id:
+    type: identifier
+    required: true
+    description: ord_ identifier
+  client_order_id:
+    type: string
+    required: true
+    description: Client-assigned id (e.g. EA magic/ticket reference)
+  strategy_id:
+    type: identifier
+    required: true
+    description: str_ identifier of the owning strategy
+  symbol:
+    type: string
+    required: true
+    description: Trade symbol
+  side:
+    type: string
+    required: true
+    enum: order_side
+    description: BUY or SELL
+  order_type:
+    type: string
+    required: true
+    enum: order_type
+    description: Order type
+  quantity:
+    type: decimal
+    required: true
+    description: Order quantity (> 0)
+  price:
+    type: decimal
+    required: false
+    description: Limit/stop price; required for LIMIT/STOP types
+  stop_loss:
+    type: decimal
+    required: false
+    description: Stop loss price
+  take_profit:
+    type: decimal
+    required: false
+    description: Take profit price
+  time_in_force:
+    type: string
+    required: true
+    enum: time_in_force
+    description: Time in force
+  environment:
+    type: string
+    required: true
+    description: Explicit environment; must match risk decision and execution target
+  risk_decision_id:
+    type: identifier
+    required: false
+    description: rsk_ identifier; REQUIRED once status passes RISK_CHECK
+  policy_id:
+    type: identifier
+    required: true
+    description: pol_ identifier of the governing policy
+  created_at:
+    type: timestamp
+    required: true
+    description: Creation time
+  updated_at:
+    type: timestamp
+    required: true
+    description: Last update time
+  status:
+    type: string
+    required: true
+    enum: order_status
+    description: Order lifecycle status
+  source:
+    type: string
+    required: true
+    description: Creating module id
+  causation_id:
+    type: string
+    required: false
+    description: Decision/event that caused this order
+  correlation_id:
+    type: string
+    required: true
+    description: Chain correlation identifier (RULE 018)
+  contract_version:
+    type: semver
+    required: false
+    description: Contract version carried by the instance
+  account_id:
+    type: string
+    required: false
+    description: Execution account (Phase 5)
+  intent_id:
+    type: identifier
+    required: false
+    description: itt_ intent that caused this order (Phase 5 causal chain)
+  portfolio_decision_id:
+    type: identifier
+    required: false
+    description: pdc_ portfolio decision (Phase 5 causal chain)
+  risk_decision_hash:
+    type: string
+    required: false
+    description: SHA-256 of the authorizing RiskDecision content
+  policy_version:
+    type: semver
+    required: false
+    description: Policy version in effect
+  risk_context_hash:
+    type: string
+    required: false
+    description: Risk context hash the decision was based on
+  idempotency_key:
+    type: string
+    required: false
+    description: Deterministic semantic request key (no duplicate external submission)
+  expires_at:
+    type: timestamp
+    required: false
+    description: Order expiry; expired orders never submit
+  order_version:
+    type: integer
+    required: false
+    description: Immutable order version (replacement bumps)
+  provenance:
+    type: object
+    required: false
+    description: Execution provenance
+  causal_chain:
+    type: object
+    required: false
+    description: intent -> portfolio -> risk references
+  replaces_order_id:
+    type: identifier
+    required: false
+    description: Order this one replaces (replacement chain)
+enums:
+  order_side:
+  - BUY
+  - SELL
+  order_type:
+  - MARKET
+  - LIMIT
+  - STOP
+  - STOP_LIMIT
+  time_in_force:
+  - GTC
+  - IOC
+  - FOK
+  - DAY
+  order_status:
+  - SIGNAL
+  - DECISION
+  - ORDER_CREATED
+  - RISK_CHECK
+  - SUBMITTED
+  - ACCEPTED
+  - PARTIAL_FILL
+  - FILLED
+  - CANCELLED
+  - REJECTED
+  - CLOSED
+  - CREATED
+  - VALIDATING
+  - ROUTING
+  - SENT
+  - ACKNOWLEDGED
+  - PARTIALLY_FILLED
+  - CANCEL_REQUESTED
+  - EXPIRED
+  - REPLACEMENT_REQUESTED
+  - REPLACED
+  - FAILED
+  - UNKNOWN
+constraints:
+- quantity MUST be > 0.
+- price is REQUIRED when order_type is LIMIT, STOP or STOP_LIMIT.
+- status in {SUBMITTED, ACCEPTED, PARTIAL_FILL, FILLED, CLOSED} requires risk_decision_id.
+- Order environment MUST equal the risk decision environment (fail closed on mismatch).
+- Execution-critical quantity uses canonical decimal; binary floats rejected.
+- External submission requires a valid same-environment RiskDecision (RULE 001/002).
+- Idempotency key derives from the semantic request - never random/timestamp.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-23'
+  summary: Initial order contract
+  changes: []
+- version: 1.1.0
+  date: '2026-09-24'
+  summary: 'Phase 5: execution lifecycle states, causal chain (intent/portfolio/risk),
+    idempotency, expiry, replacement'
+  changes:
+  - kind: ADDED_OPTIONAL_FIELD
+    field: account_id
+  - kind: ADDED_OPTIONAL_FIELD
+    field: intent_id
+  - kind: ADDED_OPTIONAL_FIELD
+    field: portfolio_decision_id
+  - kind: ADDED_OPTIONAL_FIELD
+    field: risk_decision_hash
+  - kind: ADDED_OPTIONAL_FIELD
+    field: policy_version
+  - kind: ADDED_OPTIONAL_FIELD
+    field: risk_context_hash
+  - kind: ADDED_OPTIONAL_FIELD
+    field: idempotency_key
+  - kind: ADDED_OPTIONAL_FIELD
+    field: expires_at
+  - kind: ADDED_OPTIONAL_FIELD
+    field: order_version
+  - kind: ADDED_OPTIONAL_FIELD
+    field: provenance
+  - kind: ADDED_OPTIONAL_FIELD
+    field: causal_chain
+  - kind: ADDED_OPTIONAL_FIELD
+    field: replaces_order_id
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: CREATED
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: VALIDATING
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: ROUTING
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: SENT
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: ACKNOWLEDGED
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: PARTIALLY_FILLED
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: CANCEL_REQUESTED
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: EXPIRED
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: REPLACEMENT_REQUESTED
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: REPLACED
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: FAILED
+  - kind: ADDED_ENUM_VALUE
+    enum: order_status
+    value: UNKNOWN

@@ -1,0 +1,49 @@
+schema_id: outbox_message
+version: 1.0.0
+status: ACTIVE
+owner: core.ems
+description: outbox_message contract (Phase 5)
+python_binding: core.ems.outbox:OutboxMessage
+fields:
+  message_id:
+    type: identifier
+    required: true
+  aggregate_id:
+    type: string
+    required: true
+  event_type:
+    type: string
+    required: true
+  payload_hash:
+    type: string
+    required: true
+  payload:
+    type: object
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  delivery_status:
+    type: string
+    required: true
+    enum: delivery_status
+  attempt_count:
+    type: integer
+    required: true
+  environment:
+    type: string
+    required: true
+enums:
+  delivery_status:
+  - PENDING
+  - DELIVERED
+  - FAILED
+constraints:
+- Consumers MUST be idempotent; delivery is at-least-once, never assumed exactly-once.
+- payload_hash verifies payload integrity across restarts.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial outbox_message contract (Phase 5)
+  changes: []

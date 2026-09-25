@@ -1,0 +1,58 @@
+# =============================================================================
+# 1144 Trading OS - PERMISSION REGISTRY (Single Source of Truth)
+# version: 1.0.0
+# =============================================================================
+# Role assumptions must NOT be hard-coded in GUI code; GUI reads permissions
+# from the security contract backed by this registry (SECTION 17).
+# Default decision (Phase 0): LIVE_TRADE is granted to ADMIN only and requires
+# an APPROVER approval record in later phases. See docs/phase-0-report.md.
+# =============================================================================
+
+version: "1.1.0"
+
+permissions:
+  - VIEW
+  - ANALYZE
+  - RESEARCH
+  - SIMULATE
+  - PAPER_TRADE
+  - DEMO_TRADE
+  - LIVE_TRADE
+  - MODIFY_POLICY
+  - MODIFY_RISK
+  - APPROVE
+  - PAUSE
+  - CLOSE_ONLY
+  - EMERGENCY_STOP
+  - ADMIN
+  # Phase 8 security/governance permissions
+  - CONFIGURE
+  - MANAGE_CREDENTIALS
+  - MANAGE_SECURITY
+  - MANAGE_GOVERNANCE
+
+roles:
+  - role: VIEWER
+    permissions: [VIEW]
+  - role: ANALYST
+    permissions: [VIEW, ANALYZE, RESEARCH]
+  - role: RESEARCHER
+    permissions: [VIEW, ANALYZE, RESEARCH, SIMULATE]
+  - role: TRADER
+    permissions: [VIEW, ANALYZE, SIMULATE, PAPER_TRADE, DEMO_TRADE]
+  - role: RISK_MANAGER
+    permissions: [VIEW, ANALYZE, MODIFY_RISK, PAUSE, CLOSE_ONLY, EMERGENCY_STOP]
+  - role: OPERATOR
+    permissions: [VIEW, ANALYZE, SIMULATE, PAPER_TRADE, DEMO_TRADE, PAUSE, CLOSE_ONLY]
+  - role: APPROVER
+    permissions: [VIEW, ANALYZE, APPROVE, MODIFY_POLICY]
+  - role: SECURITY_ADMIN
+    permissions: [VIEW, ANALYZE, CONFIGURE, MANAGE_CREDENTIALS, MANAGE_SECURITY, APPROVE]
+  - role: ADMIN
+    permissions: [VIEW, ANALYZE, RESEARCH, SIMULATE, PAPER_TRADE, DEMO_TRADE, LIVE_TRADE, MODIFY_POLICY, MODIFY_RISK, APPROVE, PAUSE, CLOSE_ONLY, EMERGENCY_STOP, ADMIN]
+
+environment_permission_restrictions:
+  - { permission: LIVE_TRADE, environments: [LIVE] }
+  - { permission: DEMO_TRADE, environments: [DEMO] }
+  - { permission: PAPER_TRADE, environments: [PAPER] }
+  - { permission: SIMULATE, environments: [RESEARCH, SIMULATION, REPLAY, PAPER, DEMO] }

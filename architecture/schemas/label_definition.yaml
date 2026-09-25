@@ -1,0 +1,47 @@
+schema_id: label_definition
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Versioned supervised label definition (Phase 7)
+python_binding: core.intelligence.contracts:LabelDefinition
+fields:
+  label_definition_id:
+    type: string
+    required: true
+  label_version:
+    type: string
+    required: true
+  target_definition:
+    type: string
+    required: true
+  horizon_bars:
+    type: integer
+    required: true
+  availability_rule:
+    type: string
+    required: true
+  calculation:
+    type: string
+    required: true
+  leakage_rules:
+    type: array
+    required: true
+  content_hash:
+    type: string
+    required: true
+  threshold:
+    type: string
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Labels are available only at event_time + horizon (TARGET_LEAKAGE otherwise).
+- future_return(t, t+N) is a LABEL, never a feature.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial label_definition contract (Phase 7)
+  changes: []

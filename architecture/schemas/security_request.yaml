@@ -1,0 +1,47 @@
+schema_id: security_request
+version: 1.0.0
+status: ACTIVE
+owner: core.security
+description: Trusted security context for privileged requests
+python_binding: core.security.contracts:SecurityRequest
+fields:
+  request_id:
+    type: string
+    required: true
+  session_id:
+    type: string
+    required: true
+  actor_id:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  timestamp:
+    type: timestamp
+    required: true
+  operation:
+    type: string
+    required: true
+  resource:
+    type: string
+    required: true
+  schema_version:
+    type: string
+    required: false
+  idempotency_key:
+    type: string
+    required: false
+  causation_id:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Actor/session/environment come from server-side security state only.
+- The same request id with different semantics is corruption.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial security_request contract (Phase 8)
+  changes: []

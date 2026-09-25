@@ -1,0 +1,26 @@
+schema_id: api
+version: "1.0.0"
+status: ACTIVE
+owner: platform.api
+description: "Endpoint registry contract (structure of architecture/api.yaml). No python binding; validated by the architecture validator."
+python_binding: null
+
+fields:
+  version: { type: semver, required: true, description: "API contract registry version" }
+  endpoints: { type: array, required: true, description: "Registered endpoints with method/path/permission/environment_scope" }
+  reserved_namespaces: { type: array, required: true, description: "Namespaces reserved for future business endpoints" }
+  rules: { type: array, required: true, description: "API layer rules" }
+
+enums: {}
+
+constraints:
+  - "No duplicate method+path endpoints."
+  - "Every endpoint permission must exist in the permission registry."
+  - "Business endpoints must live under a reserved namespace."
+
+compatibility: BACKWARD
+history:
+  - version: "1.0.0"
+    date: "2026-09-23"
+    summary: "Initial api registry contract"
+    changes: []

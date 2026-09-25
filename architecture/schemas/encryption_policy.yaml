@@ -1,0 +1,41 @@
+schema_id: encryption_policy
+version: 1.0.0
+status: ACTIVE
+owner: core.security
+description: Classification -> required protection (hashing is not encryption)
+python_binding: core.security.contracts:EncryptionPolicy
+fields:
+  policy_id:
+    type: string
+    required: true
+  policy_version:
+    type: string
+    required: true
+  classification:
+    type: string
+    required: true
+  required_protection:
+    type: string
+    required: true
+  environment:
+    type: string
+    required: true
+  content_hash:
+    type: string
+    required: true
+  created_at:
+    type: timestamp
+    required: true
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Hashing, redaction and encoding are NOT encryption.
+- A weaker protection level never satisfies a stronger requirement.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial encryption_policy contract (Phase 8)
+  changes: []

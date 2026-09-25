@@ -1,0 +1,133 @@
+{
+  "label": "REAL MT5 DEMO RUNTIME",
+  "environment": "DEMO",
+  "real_tick": {
+    "accepted": 1,
+    "symbol": "EURUSD",
+    "bid": 1.13757,
+    "ask": 1.13806,
+    "event_time_epoch": 1790296250,
+    "time_msc": 1790296250025,
+    "freshness": "CURRENT",
+    "source_real": true,
+    "provider": "MT5 terminal (MetaQuotes-Demo)"
+  },
+  "long_run": {
+    "seconds": 30,
+    "polls": 60,
+    "feed_metrics": {
+      "ticks_ingested": 2,
+      "duplicates": 0,
+      "rejected": 0,
+      "out_of_order": 0
+    },
+    "history_buffered": 2,
+    "dedup_cache_bound": 10000,
+    "peak_memory_mb": 0.02
+  },
+  "demo_execution": {
+    "state": "UNKNOWN",
+    "reasons": [
+      "ems state UNKNOWN: CONNECTION_ERROR"
+    ],
+    "order_id": "ord_3430be8ed76e4276938dc9528b7cf1db",
+    "fill_price": null,
+    "position_quantity": null,
+    "quantity": "0.01"
+  },
+  "reconciliation": {
+    "positions": {
+      "status": "MISMATCH",
+      "broker": {
+        "GOLDmicro": "0.42"
+      },
+      "internal": {
+        "EURUSD": "0.00"
+      },
+      "mismatched": [],
+      "unknown": []
+    },
+    "account": {
+      "status": "MATCH"
+    }
+  },
+  "safety_pause": {
+    "risk_state": "PAUSE",
+    "order_state_while_paused": "REJECTED",
+    "reasons": [
+      "risk EMERGENCY: R-HALT-PAUSE:EMERGENCY; INTENT_OPEN_BLOCKED_BY_EMERGENCY"
+    ]
+  },
+  "disconnect": {
+    "connection_state": "DISCONNECTED",
+    "freshness_while_disconnected": "DISCONNECTED",
+    "reconnected_state": "CONNECTED"
+  },
+  "gates": [
+    {
+      "gate": "prerequisites",
+      "status": "FAIL",
+      "detail": "account trade_mode=2 is NOT DEMO - refusing the gate"
+    },
+    {
+      "gate": "real_connection",
+      "status": "PASS",
+      "detail": {
+        "connection_state": "CONNECTED"
+      }
+    },
+    {
+      "gate": "real_ticks_pipeline",
+      "status": "PASS",
+      "detail": {
+        "accepted": 1,
+        "freshness": "CURRENT"
+      }
+    },
+    {
+      "gate": "long_run_bounded",
+      "status": "PASS",
+      "detail": {
+        "polls": 60,
+        "peak_mb": 0.02,
+        "ticks": 2
+      }
+    },
+    {
+      "gate": "demo_execution_full_chain",
+      "status": "FAIL",
+      "detail": "execution state UNKNOWN: ('ems state UNKNOWN: CONNECTION_ERROR',)"
+    },
+    {
+      "gate": "reconciliation_real",
+      "status": "FAIL",
+      "detail": "positions MISMATCH: []"
+    },
+    {
+      "gate": "safety_pause_blocks",
+      "status": "PASS",
+      "detail": {
+        "blocked_state": "REJECTED"
+      }
+    },
+    {
+      "gate": "disconnect_reconnect_real",
+      "status": "PASS",
+      "detail": {
+        "state": "CONNECTED",
+        "freshness": "DISCONNECTED"
+      }
+    },
+    {
+      "gate": "live_safety",
+      "status": "FAIL",
+      "detail": "account is not DEMO"
+    }
+  ],
+  "failed_gates": [
+    "prerequisites",
+    "demo_execution_full_chain",
+    "reconciliation_real",
+    "live_safety"
+  ]
+}

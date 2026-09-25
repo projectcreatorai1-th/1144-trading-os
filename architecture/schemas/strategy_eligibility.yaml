@@ -1,0 +1,49 @@
+schema_id: strategy_eligibility
+version: 1.0.0
+status: ACTIVE
+owner: core.strategy
+description: strategy_eligibility contract (Phase 4)
+python_binding: core.strategy.contracts:EligibilityResult
+fields:
+  strategy_id:
+    type: identifier
+    required: true
+  strategy_version:
+    type: semver
+    required: true
+  environment:
+    type: string
+    required: true
+  symbol:
+    type: string
+    required: false
+  result:
+    type: string
+    required: true
+    enum: eligibility_result
+  reasons:
+    type: array
+    required: true
+  evaluated_at:
+    type: timestamp
+    required: true
+  correlation_id:
+    type: string
+    required: true
+  schema_version:
+    type: semver
+    required: false
+enums:
+  eligibility_result:
+  - ELIGIBLE
+  - CONDITIONALLY_ELIGIBLE
+  - INELIGIBLE
+  - UNKNOWN
+constraints:
+- UNKNOWN on critical inputs never becomes automatically eligible.
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial strategy_eligibility contract (Phase 4)
+  changes: []

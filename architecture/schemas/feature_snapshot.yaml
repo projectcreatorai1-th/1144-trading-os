@@ -1,0 +1,47 @@
+schema_id: feature_snapshot
+version: 1.0.0
+status: ACTIVE
+owner: core.intelligence
+description: Point-in-time feature snapshot (Phase 7)
+python_binding: core.intelligence.contracts:FeatureSnapshot
+fields:
+  snapshot_id:
+    type: string
+    required: true
+  feature_keys:
+    type: array
+    required: true
+  values:
+    type: object
+    required: true
+  as_of:
+    type: timestamp
+    required: true
+  available_at:
+    type: timestamp
+    required: true
+  environment:
+    type: string
+    required: true
+  content_hash:
+    type: string
+    required: true
+  provenance:
+    type: object
+    required: true
+  missing_features:
+    type: array
+    required: false
+  schema_version:
+    type: string
+    required: false
+enums: {}
+constraints:
+- Snapshots contain ONLY data available at as_of (point-in-time).
+- available_at cannot exceed as_of (INVALID_AVAILABLE_TIME rejected).
+compatibility: BACKWARD
+history:
+- version: 1.0.0
+  date: '2026-09-24'
+  summary: Initial feature_snapshot contract (Phase 7)
+  changes: []

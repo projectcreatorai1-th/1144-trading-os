@@ -83,3 +83,35 @@ Tags rewritten              = 0 (spec/1.0.0 immutable, verified on origin)
 Secrets committed           = 0 (scans PASS in all three repos)
 Working trees               = clean (all three)
 ```
+
+---
+
+# ATTEMPT #3 — 2026-09-25 (this execution)
+
+## Phases completed before the gate (fresh evidence, not historical)
+
+| Phase | Status | Evidence |
+| ----- | ------ | -------- |
+| START/§2 baseline | PASS | tags re-verified: spec/1.0.0→175a259, ea/v1.0.0→5cb5a06, os/v1.0.0→c648a4c; all working trees clean |
+| B foundation | PASS | architecture validator PASS 0 violations · build 9/9 PASS · full OS suite 2155 collected / 0 failed / 0 errors (this session) · LIVE_LOCKED intact |
+| C provenance | PASS | OUR-EA PROVENANCE.md pins spec/1.0.0→175a259 ✓ · Gateway Contract 1.0.0 field-compatible on all three sides ✓ · COMPATIBILITY_MATRIX.md verified |
+| D gap remediation | PASS | historical release_manifest.json untouched (git_commit present); ONE REAL DEFECT FOUND & FIXED: SNIPER `test_analyzer_untouched_since_p0_baseline` failed at HEAD because commit 77d0be2 added the /api/gateway/ dispatch hook without extending the boundary whitelist. Root-cause fix (whitelist the gateway dispatch scaffolding; strict analyzer-core assertion unchanged) committed as SNIPER `326271e`; SNIPER suite now **706/706 PASS** (was 705/706). |
+| E GitHub | **BLOCKED** | re-verified live: `git ls-remote` → "Repository not found." for our-ea and 1144-trading-os; `gh` CLI still absent; SNIPER push re-attempted and rejected live: *"refusing to allow an OAuth App to create or update workflow `.github/workflows/ci.yml` without `workflow` scope"* (local main now ahead of origin by 2: 7dcdb50 ci, 326271e boundary fix) |
+| F–Z | NOT STARTED | gated behind E/L per §31 (M gated behind L hard gate) |
+
+## Unchanged required user actions (any sufficient set)
+
+1. Create empty GitHub repos `projectcreatorai1-th/our-ea` and
+   `projectcreatorai1-th/1144-trading-os` (no README/license — local
+   history must be the initial history).
+2. Re-authenticate git credentials with `repo, workflow` scopes (or add
+   `.github/workflows/*` via the GitHub web UI).
+3. Provide `gh` CLI auth or a token (or make repos public) so CI results
+   are verifiable.
+
+## Resume point
+
+RESUME_FROM = PHASE E · STATUS = BLOCKED · LIVE_LOCKED = TRUE
+(When unblocked: E → F push (SNIPER main incl. 7dcdb50+326271e; EA main +
+ea/v1.0.0; OS main + os/v1.0.0) → I/J/K CI → L hard gate → M WebSocket
+cross-process → … → Z.)

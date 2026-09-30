@@ -18,7 +18,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install "PyYAML>=6.0" "pytest>=7"
+        # core stays zero-dependency; PyYAML feeds the architecture
+        # validator, pytest runs the suite, websockets backs the real
+        # WebSocket transport test (Phase M gateway e2e)
+        run: pip install "PyYAML>=6.0" "pytest>=7" "websockets>=12"
       - name: "Architecture validator (SSOT: architecture/architecture.yaml)"
         run: python -m architecture.validator
       - name: Gateway contract sanity (server line 1.0.0)

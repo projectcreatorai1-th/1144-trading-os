@@ -505,8 +505,13 @@ class TestReplayAndAuthorizationFailures:
         """AI-001: the intelligence package cannot even import OMS."""
         import subprocess
         import sys
-        code = ("import core.intelligence.inference as m; "
-                "import sys; sys.exit(0 if not hasattr(m, 'OrderManagementSystem') else 1)")
+        code = ("import sys; _r = sys.path.pop(0); import uuid; "
+                "sys.path.insert(0, _r); "
+                # ^ preload uuid while the stdlib still wins, so eager-uuid
+                # pythons (CI runners) don't hit the project's `platform`
+                # package inside uuid's platform.system() bootstrap call
+                "import core.intelligence.inference as m; "
+                "sys.exit(0 if not hasattr(m, 'OrderManagementSystem') else 1)")
         result = subprocess.run([sys.executable, "-c", code],
                                 capture_output=True, cwd=".")
         assert result.returncode == 0

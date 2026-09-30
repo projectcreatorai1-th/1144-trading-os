@@ -203,7 +203,10 @@ class TestGoldenPathE2E:
         """SECTION 71: LIVE cannot be reached through GUI behavior."""
         code = (
             "import sys\n"
-            "sys.path.insert(0, '.')\n"
+            "_r = sys.path.pop(0)\n"
+            "import uuid  # cache stdlib platform before repo root shadows it\n"
+            "sys.path.insert(0, _r)\n"
+            "sys.modules.pop('platform', None)  # project package must win\n"
             "from platform.api.desktop_gateway import DesktopGateway\n"
             "try:\n"
             "    DesktopGateway(environment='LIVE')\n"

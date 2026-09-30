@@ -623,7 +623,12 @@ class TestE2EFlows:
     def test_e2e17_direct_risk_decision_rejected(self):
         import subprocess
         import sys
-        code = ("import sys; import core.intelligence.proposal as p; "
+        code = ("import sys; _r = sys.path.pop(0); import uuid; "
+                "sys.path.insert(0, _r); "
+                # ^ preload uuid while the stdlib still wins (CI runners'
+                # eager-uuid would otherwise import the project `platform`
+                # package inside platform.system()) — see test_phase7_failures
+                "import core.intelligence.proposal as p; "
                 "sys.exit(1 if hasattr(p, 'RiskDecision') else 0)")
         outcome = subprocess.run([sys.executable, "-c", code],
                                  capture_output=True, cwd=".")

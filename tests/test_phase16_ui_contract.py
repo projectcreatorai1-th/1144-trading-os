@@ -1,6 +1,7 @@
 """Phase 16 - UI semantic contract registry coverage."""
 from __future__ import annotations
 
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -29,9 +30,13 @@ def _contract() -> dict:
 def _collected_test_ids() -> set[str]:
     """Class names present in the GUI repair suite (verbose collect tree;
     this project's -q collect format only prints per-file counts)."""
+    # console entry point when available (NOT `python -m pytest`): keeps the
+    # repo root off sys.path[0] while pytest itself imports, so the stdlib
+    # `platform` module is not shadowed by the project package at bootstrap
+    pytest_bin = shutil.which("pytest")
+    argv = [pytest_bin] if pytest_bin else [sys.executable, "-m", "pytest"]
     proc = subprocess.run(
-        [sys.executable, "-m", "pytest", "--collect-only",
-         "tests/test_phase9_gui_repair.py"],
+        argv + ["--collect-only", "tests/test_phase9_gui_repair.py"],
         capture_output=True, text=True, cwd=str(UI_CONTRACT.parents[2]))
     ids = {line.strip() for line in proc.stdout.splitlines()
            if line.strip().startswith("tests/") and "::" in line}

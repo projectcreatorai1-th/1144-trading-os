@@ -12,3 +12,6 @@ credentials*
 
 # Runtime-generated state (SQLite stores, diagnostic bundles) — never commit
 runtime/
+
+# local security-scanner state
+.mimosa/

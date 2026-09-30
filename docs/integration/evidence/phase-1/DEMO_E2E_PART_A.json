@@ -1,0 +1,48 @@
+{
+  "run": "DEMO E2E Part A (market-data path)",
+  "generated_at": "2026-09-30T21:55:19.635231+00:00",
+  "window_note": "order-path tests (06-14) held for 07:00-21:00 UTC per session contract",
+  "results": [
+    {
+      "test": "TEST-01 connect+account-guard",
+      "result": "PASS",
+      "at": "2026-09-30T21:55:18.606699+00:00",
+      "login": 113126589,
+      "server": "MetaQuotes-Demo",
+      "trade_mode": 0,
+      "symbols": [
+        "EURUSD"
+      ],
+      "trade_allowed": true
+    },
+    {
+      "test": "TEST-02 real-tick->source",
+      "result": "PASS",
+      "at": "2026-09-30T21:55:18.621750+00:00",
+      "bid": "1.13314",
+      "ask": "1.13314",
+      "event_time": "2026-09-30T21:55:13+00:00",
+      "ingestion_time": "2026-09-30T21:55:18.621249+00:00",
+      "measured_server_offset_s": 10800,
+      "sequence": 1790816113346
+    },
+    {
+      "test": "TEST-03 freshness",
+      "result": "PASS",
+      "at": "2026-09-30T21:55:18.621750+00:00",
+      "tick_age_after_offset_correction_s": 5,
+      "raw_server_skew_s": 10795,
+      "snapped_offset_s": 10800,
+      "verdict": "STALE(venue idle)"
+    },
+    {
+      "test": "TEST-04 reconnect",
+      "result": "PASS",
+      "at": "2026-09-30T21:55:19.635231+00:00",
+      "reinitialized": true,
+      "login": 113126589,
+      "trade_mode": 0
+    }
+  ],
+  "all_pass": true
+}

@@ -35,6 +35,7 @@ jobs:
           repository: projectcreatorai1-th/sniper-web
           ref: ${{ env.SPEC_TAG }}
           path: sniper
+          token: ${{ secrets.SNIPER_READ_PAT || github.token }}
       - name: Checkout pinned OUR-EA
         uses: actions/checkout@v4
         with:
@@ -45,13 +46,29 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Normalize pinned sniper artifacts to canonical CRLF bytes
+        # Frozen artifacts are hash-pinned over CRLF bytes; the immutable
+        # pinned tags predate the sniper .gitattributes fix, so restore the
+        # canonical bytes before any raw-sha256 verification runs.
+        run: |
+          python - <<'PY'
+          import glob
+          for pat in ("sniper/data/evidence_model/*.json",
+                      "sniper/data/our_ea/*.json"):
+              for p in glob.glob(pat):
+                  b = open(p, "rb").read()
+                  n = b.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")
+                  if n != b:
+                      open(p, "wb").write(n)
+                      print("normalized", p)
+          PY
+
       - name: L1/L2 — spec + build contract -> OUR-EA (three-way verify)
         env:
           SNIPER_ANALYZER_ROOT: ${{ github.workspace }}/sniper
         run: |
           cd our-ea
-          python -c "from our_ea.spec.repository import load_repository; \
-r = load_repository().verify(); print('L1/L2 verified:', r)"
+          python -c "from our_ea.spec.repository import load_repository; r = load_repository().verify(); print('L1/L2 verified:', r)"
 
       - name: L3/L4 — gateway contract version equality across repos
         run: |
@@ -90,7 +107,7 @@ r = load_repository().verify(); print('L1/L2 verified:', r)"
           print("L5/L6 manifest + hash consistency OK (deployment_hash", man["deployment_hash"][:12] + "…)")
           PY
 
-      - name: L7 — runtime safety (OUR-EA full suite: LIVE lock, fail-closed, boundaries)
+      - name: "L7 — runtime safety (OUR-EA full suite: LIVE lock, fail-closed, boundaries)"
         env:
           SNIPER_ANALYZER_ROOT: ${{ github.workspace }}/sniper
         run: |

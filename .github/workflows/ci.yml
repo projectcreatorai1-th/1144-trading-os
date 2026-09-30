@@ -18,8 +18,8 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install "PyYAML>=6.0"
-      - name: Architecture validator (SSOT: architecture/architecture.yaml)
+        run: pip install "PyYAML>=6.0" "pytest>=7"
+      - name: "Architecture validator (SSOT: architecture/architecture.yaml)"
         run: python -m architecture.validator
       - name: Gateway contract sanity (server line 1.0.0)
         run: |
@@ -31,4 +31,4 @@ jobs:
           print("gateway server contract: 1.0.0 OK")
           PY
       - name: Full test suite
-        run: python -m pytest
+        run: python -m pytest -q

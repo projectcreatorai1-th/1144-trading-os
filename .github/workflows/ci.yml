@@ -31,4 +31,7 @@ jobs:
           print("gateway server contract: 1.0.0 OK")
           PY
       - name: Full test suite
-        run: python -m pytest -q
+        # console entry point (NOT `python -m pytest`): keeps the repo root off
+        # sys.path[0] while pytest itself imports, so the stdlib `platform`
+        # module resolves normally; conftest then swaps in the project package.
+        run: pytest -q

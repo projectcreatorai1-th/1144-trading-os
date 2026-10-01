@@ -1,0 +1,76 @@
+{
+  "run": "DEMO E2E Part B (order path)",
+  "generated_at": "2026-10-01T00:24:43.027604+00:00",
+  "live_orders_executed": false,
+  "results": [
+    {
+      "test": "TEST-06 session-contract verdict",
+      "result": "PASS",
+      "at": "2026-10-01T00:24:42.794690+00:00",
+      "utc": "2026-10-01T00:24:42.794690+00:00",
+      "guard_says_open": false,
+      "independent_recompute_open": false,
+      "phase": "OUT-OF-WINDOW"
+    },
+    {
+      "test": "TEST-07 order-gate (guard+session)",
+      "result": "PASS",
+      "at": "2026-10-01T00:24:42.908696+00:00",
+      "gate": "BLOCKED (fail-closed, session CLOSED)",
+      "reasons": [
+        "market session CLOSED (no order flow)"
+      ]
+    },
+    {
+      "test": "TEST-08 pinned-account identity",
+      "result": "PASS",
+      "at": "2026-10-01T00:24:42.908696+00:00",
+      "observed_login": 113126589,
+      "observed_server": "MetaQuotes-Demo",
+      "pinned_login": 113126589,
+      "match": true
+    },
+    {
+      "test": "TEST-09 execution adapter connect",
+      "result": "PASS",
+      "at": "2026-10-01T00:24:43.027604+00:00",
+      "health": "ConnectionState.CONNECTED",
+      "adapter_id": "mt5-demo",
+      "position_semantics": "PositionSemantics.HEDGING",
+      "symbols_seen": 200
+    },
+    {
+      "test": "TEST-10 market order (DEMO)",
+      "result": "HOLD",
+      "at": "2026-10-01T00:24:43.027604+00:00",
+      "note": "held - session window closed"
+    },
+    {
+      "test": "TEST-11 order state poll",
+      "result": "HOLD",
+      "at": "2026-10-01T00:24:43.027604+00:00",
+      "note": "held - depends on TEST-10"
+    },
+    {
+      "test": "TEST-12 position + broker snapshot",
+      "result": "HOLD",
+      "at": "2026-10-01T00:24:43.027604+00:00",
+      "note": "held - depends on TEST-10"
+    },
+    {
+      "test": "TEST-13 pending order + cancel path",
+      "result": "HOLD",
+      "at": "2026-10-01T00:24:43.027604+00:00",
+      "note": "held - session window closed"
+    },
+    {
+      "test": "TEST-14 position cleanup + post-state",
+      "result": "HOLD",
+      "at": "2026-10-01T00:24:43.027604+00:00",
+      "note": "held - depends on TEST-10"
+    }
+  ],
+  "held": 5,
+  "failed": 0,
+  "all_pass": true
+}
